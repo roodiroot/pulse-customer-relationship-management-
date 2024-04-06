@@ -1,0 +1,61 @@
+"use client";
+
+import { useTransition } from "react";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+import { dropContact } from "@/actions/contact/drop-contact";
+import { cn } from "@/lib/utils";
+import { date } from "zod";
+
+const DropContact = ({ contactId }: { contactId: string }) => {
+  const [isPanding, startTransition] = useTransition();
+
+  const onClick = () => {
+    startTransition(() => {
+      dropContact(contactId).then((data) => {
+        console.log(data);
+      });
+    });
+  };
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger>
+        <span
+          className={cn(
+            "text-xs text-red-400 cursor-pointer hover:underline",
+            isPanding && "opacity-50"
+          )}
+        >
+          удалить
+        </span>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            Вы действительно хотите удалить контакт?
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            После удаления данные контактане возможно будет восстанавить.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Отмена</AlertDialogCancel>
+          <AlertDialogAction onClick={onClick}>Удалить</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+export default DropContact;

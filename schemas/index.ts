@@ -1,0 +1,99 @@
+import { ActionType, UserRole } from "@prisma/client";
+import * as z from "zod";
+
+const MAX_STRING_LENGTH = 50;
+
+const MAX_STUDENTS_LENGTH = 5;
+const MIN_STUDENTS_LENGTH = 1;
+
+export const ContactSchema = z.object({
+  phone: z.string().min(1, { message: "Поле не может быть пустым." }),
+  mail: z.string(),
+  comment: z.string(),
+  name: z
+    .string()
+    .min(1, { message: "Поле не может быть пустым." })
+    .max(MAX_STRING_LENGTH, {
+      message: `Вы можете добавить не более ${MAX_STRING_LENGTH} символов.`,
+    }),
+});
+
+export const CompanySchema = z.object({
+  name: z.string().min(1, { message: "Введите название компании." }),
+  comment: z.string().min(1, { message: "Введите комментарий." }),
+  TIN: z.string(),
+  contacts: z
+    .array(ContactSchema)
+    .min(MIN_STUDENTS_LENGTH, {
+      message: `Вам нужно добавить как минимум ${MIN_STUDENTS_LENGTH} контакт.`,
+    })
+    .max(MAX_STUDENTS_LENGTH, {
+      message: `Вы можете добавить максимум ${MAX_STUDENTS_LENGTH} контактов`,
+    }),
+});
+export const SaveCaseSchema = z.object({
+  type: z.enum([ActionType.Brief, ActionType.Call, ActionType.Meet]),
+  comment: z.string(),
+  date: z.date(),
+});
+export const UpdateCaseSchema = z.object({
+  comment: z.string().min(1, { message: "Введите комментарий к делу." }),
+});
+
+export const SettingsSchema = z
+  .object({
+    name: z.optional(z.string()),
+    role: z.enum([UserRole.ADMIN, UserRole.USER]),
+    email: z.optional(z.string().email()),
+    password: z.optional(z.string().min(6)),
+    newPassword: z.optional(z.string().min(6)),
+  })
+  .refine(
+    (data) => {
+      if (data.password && !data.newPassword) {
+        return false;
+      }
+      return true;
+    },
+    { message: "Новый пароль должен быть", path: ["newPassword"] }
+  )
+  .refine(
+    (data) => {
+      if (data.newPassword && !data.password) {
+        return false;
+      }
+      return true;
+    },
+    { message: "Пароль должен быть", path: ["password"] }
+  );
+
+export const LoginSchema = z.object({
+  email: z.string().email({
+    message: "Введите email",
+  }),
+  password: z.string().min(1, { message: "Пароль должен быть" }),
+});
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Введите email",
+  }),
+});
+export const NewPasswordSchema = z.object({
+  password: z.string().min(6, { message: "Минимум 6 символов" }),
+});
+export const RegisterSchema = z.object({
+  email: z.string().email({
+    message: "Введите email",
+  }),
+  password: z.string().min(6, { message: "Минимум 6 символов" }),
+  name: z.string().min(1, {
+    message: "Введите имя",
+  }),
+});
+
+export const SearchSchema = z.object({
+  text: z
+    .string()
+    .min(4, { message: "Введите минимум 4 символа." })
+    .max(50, { message: "Запрос не более 50 символов." }),
+});
