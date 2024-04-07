@@ -72,6 +72,14 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
+model Stage {
+  id        String    @id @default(cuid())
+  name      String
+  companies Company[]
+
+  @@map("stage")
+}
+
 model Company {
   id          String    @id @default(cuid())
   createdAt   DateTime  @default(now())
@@ -84,6 +92,8 @@ model Company {
   comment     String?
   cases       Case[]
   contacts    Contact[]
+  stageId     String?
+  stage       Stage?    @relation(fields: [stageId], references: [id])
 
   @@map("company")
 }
