@@ -1,6 +1,6 @@
 import CasePage from "@/components/page/case/case-page";
 
-const AffairsPage = async () => {
+const AffairsPage = () => {
   return (
     <>
       <CasePage />

@@ -19,9 +19,19 @@ export const ContactSchema = z.object({
 });
 
 export const CompanySchema = z.object({
-  name: z.string().min(1, { message: "Введите название компании." }),
+  name: z
+    .string()
+    .min(1, { message: "Введите название компании." })
+    .max(50, { message: "Не более 50 символов" }),
   comment: z.string().min(1, { message: "Введите комментарий." }),
-  TIN: z.string(),
+  TIN: z
+    .string()
+    .min(8, { message: "Введите ИНН компании." })
+    .max(15, { message: "Слишком много цифр." }),
+  dateRegistr: z.string().max(10, { message: "Не более 10 символов" }),
+  address: z.string().max(100, { message: "Не более 100 символов" }),
+  owner: z.string().max(50, { message: "Не более 50 символов" }),
+  mainOKVED: z.string().max(150, { message: "Не более 150 символов" }),
   contacts: z
     .array(ContactSchema)
     .min(MIN_STUDENTS_LENGTH, {
@@ -30,6 +40,29 @@ export const CompanySchema = z.object({
     .max(MAX_STUDENTS_LENGTH, {
       message: `Вы можете добавить максимум ${MAX_STUDENTS_LENGTH} контактов`,
     }),
+});
+export const UpdateCompanySchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Введите название компании." })
+    .max(50, { message: "Не более 50 символов" })
+    .optional(),
+  comment: z.string().min(1, { message: "Введите комментарий." }).optional(),
+  TIN: z
+    .string()
+    .min(8, { message: "Введите ИНН компании." })
+    .max(15, { message: "Слишком много цифр." })
+    .optional(),
+  dateRegistr: z
+    .string()
+    .max(10, { message: "Не более 10 символов" })
+    .optional(),
+  address: z.string().max(100, { message: "Не более 100 символов" }).optional(),
+  owner: z.string().max(50, { message: "Не более 50 символов" }).optional(),
+  mainOKVED: z
+    .string()
+    .max(150, { message: "Не более 150 символов" })
+    .optional(),
 });
 export const SaveCaseSchema = z.object({
   type: z.enum([ActionType.Brief, ActionType.Call, ActionType.Meet]),

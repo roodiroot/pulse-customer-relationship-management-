@@ -102,7 +102,7 @@ const CasePage: React.FC<CaseListProps> = () => {
                     key={caseItem.id}
                     className="cursor-pointer"
                     onClick={() =>
-                      router.push(`/companies/${caseItem.company.id}`)
+                      router.push(`/companies/${caseItem.company.id}/affairs`)
                     }
                   >
                     <TableCell className="hidden sm:table-cell">

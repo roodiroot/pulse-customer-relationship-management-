@@ -26,6 +26,10 @@ const CreateForm = () => {
     defaultValues: {
       name: "",
       TIN: "",
+      dateRegistr: "",
+      address: "",
+      owner: "",
+      mainOKVED: "",
       comment: "",
       contacts: [
         {
@@ -72,63 +76,46 @@ const CreateForm = () => {
   return (
     <>
       <Form {...form}>
-        <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
-          <div className="md:col-span-2 ">
-            <div className="grid auto-rows-max items-start gap-4  md:sticky md:top-0">
-              <div className="flex items-center gap-4 ">
-                <BackButton />
-                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                  Создание компании
-                </h1>
-                <div className="hidden items-center gap-2 md:ml-auto md:flex">
-                  <Button
-                    disabled={isPending}
-                    onClick={form.handleSubmit(onSubmit)}
-                    variant="outline"
-                    size="sm"
-                  >
-                    Сохранить
-                  </Button>
-                  <Button
-                    disabled={isPending}
-                    onClick={form.handleSubmit(onSubmitAndGo)}
-                    size="sm"
-                  >
-                    Сохранить и перейти
-                  </Button>
-                </div>
-              </div>
-              <AddMainInfoCompany
-                form={form}
-                error={error}
-                success={success}
-                className=""
-              />
+        <div className="grid auto-rows-max items-start gap-4 md:sticky md:top-0 lg:col-span-2 ">
+          <div className="flex flex-col gap-4">
+            <AddMainInfoCompany form={form} error={error} success={success} />
+            <div className="hidden items-center gap-2 md:flex">
+              <Button
+                disabled={isPending}
+                onClick={form.handleSubmit(onSubmitAndGo)}
+              >
+                Сохранить и перейти
+              </Button>
+              <Button
+                disabled={isPending}
+                onClick={form.handleSubmit(onSubmit)}
+                variant="outline"
+              >
+                Сохранить
+              </Button>
             </div>
           </div>
-          <CreateContact
-            control={control}
-            fields={fields}
-            remove={remove}
-            append={append}
-            className="grid auto-rows-max items-start gap-4 lg:gap-8"
-          />
         </div>
-        <div className="flex items-center justify-center gap-2 md:hidden">
+        <CreateContact
+          control={control}
+          fields={fields}
+          remove={remove}
+          append={append}
+          className="grid gap-4"
+        />
+        <div className="flex items-center gap-2 md:hidden">
+          <Button
+            disabled={isPending}
+            onClick={form.handleSubmit(onSubmitAndGo)}
+          >
+            Сохранить и перейти
+          </Button>
           <Button
             disabled={isPending}
             onClick={form.handleSubmit(onSubmit)}
             variant="outline"
-            size="sm"
           >
             Сохранить
-          </Button>
-          <Button
-            disabled={isPending}
-            onClick={form.handleSubmit(onSubmitAndGo)}
-            size="sm"
-          >
-            Сохранить и перейти
           </Button>
         </div>
       </Form>

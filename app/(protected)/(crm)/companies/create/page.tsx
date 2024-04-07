@@ -1,12 +1,17 @@
+import BackButton from "@/components/back-button";
 import CreateForm from "@/components/page/company-create/create-form";
+import Container from "@/components/utils/container";
+import HeaderForCRM from "@/components/utils/header-for-crm";
 
 const CreateCompanyPage = () => {
   return (
-    <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
-        <CreateForm />
+    <Container>
+      <div className="flex items-center gap-4 lg:col-span-3">
+        <BackButton />
+        <HeaderForCRM text="Создание компании" />
       </div>
-    </div>
+      <CreateForm />
+    </Container>
   );
 };
 

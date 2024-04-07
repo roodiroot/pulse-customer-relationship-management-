@@ -73,13 +73,17 @@ model PasswordResetToken {
 }
 
 model Company {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  name      String    @db.VarChar(255)
-  TIN       String?
-  comment   String?
-  cases     Case[]
-  contacts  Contact[]
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  name        String    @db.VarChar(255)
+  TIN         String?
+  dateRegistr String?
+  address     String?
+  owner       String?
+  mainOKVED   String?
+  comment     String?
+  cases       Case[]
+  contacts    Contact[]
 
   @@map("company")
 }

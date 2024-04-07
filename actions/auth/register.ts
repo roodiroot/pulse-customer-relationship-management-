@@ -17,26 +17,29 @@ export const register = async (value: z.infer<typeof RegisterSchema>) => {
     return { error: "Введены не верные данные" };
   }
 
-  const { name, email, password } = validatedFiled.data;
+  // const { name, email, password } = validatedFiled.data;
 
-  const existingUser = await getUserByEmail(email);
+  // const existingUser = await getUserByEmail(email);
 
-  if (existingUser) {
-    return { error: "Этот email уже зарегестрирован" };
-  }
+  // if (existingUser) {
+  //   return { error: "Этот email уже зарегестрирован" };
+  // }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  // const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
+  // await db.user.create({
+  //   data: {
+  //     name,
+  //     email,
+  //     password: hashedPassword,
+  //   },
+  // });
 
-  const verificationToken = await generateVerificationToken(email);
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+  // const verificationToken = await generateVerificationToken(email);
+  // await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
-  return { succsess: "Письмо с подтверждением отправлено на ваш email" };
+  // return { succsess: "Письмо с подтверждением отправлено на ваш email" };
+  return {
+    succsess: "На данный момент нет возможности регестрации пользователей.",
+  };
 };

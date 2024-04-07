@@ -38,7 +38,7 @@ const CreateContact: React.FC<CreateContactProps> = ({
 }) => {
   return (
     <div className={className}>
-      <div className="grid w-full items-start gap-5 md:pt-9">
+      <div className="grid w-full items-start gap-3 md:-mt-2.5">
         {fields?.map((contact, index) => (
           <fieldset key={index} className="grid gap-6 rounded-lg border p-4">
             <legend className="-ml-1 px-1 text-sm font-medium">Контакт</legend>
@@ -124,6 +124,7 @@ const CreateContact: React.FC<CreateContactProps> = ({
         ))}
         <div className="">
           <Button
+            size="sm"
             onClick={() =>
               append({ mail: "", name: "", comment: "", phone: "" })
             }
