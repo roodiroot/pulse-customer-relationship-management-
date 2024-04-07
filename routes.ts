@@ -1,9 +1,18 @@
-import { Home, LineChart, ShoppingCart, Users } from "lucide-react";
+import {
+  Briefcase,
+  Building2,
+  CircleDollarSign,
+  Home,
+  LineChart,
+  ShoppingCart,
+  Users,
+} from "lucide-react";
 
 export const navigationMenu = [
   { name: "Показатели", href: "#", Icon: Home },
-  { name: "Мои дела", href: "/affairs", Icon: ShoppingCart },
-  { name: "Организации", href: "/companies", Icon: Users },
+  { name: "Организации", href: "/companies", Icon: Building2 },
+  { name: "Сделки", href: "/deals", Icon: CircleDollarSign },
+  { name: "Мои дела", href: "/affairs", Icon: Briefcase },
   { name: "Аналитика", href: "", Icon: LineChart },
 ];
 

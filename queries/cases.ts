@@ -1,9 +1,13 @@
 import { showCases } from "@/actions/case/show-cases";
-import { ActionType, Case, Company } from "@prisma/client";
+import { ActionType, Case, Company, Deal } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 
-export interface CaseRes extends Case {
+export interface DealCompany extends Deal {
   company: Company;
+}
+
+export interface CaseRes extends Case {
+  deals: DealCompany;
 }
 
 export const useFetchCases = ({

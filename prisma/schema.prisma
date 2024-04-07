@@ -72,13 +72,13 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
-model Stage {
-  id        String    @id @default(cuid())
-  name      String
-  companies Company[]
+// model Stage {
+//   id        String    @id @default(cuid())
+//   name      String
+//   companies Company[]
 
-  @@map("stage")
-}
+//   @@map("stage")
+// }
 
 model Company {
   id          String    @id @default(cuid())
@@ -90,10 +90,10 @@ model Company {
   owner       String?
   mainOKVED   String?
   comment     String?
-  cases       Case[]
+  deals       Deal[]
   contacts    Contact[]
-  stageId     String?
-  stage       Stage?    @relation(fields: [stageId], references: [id])
+  // stageId     String?
+  // stage       Stage?    @relation(fields: [stageId], references: [id]) 
 
   @@map("company")
 }
@@ -110,6 +110,17 @@ model Contact {
   @@map("contact")
 }
 
+model Deal {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  name      String
+  cases     Case[]
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("deal")
+}
+
 model Case {
   id        String     @id @default(cuid())
   createdAt DateTime   @default(now())
@@ -117,8 +128,8 @@ model Case {
   comment   String?
   date      DateTime?
   finished  Boolean    @default(false)
-  companyId String
-  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  dealId    String
+  deals     Deal       @relation(fields: [dealId], references: [id])
 
   @@map("case")
 }

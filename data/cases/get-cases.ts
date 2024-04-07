@@ -1,8 +1,12 @@
 import { db } from "@/lib/db";
-import { Case, Company } from "@prisma/client";
+import { Case, Company, Deal } from "@prisma/client";
+
+interface DealList extends Deal {
+  company: Company;
+}
 
 export interface CaseList extends Case {
-  company: Company;
+  deals: DealList[];
 }
 
 const endDate = (date?: Date) => {
@@ -16,7 +20,7 @@ export const getAllCases = async (
   params?: any,
   take?: number,
   skip?: number
-): Promise<CaseList[] | null> => {
+): Promise<any[] | null> => {
   try {
     const cases = await db.case.findMany({
       where: {
@@ -29,8 +33,15 @@ export const getAllCases = async (
       },
       take,
       skip,
-      include: { company: true },
+      include: {
+        deals: {
+          include: {
+            company: true,
+          },
+        },
+      },
     });
+
     return cases;
   } catch {
     return null;

@@ -83,6 +83,16 @@ CREATE TABLE "contact" (
 );
 
 -- CreateTable
+CREATE TABLE "deal" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "name" TEXT NOT NULL,
+    "companyId" TEXT NOT NULL,
+
+    CONSTRAINT "deal_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "case" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -90,7 +100,7 @@ CREATE TABLE "case" (
     "comment" TEXT,
     "date" TIMESTAMP(3),
     "finished" BOOLEAN NOT NULL DEFAULT false,
-    "companyId" TEXT NOT NULL,
+    "dealId" TEXT NOT NULL,
 
     CONSTRAINT "case_pkey" PRIMARY KEY ("id")
 );
@@ -120,4 +130,7 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "contact" ADD CONSTRAINT "contact_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "case" ADD CONSTRAINT "case_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "deal" ADD CONSTRAINT "deal_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "case" ADD CONSTRAINT "case_dealId_fkey" FOREIGN KEY ("dealId") REFERENCES "deal"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

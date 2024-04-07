@@ -14,8 +14,8 @@ export const getCompanyById = async (id: string) => {
     const company = await db.company.findUnique({
       where: { id },
       include: {
-        cases: {
-          orderBy: { date: "asc" },
+        deals: {
+          orderBy: { name: "asc" },
         },
         contacts: true,
       },

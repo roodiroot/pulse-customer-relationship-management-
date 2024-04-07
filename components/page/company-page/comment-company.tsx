@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -6,15 +8,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface CommentCompanyProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  companyId: string;
+  companyName?: string | null;
+  companyId?: string | null;
   comment?: string | null;
 }
 
 const CommentCompany: React.FC<CommentCompanyProps> = ({
+  companyName,
   companyId,
   comment,
 }) => {
@@ -22,7 +25,7 @@ const CommentCompany: React.FC<CommentCompanyProps> = ({
     <Card x-chunk="dashboard-01-chunk-4">
       <CardHeader className="flex flex-row items-start gap-4">
         <div className="grid gap-2">
-          <CardTitle>Комментарий.</CardTitle>
+          <CardTitle>{companyName}</CardTitle>
           <CardDescription>
             Для подробной информации о компаии нажмите еще.
           </CardDescription>

@@ -11,6 +11,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ contacts }) => {
   }
   return (
     <div className="flex flex-col gap-3">
+      <h2>Контакты</h2>
       {contacts.map((contact) => (
         <ContactItem
           key={contact.id}

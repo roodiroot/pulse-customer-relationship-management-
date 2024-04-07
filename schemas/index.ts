@@ -6,6 +6,13 @@ const MAX_STRING_LENGTH = 50;
 const MAX_STUDENTS_LENGTH = 5;
 const MIN_STUDENTS_LENGTH = 1;
 
+export const CreateDealSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Поле не может быть пустым." })
+    .max(20, { message: "Максимальная длина 20 символов" }),
+});
+
 export const ContactSchema = z.object({
   phone: z.string().min(1, { message: "Поле не может быть пустым." }),
   mail: z.string(),

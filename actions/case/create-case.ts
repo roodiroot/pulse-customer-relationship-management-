@@ -9,10 +9,10 @@ import { SaveCaseSchema } from "@/schemas";
 //Сохраниение дела
 export const createCase = async (
   value: z.infer<typeof SaveCaseSchema>,
-  companyId: string,
+  dealId: string,
   finished = false
 ) => {
-  if (!companyId) {
+  if (!dealId) {
     return { error: "Не указан ID компании." };
   }
 
@@ -34,10 +34,10 @@ export const createCase = async (
     data: {
       ...value,
       finished,
-      companyId,
+      dealId,
     },
   });
-  revalidatePath("/companies/[id]", "page");
+  revalidatePath("/companies/[id]/[dealId]", "page");
 
   return { success: "Дело успешно добавлено." };
 };

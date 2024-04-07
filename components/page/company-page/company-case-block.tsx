@@ -43,13 +43,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface CompanyCaseBlockProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  companyId?: string;
-  companyCase?: Case[];
+  companyName?: string;
+  dealId?: string;
+  dealCase?: Case[];
 }
 
 const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
-  companyId,
-  companyCase,
+  companyName,
+  dealId,
+  dealCase,
 }) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -81,9 +83,9 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
 
     setError("");
     setSuccess("");
-    if (!companyId) return;
+    if (!dealId) return;
     startTransition(() => {
-      createCase({ ...value, date: d }, companyId, completed)
+      createCase({ ...value, date: d }, dealId, completed)
         .then((res) => {
           setError(res.error || "");
           setSuccess(res.success || "");
@@ -99,7 +101,7 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
     <>
       <Card>
         <CardHeader className="px-7">
-          <CardTitle>Создать дело</CardTitle>
+          <CardTitle>{companyName}</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -216,14 +218,14 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
               <div className="col-span-2 space-x-3">
                 <Button
                   variant="outline"
-                  disabled={!companyId}
+                  disabled={isPending}
                   onClick={form.handleSubmit((value) => submit(value))}
                   className="mt-3"
                 >
                   Сохранить
                 </Button>
                 <Button
-                  disabled={!companyId}
+                  disabled={isPending}
                   onClick={form.handleSubmit((value) => submit(value, true))}
                   className="mt-3"
                 >
@@ -236,7 +238,7 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
               </div>
             </div>
           </Form>
-          <CompanyCaseList companyCase={companyCase} />
+          <CompanyCaseList companyCase={dealCase} />
         </CardContent>
       </Card>
     </>

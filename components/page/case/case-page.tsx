@@ -84,7 +84,7 @@ const CasePage: React.FC<CaseListProps> = () => {
                   Название
                 </TableHead>
                 <TableHead className="hidden w-[100px] sm:table-cell">
-                  Тип события
+                  Сделка
                 </TableHead>
                 <TableHead className="hidden w-[150px] sm:table-cell">
                   Статус события
@@ -102,17 +102,21 @@ const CasePage: React.FC<CaseListProps> = () => {
                     key={caseItem.id}
                     className="cursor-pointer"
                     onClick={() =>
-                      router.push(`/companies/${caseItem.company.id}/affairs`)
+                      router.push(
+                        `/companies/${caseItem.deals.companyId}/deal/${caseItem.dealId}`
+                      )
                     }
                   >
                     <TableCell className="hidden sm:table-cell">
-                      <div className="font-medium">{caseItem.company.name}</div>
+                      <div className="font-medium">
+                        {actionType(caseItem.type)}
+                      </div>
                       <div className="hidden text-sm text-muted-foreground md:inline">
-                        {caseItem.company.TIN}
+                        {caseItem.deals.company.name}
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      {actionType(caseItem.type)}
+                      {caseItem.deals.name}
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <StatusBadge
