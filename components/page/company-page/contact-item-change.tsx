@@ -1,14 +1,11 @@
 import InputPhoneMask from "@/components/mask/input-phone-mask";
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 
 interface ContactItemChangeProps {
   form: any;

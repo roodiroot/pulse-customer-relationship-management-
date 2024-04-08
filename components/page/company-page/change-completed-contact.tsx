@@ -19,7 +19,7 @@ const ChangeCompletedContact: React.FC<ChangeCompletedContactProps> = ({
   const submit = () => {
     setChecked(!checked);
     setTransition(() => {
-      updateComletedContact(!checked, contactId);
+      updateComletedContact(false, contactId);
     });
   };
 
