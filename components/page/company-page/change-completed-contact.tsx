@@ -1,6 +1,6 @@
 import { updateComletedContact } from "@/actions/contact/update-completed-contact";
 import { Switch } from "@/components/ui/switch";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 interface ChangeCompletedContactProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
@@ -18,9 +18,7 @@ const ChangeCompletedContact: React.FC<ChangeCompletedContactProps> = ({
 
   const submit = () => {
     setChecked(!checked);
-    setTransition(() => {
-      updateComletedContact(!checked, contactId);
-    });
+    updateComletedContact(!checked, contactId);
   };
 
   return (

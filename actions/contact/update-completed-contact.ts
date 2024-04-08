@@ -8,9 +8,6 @@ export const updateComletedContact = async (
   confirmed: boolean,
   contactId: string
 ) => {
-  if (!confirmed) {
-    return { error: "Некорректные данные" };
-  }
   try {
     await db.contact.update({
       where: { id: contactId },
