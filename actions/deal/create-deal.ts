@@ -1,5 +1,6 @@
 "use server";
 
+import { getCompanyById } from "@/data/companies/get-companies";
 import { db } from "@/lib/db";
 import { CreateDealSchema } from "@/schemas";
 import { revalidatePath } from "next/cache";
@@ -18,6 +19,13 @@ export const createDeal = async (
   if (!validated) {
     return {
       error: "Введены не правильные данные.",
+    };
+  }
+
+  const company = await getCompanyById(companyId);
+  if (!company) {
+    return {
+      error: "Компании с таким ID не существует.",
     };
   }
 

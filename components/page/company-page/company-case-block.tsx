@@ -4,7 +4,8 @@ import { z } from "zod";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { ActionType, Case } from "@prisma/client";
+import { CalendarIcon, Clock10Icon } from "lucide-react";
+import { ActionType, Case, StageDeal } from "@prisma/client";
 
 import {
   Form,
@@ -21,6 +22,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { SaveCaseSchema } from "@/schemas";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -31,14 +38,8 @@ import TimePicker from "@/components/ui/time-picker";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormSuccess from "@/components/ui/form-success";
 import { createCase } from "@/actions/case/create-case";
+import StageRow from "@/components/page/company-page/stage-row";
 import CompanyCaseList from "@/components/page/company-page/company-case-list";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Clock10Icon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface CompanyCaseBlockProps
@@ -46,12 +47,14 @@ interface CompanyCaseBlockProps
   companyName?: string;
   dealId?: string;
   dealCase?: Case[];
+  stage?: StageDeal | null;
 }
 
 const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
   companyName,
   dealId,
   dealCase,
+  stage,
 }) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -87,7 +90,9 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
     startTransition(() => {
       createCase({ ...value, date: d }, dealId, completed)
         .then((res) => {
-          setError(res.error || "");
+          if (res.error) {
+            return setError(res.error || "");
+          }
           setSuccess(res.success || "");
           form.reset();
         })
@@ -102,6 +107,7 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
       <Card>
         <CardHeader className="px-7">
           <CardTitle>{companyName}</CardTitle>
+          <StageRow stage={stage} dealId={dealId || ""} />
         </CardHeader>
         <CardContent>
           <Form {...form}>

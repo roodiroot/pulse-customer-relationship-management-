@@ -32,6 +32,7 @@ const AffairsDealPage = async ({
           companyName={company?.name}
           dealId={deal?.id}
           dealCase={deal?.cases}
+          stage={deal?.stage}
         />
       </div>
       <div className=" grid gap-4 order-1 lg:order-2 lg:sticky lg:top-0">

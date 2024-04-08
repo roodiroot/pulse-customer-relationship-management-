@@ -14,15 +14,43 @@ export const CreateDealSchema = z.object({
 });
 
 export const ContactSchema = z.object({
-  phone: z.string().min(1, { message: "Поле не может быть пустым." }),
-  mail: z.string(),
-  comment: z.string(),
+  phone: z
+    .string()
+    .min(1, { message: "Поле не может быть пустым." })
+    .max(20, "не более 20 символов"),
+  mail: z.string().email("Укажите правильную почту.").optional(),
+  comment: z
+    .string()
+    .min(1, { message: "Поле не может быть пустым." })
+    .max(100, "не более 100 символов")
+    .optional(),
   name: z
     .string()
     .min(1, { message: "Поле не может быть пустым." })
     .max(MAX_STRING_LENGTH, {
       message: `Вы можете добавить не более ${MAX_STRING_LENGTH} символов.`,
     }),
+});
+export const UpdateContactSchema = z.object({
+  phone: z
+    .string()
+    .min(1, { message: "Поле не может быть пустым." })
+    .max(20, "не более 20 символов")
+    .optional(),
+  mail: z.string().email("Укажите правильную почту.").optional(),
+  comment: z
+    .string()
+    .min(1, { message: "Поле не может быть пустым." })
+    .max(100, "не более 100 символов")
+    .optional(),
+  name: z
+    .string()
+    .min(1, { message: "Поле не может быть пустым." })
+    .max(MAX_STRING_LENGTH, {
+      message: `Вы можете добавить не более ${MAX_STRING_LENGTH} символов.`,
+    })
+    .optional(),
+  confirmed: z.boolean().optional(),
 });
 
 export const CompanySchema = z.object({

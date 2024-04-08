@@ -34,7 +34,7 @@ const DealCreate: React.FC<DealCreateProps> = ({ companyId }) => {
   const form = useForm<z.infer<typeof CreateDealSchema>>({
     resolver: zodResolver(CreateDealSchema),
     defaultValues: {
-      name: "",
+      name: "Разработка сайта",
     },
   });
 

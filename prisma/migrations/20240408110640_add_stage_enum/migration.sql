@@ -1,0 +1,8 @@
+-- CreateEnum
+CREATE TYPE "StageDeal" AS ENUM ('NEW', 'ACCESS', 'APPOINTMENT', 'DIAGNOSTICS', 'INVOICE', 'PAYMENTAGREEMENT', 'DEFERREDPAYMENT', 'PAYMENT', 'REFUSAL');
+
+-- AlterTable
+ALTER TABLE "contact" ADD COLUMN     "confirmed" BOOLEAN NOT NULL DEFAULT false;
+
+-- AlterTable
+ALTER TABLE "deal" ADD COLUMN     "stage" "StageDeal";

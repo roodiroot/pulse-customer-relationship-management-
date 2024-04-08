@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { SaveCaseSchema } from "@/schemas";
+import { getDealById } from "@/data/deals/get-deals";
 
 //Сохраниение дела
 export const createCase = async (
@@ -20,6 +21,12 @@ export const createCase = async (
   if (!validated) {
     return { error: "Не пройдена валидация формы." };
   }
+
+  const deal = await getDealById(dealId);
+  if (!deal) {
+    return { error: "Сделка с таким ID не существует." };
+  }
+
   if (finished) {
     if (validated.comment.length === 0) {
       return { error: "Необходимо заполнить поле комментарий." };
@@ -30,6 +37,7 @@ export const createCase = async (
       return { error: "Дата сохраняемого события должна быть больше текущей." };
     }
   }
+
   await db.case.create({
     data: {
       ...value,

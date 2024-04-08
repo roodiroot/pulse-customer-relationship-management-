@@ -24,6 +24,18 @@ enum UserRole {
   ADMIN
 }
 
+enum StageDeal {
+  NEW //новая
+  ACCESS // выход на ЛПР
+  APPOINTMENT // презентация продукта
+  DIAGNOSTICS // диагностика
+  INVOICE // счет
+  PAYMENTAGREEMENT // соглашение о оплате
+  DEFERREDPAYMENT // задержка оплаты
+  PAYMENT // оплата
+  REFUSAL // отказ
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -72,14 +84,6 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
-// model Stage {
-//   id        String    @id @default(cuid())
-//   name      String
-//   companies Company[]
-
-//   @@map("stage")
-// }
-
 model Company {
   id          String    @id @default(cuid())
   createdAt   DateTime  @default(now())
@@ -92,8 +96,6 @@ model Company {
   comment     String?
   deals       Deal[]
   contacts    Contact[]
-  // stageId     String?
-  // stage       Stage?    @relation(fields: [stageId], references: [id]) 
 
   @@map("company")
 }
@@ -104,6 +106,7 @@ model Contact {
   name      String?
   mail      String?
   comment   String?
+  confirmed Boolean @default(false)
   companyId String
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
@@ -111,12 +114,13 @@ model Contact {
 }
 
 model Deal {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
   name      String
   cases     Case[]
   companyId String
-  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  stage     StageDeal?
 
   @@map("deal")
 }

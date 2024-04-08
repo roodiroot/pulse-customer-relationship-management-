@@ -20,6 +20,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ contacts }) => {
           mail={contact.mail}
           comment={contact.comment}
           contactId={contact.id}
+          confirmed={contact.confirmed}
         />
       ))}
     </div>

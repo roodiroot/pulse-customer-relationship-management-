@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { CompanySchema, UpdateCompanySchema } from "@/schemas";
 import { createContact } from "../contact/create-contact";
+import { getCompanyById } from "@/data/companies/get-companies";
 
 export const updateCompany = async (
   value: z.infer<typeof UpdateCompanySchema>,
@@ -15,6 +16,13 @@ export const updateCompany = async (
   if (!validated) {
     return {
       error: "Введены не правильные данные",
+    };
+  }
+
+  const company = await getCompanyById(companyId);
+  if (!company) {
+    return {
+      error: "Компании с таким ID не существует.",
     };
   }
 
