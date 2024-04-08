@@ -14,7 +14,7 @@ export const updateComletedContact = async (
   try {
     await db.contact.update({
       where: { id: contactId },
-      data: { confirmed: confirmed },
+      data: { confirmed: confirmed as boolean },
     });
     revalidatePath("/companies/[id]/contacts/[contactId]", "page");
     revalidatePath("/companies/[id]", "page");
