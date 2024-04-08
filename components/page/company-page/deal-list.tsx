@@ -1,7 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { changeDate } from "@/lib/change-date";
 import { Deal } from "@prisma/client";
 import { DollarSign } from "lucide-react";
 import Link from "next/link";
+import { StageBadge } from "./stage-badge";
 
 interface DealListProps extends React.HTMLAttributes<HTMLDivElement> {
   dealList?: Deal[];
@@ -22,13 +24,16 @@ const DealList: React.FC<DealListProps> = ({ dealList, companyId }) => {
             className="absolute inset-0"
           />
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Сделка</CardTitle>
+            <CardTitle className="flex items-center gap-4">
+              <span className="text-sm font-medium">Сделка</span>
+              <StageBadge stage={deal.stage} />
+            </CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{deal.name}</div>
             <p className="text-xs text-muted-foreground">
-              Дата создания сделки
+              Создана {changeDate(deal.createdAt).date.toLowerCase()}
             </p>
           </CardContent>
         </Card>

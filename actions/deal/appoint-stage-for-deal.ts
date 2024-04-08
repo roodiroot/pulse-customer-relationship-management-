@@ -17,6 +17,7 @@ export const appointStageForDeal = async (dealId: string, stage: StageDeal) => {
       },
     });
     revalidatePath("/companies/[id]/deal/[dealId]", "page");
+    revalidatePath("/companies/[id]", "page");
     return { success: "Статус успешно изменен." };
   } catch {
     return { error: "Не удалось изменить статус сделки." };

@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import HeaderForCRM from "@/components/utils/header-for-crm";
 import Container from "@/components/utils/container";
 import { showOneDealById } from "@/actions/deal/show-one-deal";
+import { StageBadge } from "@/components/page/company-page/stage-badge";
 
 const AffairsDealPage = async ({
   params,
@@ -25,7 +26,7 @@ const AffairsDealPage = async ({
       <div className="flex items-center gap-4 lg:col-span-3">
         <BackButton />
         <HeaderForCRM text={deal?.name} />
-        <Badge variant="secondary">Этап сделки</Badge>
+        <StageBadge stage={deal?.stage} className=" inline-flex" />
       </div>
       <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 order-2 lg:order-1">
         <CompanyCaseBlock

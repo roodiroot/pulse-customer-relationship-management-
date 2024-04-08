@@ -36,6 +36,7 @@ export const createDeal = async (
         companyId: companyId,
       },
     });
+    revalidatePath("/companies/[id]");
     return {
       success: "Сделка успешно создана.",
       deal,

@@ -18,7 +18,7 @@ export const getCompanyById = async (id: string) => {
           orderBy: { name: "asc" },
         },
         contacts: {
-          orderBy: { name: "asc" },
+          orderBy: { name: "desc" },
         },
       },
     });
