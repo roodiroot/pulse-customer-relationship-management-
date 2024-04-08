@@ -18,12 +18,13 @@ export const ContactSchema = z.object({
     .string()
     .min(1, { message: "Поле не может быть пустым." })
     .max(20, "не более 20 символов"),
-  mail: z.string().email("Укажите правильную почту.").optional(),
-  comment: z
-    .string()
-    .min(1, { message: "Поле не может быть пустым." })
-    .max(100, "не более 100 символов")
-    .optional(),
+  mail: z.string(),
+  // .email("Укажите правильную почту.")
+  // .optional(),
+  comment: z.string(),
+  // .min(1, { message: "Поле не может быть пустым." })
+  // .max(100, "не более 100 символов")
+  // .optional(),
   name: z
     .string()
     .min(1, { message: "Поле не может быть пустым." })
