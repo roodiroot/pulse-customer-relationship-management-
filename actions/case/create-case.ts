@@ -45,7 +45,7 @@ export const createCase = async (
       dealId,
     },
   });
+  revalidatePath("/affairs");
   revalidatePath("/companies/[id]/[dealId]", "page");
-
   return { success: "Дело успешно добавлено." };
 };

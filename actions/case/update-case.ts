@@ -26,6 +26,7 @@ export const updateCase = async (
       where: { id: caseId },
       data: { comment: validated.comment, date: new Date(), finished: true },
     });
+    revalidatePath("/affairs");
     revalidatePath("/companies/[id]", "page");
     return { success: "Успешно сохранено." };
   } catch {

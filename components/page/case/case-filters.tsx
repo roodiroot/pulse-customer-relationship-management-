@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ActionType } from "@prisma/client";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const CaseFilters = ({
   setType,
@@ -29,8 +30,25 @@ const CaseFilters = ({
   setDate,
   date,
 }: any) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const start = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("fruit", "apple");
+    router.push(pathname + "?" + params.toString());
+  };
+  const del = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("fruit");
+    router.push(pathname + "?" + params.toString());
+  };
+
   return (
     <div className="pt-3 grid  gap-x-4 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <Button onClick={start}>ADD</Button>
+      <Button onClick={del}>DEL</Button>
       <Popover>
         <PopoverTrigger asChild>
           <Button

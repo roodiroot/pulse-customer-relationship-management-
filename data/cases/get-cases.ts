@@ -1,3 +1,4 @@
+import { ROW_TABLE } from "@/constance/row-table";
 import { db } from "@/lib/db";
 import { Case, Company, Deal } from "@prisma/client";
 
@@ -11,28 +12,29 @@ export interface CaseList extends Case {
 
 const endDate = (date?: Date) => {
   if (date) {
-    return new Date(date?.getTime() + 86400000);
+    const start = new Date(date);
+    return new Date(start?.getTime() + 86400000);
   }
-  return;
+  return undefined;
 };
 
-export const getAllCases = async (
-  params?: any,
-  take?: number,
-  skip?: number
-): Promise<any[] | null> => {
+export const getAllCases = async (params?: any, skip?: number) => {
+  // console.log("параметры", params);
+  const parametrsSearch = {
+    where: {
+      date: {
+        gte: params?.start ? new Date(params?.start) : undefined,
+        lte: params?.end ? params?.end : endDate(params?.start),
+      },
+      type: params?.type,
+      finished: params?.finished,
+    },
+  };
   try {
     const cases = await db.case.findMany({
-      where: {
-        date: {
-          gte: params?.start,
-          lte: params?.end ? params?.end : endDate(params?.start),
-        },
-        type: params?.type,
-        finished: params?.finished,
-      },
-      take,
-      skip,
+      ...parametrsSearch,
+      take: params.take || ROW_TABLE,
+      skip: params.skip || 0,
       include: {
         deals: {
           include: {
@@ -41,8 +43,11 @@ export const getAllCases = async (
         },
       },
     });
+    const count = await db.case.count({
+      ...parametrsSearch,
+    });
 
-    return cases;
+    return { cases, count };
   } catch {
     return null;
   }
