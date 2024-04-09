@@ -1,17 +1,15 @@
-import Link from "next/link";
+import { StageDeal } from "@prisma/client";
 
 import BackButton from "@/components/back-button";
+import Container from "@/components/utils/container";
+import HeaderForCRM from "@/components/utils/header-for-crm";
+import { showOneDealById } from "@/actions/deal/show-one-deal";
 import ContactsList from "@/components/page/company-page/contact-list";
+import { StageBadge } from "@/components/page/company-page/stage-badge";
 import { showOneCompanyById } from "@/actions/company/show-one-company";
 import ContactCreate from "@/components/page/company-page/contact-create";
 import CommentCompany from "@/components/page/company-page/comment-company";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CompanyCaseBlock from "@/components/page/company-page/company-case-block";
-import { Badge } from "@/components/ui/badge";
-import HeaderForCRM from "@/components/utils/header-for-crm";
-import Container from "@/components/utils/container";
-import { showOneDealById } from "@/actions/deal/show-one-deal";
-import { StageBadge } from "@/components/page/company-page/stage-badge";
 
 const AffairsDealPage = async ({
   params,
@@ -26,7 +24,10 @@ const AffairsDealPage = async ({
       <div className="flex items-center gap-4 lg:col-span-3">
         <BackButton />
         <HeaderForCRM text={deal?.name} />
-        <StageBadge stage={deal?.stage} className=" inline-flex" />
+        <StageBadge
+          stage={deal?.stage || StageDeal.NEW}
+          className=" inline-flex"
+        />
       </div>
       <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 order-2 lg:order-1">
         <CompanyCaseBlock
