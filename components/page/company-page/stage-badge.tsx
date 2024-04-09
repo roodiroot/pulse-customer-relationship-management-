@@ -7,7 +7,7 @@ import { StageDeal } from "@prisma/client";
 import { useStage } from "@/hooks/use-stage";
 
 interface StageItemProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  stage?: StageDeal | null;
+  stage: StageDeal | null;
 }
 
 const StageBadge = React.forwardRef<HTMLInputElement, StageItemProps>(

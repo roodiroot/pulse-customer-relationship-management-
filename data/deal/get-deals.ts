@@ -1,14 +1,6 @@
 import { ROW_TABLE } from "@/constance/row-table";
 import { db } from "@/lib/db";
-import { Case, Company, Deal } from "@prisma/client";
-
-interface DealList extends Deal {
-  company: Company;
-}
-
-export interface CaseList extends Case {
-  deals: DealList[];
-}
+import { Deal } from "@prisma/client";
 
 const endDate = (date?: Date) => {
   if (date) {
@@ -18,48 +10,49 @@ const endDate = (date?: Date) => {
   return undefined;
 };
 
-export const getAllCases = async (params?: any) => {
+export const getAllDeals = async (params?: any, skip?: number) => {
   // console.log("параметры", params);
   const parametrsSearch = {
     where: {
-      date: {
+      createdAt: {
         gte: params?.start ? new Date(params?.start) : undefined,
         lte: params?.end ? params?.end : endDate(params?.start),
       },
-      type: params?.type,
-      finished: params?.finished,
+      stage: params?.stage,
+      // type: params?.type,
+      // finished: params?.finished,
     },
   };
   try {
-    const cases = await db.case.findMany({
+    const deals = await db.deal.findMany({
       ...parametrsSearch,
       take: params?.take || ROW_TABLE,
       skip: params?.skip || 0,
       include: {
-        deals: {
-          include: {
-            company: true,
-          },
-        },
+        company: true,
       },
     });
-    const count = await db.case.count({
+
+    const count = await db.deal.count({
       ...parametrsSearch,
     });
-
-    return { cases, count };
+    return { deals, count };
   } catch {
     return null;
   }
 };
 
-export const getCaseById = async (id: string) => {
+export const getDealById = async (id: string) => {
   try {
-    const work = await db.case.findUnique({
+    const deal = await db.deal.findUnique({
       where: { id },
+      include: {
+        cases: {
+          orderBy: { date: "asc" },
+        },
+      },
     });
-    if (!work) return null;
-    return work;
+    return deal;
   } catch {
     return null;
   }

@@ -49,7 +49,6 @@ const AffairsPage = async ({
     }
     return page * take - take;
   };
-  s();
   //определение типа по строке
   const f = () => {
     if (searchParams.finished === "1") {
@@ -60,6 +59,7 @@ const AffairsPage = async ({
     }
     return undefined;
   };
+
   const res = await showCases({
     type: searchParams.type,
     finished: f(),
@@ -72,7 +72,7 @@ const AffairsPage = async ({
   });
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 h-full">
       <Card>
         <CardHeader className="px-4">
           <CardTitle>Мои дела</CardTitle>
@@ -82,8 +82,8 @@ const AffairsPage = async ({
           <Filters />
         </CardHeader>
       </Card>
-      <Card className="h-full">
-        <CardContent className="py-4 space-y-4">
+      <Card className="flex-1">
+        <CardContent className="py-4 flex flex-col h-full gap-4 justify-between">
           <Table>
             <TableHeader>
               <TableRow>
@@ -144,7 +144,7 @@ const AffairsPage = async ({
               ))}
             </TableBody>
           </Table>
-          <DataTablePagination allCount={res?.count || 0} />
+          <DataTablePagination className="mt-auto" allCount={res?.count || 0} />
         </CardContent>
       </Card>
     </div>

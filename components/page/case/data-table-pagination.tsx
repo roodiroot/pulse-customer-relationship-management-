@@ -17,13 +17,17 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ROW_TABLE } from "@/constance/row-table";
+import { cn } from "@/lib/utils";
 
-interface DataTablePaginationProps {
+interface DataTablePaginationProps
+  extends React.HtmlHTMLAttributes<HTMLDivElement> {
   allCount: number;
 }
 
 const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   allCount,
+  className,
+  ...props
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -76,9 +80,9 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   }, [searchtake, searchpage]);
 
   return (
-    <div className="flex items-center justify-between px-2">
+    <div className={cn("flex items-center justify-between px-2", className)}>
       <div className="flex-1 text-sm text-muted-foreground">
-        Всего найдено по запросу: {allCount}
+        Нашлось: {allCount}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">

@@ -18,8 +18,8 @@ const StageItem = React.forwardRef<HTMLInputElement, StageItemProps>(
         ref={ref}
         {...props}
         className={cn(
-          "flex-1 whitespace-nowrap cursor-pointer inline-flex items-center justify-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
-          stage === item.value && "bg-muted"
+          "flex-1 whitespace-nowrap inline-flex cursor-pointer items-center justify-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
+          stage === item.value && "bg-muted cursor-auto "
         )}
       >
         {item.name}
