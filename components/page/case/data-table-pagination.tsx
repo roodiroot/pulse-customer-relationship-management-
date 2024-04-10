@@ -18,6 +18,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ROW_TABLE } from "@/constance/row-table";
 import { cn } from "@/lib/utils";
+import { boolean } from "zod";
 
 interface DataTablePaginationProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
@@ -40,9 +41,12 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   const searchpage = searchParams.get("page");
 
   const start = useCallback(
-    (key: string, value: string) => {
+    (key: string, value: string, deletePage?: boolean) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set(key, value);
+      if (deletePage) {
+        params.delete("page");
+      }
       router.push(pathname + "?" + params.toString());
     },
     [searchParams]
@@ -61,10 +65,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
     setTake(e);
     setPage("1");
     if (!e) return del("take");
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("take", e);
-    params.delete("page");
-    router.push(pathname + "?" + params.toString());
+    start("take", e, true);
     return;
   };
 

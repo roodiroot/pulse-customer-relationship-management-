@@ -38,6 +38,7 @@ const Filters = () => {
   const start = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
+      params.delete("page"); // удаляем параметр page и возвращаем на первую страницу
       params.set(key, value);
       router.push(pathname + "?" + params.toString());
     },
