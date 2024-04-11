@@ -9,6 +9,7 @@ const InputPhoneMask: React.FC<InputProps> = ({
   value,
   setValue,
   className,
+  disabled,
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!setValue) return;
@@ -55,6 +56,7 @@ const InputPhoneMask: React.FC<InputProps> = ({
 
   return (
     <Input
+      disabled={disabled}
       maxLength={18}
       type="text"
       value={value}

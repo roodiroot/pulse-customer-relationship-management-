@@ -1,5 +1,6 @@
 import { updateComletedContact } from "@/actions/contact/update-completed-contact";
-import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
+import { CheckCheck } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
 
 interface ChangeCompletedContactProps
@@ -18,13 +19,19 @@ const ChangeCompletedContact: React.FC<ChangeCompletedContactProps> = ({
 
   const submit = () => {
     setChecked(!checked);
-    updateComletedContact(!checked, contactId);
+    setTransition(() => {
+      updateComletedContact(!checked, contactId);
+    });
   };
 
   return (
-    <div {...props}>
-      <Switch disabled={isPending} checked={checked} onCheckedChange={submit} />
-    </div>
+    <CheckCheck
+      onClick={submit}
+      className={cn(
+        "w-4 h-4 text-xs text-muted-foreground cursor-pointer hover:underline ",
+        !confirmed && "text-primary"
+      )}
+    />
   );
 };
 

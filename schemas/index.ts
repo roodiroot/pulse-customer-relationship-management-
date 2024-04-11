@@ -36,14 +36,9 @@ export const UpdateContactSchema = z.object({
   phone: z
     .string()
     .min(1, { message: "Поле не может быть пустым." })
-    .max(20, "не более 20 символов")
-    .optional(),
-  mail: z.string().email("Укажите правильную почту.").optional(),
-  comment: z
-    .string()
-    .min(1, { message: "Поле не может быть пустым." })
-    .max(100, "не более 100 символов")
-    .optional(),
+    .max(20, "не более 20 символов"),
+  mail: z.string(),
+  comment: z.string(),
   name: z
     .string()
     .min(1, { message: "Поле не может быть пустым." })
@@ -51,7 +46,6 @@ export const UpdateContactSchema = z.object({
       message: `Вы можете добавить не более ${MAX_STRING_LENGTH} символов.`,
     })
     .optional(),
-  confirmed: z.boolean().optional(),
 });
 
 export const CompanySchema = z.object({

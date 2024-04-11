@@ -1,4 +1,8 @@
+"use server";
+
+import { db } from "@/lib/db";
 import { UpdateContactSchema } from "@/schemas";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export const updateContact = async (
@@ -10,5 +14,26 @@ export const updateContact = async (
     return { error: "Некорректные данные" };
   }
 
-  console.log(validatedFiled, contactId);
+  console.log(value);
+
+  try {
+    await db.contact.update({
+      where: { id: contactId },
+      data: {
+        name: value.name,
+        mail: value.mail,
+        comment: value.comment,
+        phone: value.phone,
+      },
+    });
+    revalidatePath("/companies/[id]", "page");
+    revalidatePath("/companies/[id]/deal/[dealId]", "page");
+    return {
+      success: "Успешно изменено.",
+    };
+  } catch {
+    return {
+      error: "Ошибка записи.",
+    };
+  }
 };

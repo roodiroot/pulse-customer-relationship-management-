@@ -17,6 +17,7 @@ import {
 import { dropContact } from "@/actions/contact/drop-contact";
 import { cn } from "@/lib/utils";
 import { date } from "zod";
+import { X } from "lucide-react";
 
 const DropContact = ({ contactId }: { contactId: string }) => {
   const [isPanding, startTransition] = useTransition();
@@ -31,14 +32,14 @@ const DropContact = ({ contactId }: { contactId: string }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <span
+        <X
           className={cn(
-            "text-xs text-red-400 cursor-pointer hover:underline",
+            "w-4 h-4 text-xs text-red-400 cursor-pointer hover:underline",
             isPanding && "opacity-50"
           )}
         >
           удалить
-        </span>
+        </X>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

@@ -27,7 +27,7 @@ const Filters = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [date, setDate] = useState<Date | undefined>();
   const [finished, setFinished] = useState("3");
   const [type, setType] = useState<ActionType | undefined | "all">();
 
@@ -99,7 +99,7 @@ const Filters = () => {
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? format(date, "PPP") : <span>Pick a date</span>}
+            {date ? format(date, "PPP") : <span>Выберите дату</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
