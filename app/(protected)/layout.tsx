@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import Navigation from "./_components/navigation";
 import Header from "./_components/header";
 import Icon from "@/components/icons";
+import pack from "@/package.json";
 
 export default function CRMLayout({
   children,
@@ -50,7 +51,7 @@ export default function CRMLayout({
           <div className="flex-1">
             <Navigation />
           </div>
-          <div className="mt-auto p-4">Версия 0.0.01</div>
+          <div className="mt-auto p-4">v {pack.version}</div>
         </div>
       </div>
       <div className="flex flex-col ">

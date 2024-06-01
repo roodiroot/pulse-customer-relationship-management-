@@ -1,21 +1,12 @@
-import { CircleUser, Menu, Package2, Search } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Link from "next/link";
-import { navigationMenu } from "@/routes";
-import UserButton from "./user-button";
-import Icon from "@/components/icons";
+import { Menu } from "lucide-react";
+
 import SearchPanel from "./search";
+import Icon from "@/components/icons";
+import UserButton from "./user-button";
+import { navigationMenu } from "@/routes";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Header = () => {
   return (
