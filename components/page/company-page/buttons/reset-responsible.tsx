@@ -1,6 +1,5 @@
 "use client";
 
-import { changeResponsible } from "@/actions/company/change-responsible";
 import {
   Select,
   SelectContent,
@@ -9,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { User } from "@prisma/client";
+import { changeResponsible } from "@/actions/company/change-responsible";
 
 interface ResetResponsibleButtonProps
   extends React.ComponentPropsWithoutRef<"button"> {

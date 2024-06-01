@@ -13,10 +13,13 @@ import DealList from "@/components/page/company-page/deal-list";
 import FormError from "@/components/ui/form-error";
 import { showUsers } from "@/actions/personal/show-users";
 import ResetResponsibleButton from "@/components/page/company-page/buttons/reset-responsible";
+import { currentRole, currentUser } from "@/lib/auth";
+import { Badge } from "@/components/ui/badge";
 
 const ComanyPage = async ({ params }: { params: { id: string } }) => {
   const company = await showOneCompanyById(params.id);
   const users = await showUsers();
+  const user = await currentUser();
   return (
     <Container>
       {company ? (
@@ -24,12 +27,16 @@ const ComanyPage = async ({ params }: { params: { id: string } }) => {
           <div className="flex items-center gap-4 lg:col-span-3">
             <BackButton />
             <HeaderForCRM text={company?.name} />
-            <div className="ml-auto flex">
-              <ResetResponsibleButton
-                users={users}
-                userId={company?.userId}
-                companyId={company?.id}
-              />
+            <div className="ml-auto flex flex-col sm:flex-row gap-4 items-center">
+              {user?.role === "ADMIN" ? (
+                <ResetResponsibleButton
+                  users={users}
+                  userId={company?.userId}
+                  companyId={company?.id}
+                />
+              ) : (
+                <Badge variant="outline">{user?.name}</Badge>
+              )}
               <Button asChild size="sm" className="ml-auto gap-1">
                 <Link href={`/companies/${company?.id}/deal`}>
                   Создать сделку
