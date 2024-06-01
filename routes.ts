@@ -10,11 +10,11 @@ import {
 
 export const navigationMenu = [
   { name: "Показатели", href: "#", Icon: Home },
+  { name: "Аналитика", href: "", Icon: LineChart },
   { name: "Менеджеры", href: "/personal", Icon: Users },
   { name: "Организации", href: "/companies", Icon: Building2 },
   { name: "Сделки", href: "/deals", Icon: CircleDollarSign },
-  { name: "Мои дела", href: "/affairs", Icon: Briefcase },
-  { name: "Аналитика", href: "", Icon: LineChart },
+  { name: "Дела", href: "/affairs", Icon: Briefcase },
 ];
 
 export const publicRoutes = [
