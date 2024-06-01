@@ -24,9 +24,10 @@ import { ActionType, User } from "@prisma/client";
 
 interface FiltersProps extends React.HTMLAttributes<HTMLDivElement> {
   users?: User[] | null;
+  permission?: boolean;
 }
 
-const FilterDeals: React.FC<FiltersProps> = ({ users }) => {
+const FilterDeals: React.FC<FiltersProps> = ({ users, permission }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -101,20 +102,22 @@ const FilterDeals: React.FC<FiltersProps> = ({ users }) => {
           />
         </PopoverContent>
       </Popover>
-      <Select value={responsible} onValueChange={addingResponsible}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Ответственный" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Все</SelectItem>
-          {users?.map((user) => (
-            <SelectItem key={user.id} value={user.id}>
-              {user.name}
-            </SelectItem>
-          ))}
-          <SelectItem value={"null"}>Не назначен</SelectItem>
-        </SelectContent>
-      </Select>
+      {permission && (
+        <Select value={responsible} onValueChange={addingResponsible}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Ответственный" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Все</SelectItem>
+            {users?.map((user) => (
+              <SelectItem key={user.id} value={user.id}>
+                {user.name}
+              </SelectItem>
+            ))}
+            <SelectItem value={"null"}>Не назначен</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
     </div>
   );
 };

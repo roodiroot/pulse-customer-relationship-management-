@@ -29,7 +29,7 @@ const ThemeSwitch = () => {
     return (
       <div
         onClick={() => setTheme("light")}
-        className="w-full h-full flex gap-3 items-center justify-between"
+        className="cursor-pointer w-full h-full flex gap-3 items-center justify-between"
       >
         Светло
         <Sun
@@ -44,7 +44,7 @@ const ThemeSwitch = () => {
     return (
       <div
         onClick={() => setTheme("dark")}
-        className="w-full h-full flex gap-3 items-center justify-between"
+        className="cursor-pointer w-full h-full flex gap-3 items-center justify-between"
       >
         Темно
         <Moon className="text-foreground/70 w-4 h-4" />

@@ -73,7 +73,7 @@ const DealsPage = async ({
       <Card>
         <CardHeader className="px-4">
           <CardTitle>Сделки</CardTitle>
-          <FilterDeals users={users} />
+          <FilterDeals users={users} permission={user?.role === "ADMIN"} />
         </CardHeader>
       </Card>
       <Card className="flex-1">

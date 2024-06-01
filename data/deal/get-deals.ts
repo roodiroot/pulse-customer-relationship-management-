@@ -50,6 +50,9 @@ export const getDealById = async (id: string) => {
     const deal = await db.deal.findUnique({
       where: { id },
       include: {
+        company: {
+          include: { user: true },
+        },
         cases: {
           orderBy: { date: "asc" },
         },
