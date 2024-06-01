@@ -22,6 +22,7 @@ export const getAllCases = async (params?: any) => {
   // console.log("параметры", params);
   const parametrsSearch = {
     where: {
+      deals: { company: { userId: params?.userId } },
       date: {
         gte: params?.start ? new Date(params?.start) : undefined,
         lte: params?.end ? params?.end : endDate(params?.start),
@@ -33,6 +34,7 @@ export const getAllCases = async (params?: any) => {
   try {
     const cases = await db.case.findMany({
       ...parametrsSearch,
+
       take: params?.take || ROW_TABLE,
       skip: params?.skip || 0,
       include: {

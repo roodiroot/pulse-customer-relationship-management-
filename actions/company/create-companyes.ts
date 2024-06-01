@@ -6,9 +6,16 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { CompanySchema } from "@/schemas";
 import { createContact } from "../contact/create-contact";
+import { currentUser } from "@/lib/auth";
 
 export const createCompany = async (value: z.infer<typeof CompanySchema>) => {
   const validated = CompanySchema.parse(value);
+  const user = await currentUser();
+  if (!user) {
+    return {
+      error: "Не найден user",
+    };
+  }
   if (!validated) {
     return {
       error: "Введены не правильные данные",
@@ -25,6 +32,7 @@ export const createCompany = async (value: z.infer<typeof CompanySchema>) => {
         mainOKVED: validated.mainOKVED,
         owner: validated.owner,
         dateRegistr: validated.dateRegistr,
+        userId: user.id,
       },
     });
     for (let i = 0; i < validated.contacts.length; i++) {

@@ -45,6 +45,7 @@ model User {
   password      String?
   role          UserRole  @default(USER)
   accounts      Account[]
+  companies     Company[]
 }
 
 model Account {
@@ -96,6 +97,8 @@ model Company {
   comment     String?
   deals       Deal[]
   contacts    Contact[]
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
 
   @@map("company")
 }

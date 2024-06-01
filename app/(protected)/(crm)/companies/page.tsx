@@ -3,9 +3,13 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CompanyList from "../../_components/company-list";
 import { showCompanies } from "@/actions/company/show-companyes";
+import { currentUser } from "@/lib/auth";
 
 const CompanyesPage = async () => {
-  const companyes = await showCompanies();
+  const user = await currentUser();
+  const companyes = await showCompanies(
+    user?.role !== "ADMIN" ? user?.id : undefined
+  );
   return (
     <>
       <div className="flex items-center gap-4">
@@ -17,7 +21,7 @@ const CompanyesPage = async () => {
         </div>
       </div>
       {companyes ? (
-        <CompanyList companyesList={companyes} />
+        <CompanyList data={companyes} />
       ) : (
         <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
           <div className="flex flex-col items-center gap-1 text-center">

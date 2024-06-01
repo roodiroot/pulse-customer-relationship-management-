@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import {
   Table,
   TableBody,
@@ -10,15 +12,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { changeDate } from "@/lib/change-date";
-import { Company } from "@prisma/client";
-import { useRouter } from "next/navigation";
+import { ResCompany } from "@/data/companies/get-companies";
 
 interface CompanyListProps extends React.TableHTMLAttributes<HTMLTableElement> {
-  companyesList: Company[];
+  data: ResCompany[];
 }
 
-const CompanyList: React.FC<CompanyListProps> = ({ companyesList }) => {
+const CompanyList: React.FC<CompanyListProps> = ({ data }) => {
   const router = useRouter();
+
   return (
     <Table>
       <TableCaption>Список компаний.</TableCaption>
@@ -28,11 +30,11 @@ const CompanyList: React.FC<CompanyListProps> = ({ companyesList }) => {
           <TableHead className="w-[101px]">ИНН</TableHead>
           <TableHead className="w-[95px]">Дата создания</TableHead>
           <TableHead>Комментарий</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead className="text-right">Ответственный</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {companyesList.map((company) => (
+        {data.map((company) => (
           <TableRow
             className="cursor-pointer transition-colors"
             onClick={() => router.push(`/companies/${company.id}`)}
@@ -46,7 +48,7 @@ const CompanyList: React.FC<CompanyListProps> = ({ companyesList }) => {
             <TableCell>
               <div className="s line-clamp-1">{company.comment}</div>
             </TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
+            <TableCell className="text-right">{company?.user?.name}</TableCell>
           </TableRow>
         ))}
       </TableBody>

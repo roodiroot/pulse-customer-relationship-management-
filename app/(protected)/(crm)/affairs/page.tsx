@@ -21,11 +21,13 @@ import { changeDate } from "@/lib/change-date";
 import { CaseRes } from "@/queries/cases";
 import { actionType } from "@/lib/changing-types-action";
 import { showCases } from "@/actions/case/show-cases";
-import Filters from "@/components/page/case/filters";
+
 import StatusBadge from "@/components/page/case/status-badge";
 import { StageBadge } from "@/components/page/company-page/stage-badge";
 import DataTablePagination from "@/components/page/case/data-table-pagination";
 import { ROW_TABLE } from "@/constance/row-table";
+import { currentUser } from "@/lib/auth";
+import Filters from "@/components/page/case/filters";
 
 const AffairsPage = async ({
   searchParams,
@@ -60,7 +62,10 @@ const AffairsPage = async ({
     return undefined;
   };
 
+  const user = await currentUser();
+
   const res = await showCases({
+    userId: user?.role !== "ADMIN" ? user?.id : undefined,
     type: searchParams.type,
     finished: f(),
     start: searchParams.date,

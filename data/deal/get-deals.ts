@@ -10,17 +10,18 @@ const endDate = (date?: Date) => {
   return undefined;
 };
 
-export const getAllDeals = async (params?: any, skip?: number) => {
+export const getAllDeals = async (params?: any) => {
   // console.log("параметры", params);
   const parametrsSearch = {
     where: {
+      company: {
+        userId: params?.userId,
+      },
       createdAt: {
         gte: params?.start ? new Date(params?.start) : undefined,
         lte: params?.end ? params?.end : endDate(params?.start),
       },
       stage: params?.stage,
-      // type: params?.type,
-      // finished: params?.finished,
     },
   };
   try {
@@ -29,7 +30,9 @@ export const getAllDeals = async (params?: any, skip?: number) => {
       take: params?.take || ROW_TABLE,
       skip: params?.skip || 0,
       include: {
-        company: true,
+        company: {
+          include: { user: true },
+        },
       },
     });
 

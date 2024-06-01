@@ -1,13 +1,7 @@
 import Link from "next/link";
-import { ActionType, Company, Deal } from "@prisma/client";
+import { Company, Deal, User } from "@prisma/client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -18,38 +12,68 @@ import {
 } from "@/components/ui/table";
 
 import { changeDate } from "@/lib/change-date";
-import { CaseRes } from "@/queries/cases";
-import { actionType } from "@/lib/changing-types-action";
-import { showCases } from "@/actions/case/show-cases";
-import Filters from "@/components/page/case/filters";
-import StatusBadge from "@/components/page/case/status-badge";
 import { StageBadge } from "@/components/page/company-page/stage-badge";
 import DataTablePagination from "@/components/page/case/data-table-pagination";
 import { ROW_TABLE } from "@/constance/row-table";
 import { showDeals } from "@/actions/deal/show-deals";
+import { currentUser } from "@/lib/auth";
+import { showUsers } from "@/actions/personal/show-users";
+import FilterDeals from "@/components/page/deals/filter-deals";
+
+interface CompanyName extends Company {
+  user: User | null;
+}
 
 interface DealsList extends Deal {
-  company: Company;
+  company: CompanyName;
 }
 
 const DealsPage = async ({
   searchParams,
 }: {
   searchParams: {
+    responsible: string;
     date: string;
-    createdAt: string;
+    finished: string;
     take: string;
     page: string;
   };
 }) => {
-  const res = await showDeals();
+  // сколько скипнуть
+  const s = () => {
+    const page = Number(searchParams.page);
+    const take = isNaN(Number(searchParams.take))
+      ? ROW_TABLE
+      : Number(searchParams.take);
+    if (isNaN(page)) {
+      return 0;
+    }
+    return page * take - take;
+  };
+
+  const user = await currentUser();
+  const res = await showDeals({
+    userId:
+      user?.role !== "ADMIN"
+        ? user?.id
+        : searchParams.responsible === "null"
+        ? null
+        : searchParams.responsible,
+    start: searchParams.date,
+    // end,
+    take: isNaN(Number(searchParams.take))
+      ? ROW_TABLE
+      : Number(searchParams.take),
+    skip: s(),
+  });
+  const users = await showUsers();
 
   return (
     <div className="flex flex-col gap-6 h-full">
       <Card>
         <CardHeader className="px-4">
           <CardTitle>Сделки</CardTitle>
-          <Filters />
+          <FilterDeals users={users} />
         </CardHeader>
       </Card>
       <Card className="flex-1">
@@ -64,6 +88,9 @@ const DealsPage = async ({
                 <TableHead className="w-[130px] table-cell">Этап</TableHead>
                 <TableHead className="hidden sm:table-cell">
                   Комментарий
+                </TableHead>
+                <TableHead className="w-[100px] sm:table-cell">
+                  Ответственный
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -92,6 +119,9 @@ const DealsPage = async ({
                     {/* <div className=" line-clamp-2 text-muted-foreground">
                       {caseItem.comment}
                     </div> */}
+                  </TableCell>
+                  <TableCell className="sm:table-cell">
+                    {dealItem.company?.user?.name}
                   </TableCell>
                 </TableRow>
               ))}
