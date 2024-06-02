@@ -11,7 +11,7 @@ const CompanyCaseList: React.FC<ComanyCaseListProps> = ({ companyCase }) => {
   }
   return (
     <div className="flex flex-col-reverse gap-y-4">
-      {companyCase?.map((c, i) => (
+      {companyCase?.map((c: Case) => (
         <CaseItem caseItem={c} key={c.id} />
       ))}
     </div>

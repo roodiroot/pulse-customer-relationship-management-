@@ -4,7 +4,6 @@ import {
   CircleDollarSign,
   Home,
   LineChart,
-  ShoppingCart,
   Users,
 } from "lucide-react";
 

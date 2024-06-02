@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { SaveCaseSchema } from "@/schemas";
 import { getDealById } from "@/data/deal/get-deals";
+import { currentUser } from "@/lib/auth";
 
 //Сохраниение дела
 export const createCase = async (
@@ -38,9 +39,12 @@ export const createCase = async (
     }
   }
 
+  const user = await currentUser();
+
   await db.case.create({
     data: {
       ...value,
+      responsible: user?.name,
       finished,
       dealId,
     },

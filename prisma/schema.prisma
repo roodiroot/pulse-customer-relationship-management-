@@ -129,14 +129,15 @@ model Deal {
 }
 
 model Case {
-  id        String     @id @default(cuid())
-  createdAt DateTime   @default(now())
-  type      ActionType @default(Call)
-  comment   String?
-  date      DateTime?
-  finished  Boolean    @default(false)
-  dealId    String
-  deals     Deal       @relation(fields: [dealId], references: [id])
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  type        ActionType @default(Call)
+  comment     String?
+  date        DateTime?
+  responsible String?
+  finished    Boolean    @default(false)
+  dealId      String
+  deals       Deal       @relation(fields: [dealId], references: [id])
 
   @@map("case")
 }

@@ -25,6 +25,7 @@ interface CaseItemChangingProps extends React.HTMLAttributes<HTMLDivElement> {
   comment: string | null;
   date: Date | null;
   type: ActionType;
+  responsible?: string | null;
 }
 
 const CaseItemChanging: React.FC<CaseItemChangingProps> = ({
@@ -32,6 +33,7 @@ const CaseItemChanging: React.FC<CaseItemChangingProps> = ({
   comment,
   date,
   type,
+  responsible = "",
 }) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -92,7 +94,9 @@ const CaseItemChanging: React.FC<CaseItemChangingProps> = ({
       </CardContent>
       <CardFooter className="bg-muted/50 py-3 border-t">
         <div className="text-xs text-muted-foreground w-full flex justify-between">
-          <span>Не выполнено</span>{" "}
+          <div className="flex items-center gap-2">
+            <span>Не выполнено</span> <div className="">{responsible}</div>
+          </div>
           <Badge variant="secondary">{actionType(type)}</Badge>
         </div>
       </CardFooter>

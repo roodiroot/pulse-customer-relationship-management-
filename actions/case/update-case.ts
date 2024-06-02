@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { UpdateCaseSchema } from "@/schemas";
 import { getCaseById } from "@/data/cases/get-cases";
+import { currentUser } from "@/lib/auth";
 
 //Выполнение сохраненного дела
 export const updateCase = async (
@@ -21,10 +22,17 @@ export const updateCase = async (
     return { error: "Коментарий с таким ID не найден." };
   }
 
+  const user = await currentUser();
+
   try {
     await db.case.update({
       where: { id: caseId },
-      data: { comment: validated.comment, date: new Date(), finished: true },
+      data: {
+        comment: validated.comment,
+        date: new Date(),
+        finished: true,
+        responsible: user?.name,
+      },
     });
     revalidatePath("/affairs");
     revalidatePath("/companies/[id]", "page");

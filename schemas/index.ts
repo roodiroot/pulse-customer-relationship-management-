@@ -94,6 +94,8 @@ export const UpdateCompanySchema = z.object({
     .max(150, { message: "Не более 150 символов" })
     .optional(),
 });
+
+// Схема для создания нового дела
 export const SaveCaseSchema = z.object({
   type: z.enum([ActionType.Brief, ActionType.Call, ActionType.Meet]),
   comment: z.string(),
