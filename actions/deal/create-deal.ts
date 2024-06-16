@@ -1,10 +1,11 @@
 "use server";
 
-import { getCompanyById } from "@/data/companies/get-companies";
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
+
 import { db } from "@/lib/db";
 import { CreateDealSchema } from "@/schemas";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
+import { getCompanyById } from "@/data/company/data-company";
 
 export const createDeal = async (
   value: z.infer<typeof CreateDealSchema>,
@@ -36,7 +37,7 @@ export const createDeal = async (
         companyId: companyId,
       },
     });
-    revalidatePath("/companies/[id]");
+    revalidatePath("/companies/[id]", "page");
     return {
       success: "Сделка успешно создана.",
       deal,

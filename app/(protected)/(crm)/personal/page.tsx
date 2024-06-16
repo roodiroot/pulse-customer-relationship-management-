@@ -1,13 +1,46 @@
-import PersonalList from "@/components/page/personal/personal-list";
-import FormError from "@/components/ui/form-error";
-import { getAllUsers } from "@/data/personal/get-users";
-import { currentRole } from "@/lib/auth";
+import { currentUser } from "@/lib/auth";
 
-const PersolnalPage = async () => {
-  const role = await currentRole();
-  const users = await getAllUsers();
-  if (role === "ADMIN") return <PersonalList usersList={users} />;
-  return <FormError message="Не достаточно прав на просмотр данного ресурса" />;
+import FormError from "@/components/ui/form-error";
+import HeadBody from "@/components/cast-ui/head-body";
+import { showUsers } from "@/actions/personal/show-users";
+import { createColumns } from "@/components/tables/personal/columns";
+import { UsersDataTable } from "@/components/tables/personal/users-data-table";
+import DataTablePagination from "@/components/page/case/data-table-pagination";
+
+const PersolnalPage = async ({
+  searchParams,
+}: {
+  searchParams: {
+    take: string;
+    page: string;
+  };
+}) => {
+  const user = await currentUser();
+  const data = await showUsers({
+    user,
+    params: { take: searchParams?.take, page: searchParams?.page },
+  });
+
+  return (
+    <div className="flex flex-col gap-6 h-full">
+      <div className="flex items-center gap-4">
+        <HeadBody>Персонал</HeadBody>
+      </div>
+      {["SALES_REP", "USER"].includes(user?.role || "USER") || user?.bloked ? (
+        <FormError message="У вас нет разрешения на доступ к этой странице" />
+      ) : (
+        <div className="relative  h-full max-w-full flex flex-col justify-end">
+          {data?.users && (
+            <UsersDataTable data={data.users} createColumns={createColumns} />
+          )}
+          <DataTablePagination
+            className="mt-auto pt-4"
+            allCount={data?.count || 0}
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default PersolnalPage;

@@ -15,7 +15,7 @@ export const search = async (value: z.infer<typeof SearchSchema>) => {
     return [];
   }
 
-  const result = db.company.findMany({
+  const result = await db.company.findMany({
     where: {
       OR: [
         { name: { contains: string, mode: "insensitive" } },

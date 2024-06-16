@@ -10,22 +10,22 @@ const StatusBadge = ({
   status: boolean;
   date: Date | null;
 }) => {
-  if (!date) {
-    return <Badge className="text-xs text-foreground">Без даты</Badge>;
-  }
+  // if (!date) {
+  //   return <Badge className="text-xs text-foreground">Без даты</Badge>;
+  // }
 
-  let bg = "";
+  // let bg = "";
 
-  if (status) {
-    bg = "bg-green-500/30";
-  } else if (!status && new Date() > date) {
-    bg = "bg-red-500/30";
-  } else {
-    bg = "bg-sky-500/30";
-  }
+  // if (status) {
+  //   bg = "bg-green-500/30";
+  // } else if (!status && new Date() > date) {
+  //   bg = "bg-red-500/30";
+  // } else {
+  //   bg = "bg-sky-500/30";
+  // }
 
   return (
-    <Badge className={cn("text-xs text-foreground", bg)}>
+    <Badge className={cn("text-xs text-foreground whitespace-nowrap")}>
       {status ? "Выполнено" : "Не выполнено"}
     </Badge>
   );

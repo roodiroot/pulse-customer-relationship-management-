@@ -13,7 +13,7 @@ import { changeResponsible } from "@/actions/company/change-responsible";
 interface ResetResponsibleButtonProps
   extends React.ComponentPropsWithoutRef<"button"> {
   userId: string | null;
-  users: User[] | null;
+  users?: User[];
   companyId: string;
 }
 

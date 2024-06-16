@@ -10,8 +10,9 @@ import { getUserById } from "./data/auth/user";
 declare module "next-auth" {
   interface Session {
     user: {
-      role: "ADMIN" | "USER";
+      role: "ADMIN" | "USER" | "SALES_MANAGER" | "SALES_REP";
       isOAuth: boolean;
+      bloked: boolean;
     } & DefaultSession["user"];
   }
 }
@@ -57,6 +58,7 @@ export const {
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.isOAuth = token.isOAuth as boolean;
+        session.user.bloked = token.bloked as boolean;
       }
       return session;
     },
@@ -70,6 +72,7 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
+      token.bloked = existingUser.bloked;
       return token;
     },
   },

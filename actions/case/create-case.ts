@@ -5,8 +5,9 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { SaveCaseSchema } from "@/schemas";
-import { getDealById } from "@/data/deal/get-deals";
+
 import { currentUser } from "@/lib/auth";
+import { getDealById } from "@/data/deal/data-deal";
 
 //Сохраниение дела
 export const createCase = async (

@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { CompanySchema } from "@/schemas";
 import { createContact } from "../contact/create-contact";
 import { currentUser } from "@/lib/auth";
+import { UserRole } from "@prisma/client";
 
 export const createCompany = async (value: z.infer<typeof CompanySchema>) => {
   const validated = CompanySchema.parse(value);
@@ -14,6 +15,11 @@ export const createCompany = async (value: z.infer<typeof CompanySchema>) => {
   if (!user) {
     return {
       error: "Не найден user",
+    };
+  }
+  if (user.role === UserRole.USER || user?.bloked) {
+    return {
+      error: "У вас нет прав для создания компании",
     };
   }
   if (!validated) {

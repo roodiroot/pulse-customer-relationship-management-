@@ -4,9 +4,8 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
-import { CompanySchema, UpdateCompanySchema } from "@/schemas";
-import { createContact } from "../contact/create-contact";
-import { getCompanyById } from "@/data/companies/get-companies";
+import { UpdateCompanySchema } from "@/schemas";
+import { getCompanyById } from "@/data/company/data-company";
 
 export const updateCompany = async (
   value: z.infer<typeof UpdateCompanySchema>,

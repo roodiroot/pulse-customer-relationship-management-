@@ -1,42 +1,74 @@
-import HeadBody from "@/components/cast-ui/head-body";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import CompanyList from "../../_components/company-list";
-import { showCompanies } from "@/actions/company/show-companyes";
-import { currentUser } from "@/lib/auth";
 
-const CompanyesPage = async () => {
+import { currentUser } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
+import HeadBody from "@/components/cast-ui/head-body";
+import { showUsers } from "@/actions/personal/show-users";
+import { columns } from "@/components/tables/companies/columns";
+import { showCompanies } from "@/actions/company/show-companyes";
+import FiltersCompany from "@/components/tables/companies/filters-company";
+import DataTablePagination from "@/components/page/case/data-table-pagination";
+import { CompanyDataTable } from "@/components/tables/companies/company-data-table";
+import FormError from "@/components/ui/form-error";
+
+const CompanyesPage = async ({
+  searchParams,
+}: {
+  searchParams: {
+    take: string;
+    page: string;
+    responsible: string;
+  };
+}) => {
   const user = await currentUser();
-  const companyes = await showCompanies(
-    user?.role !== "ADMIN" ? user?.id : undefined
-  );
+  const { success, error, companies, count } = await showCompanies({
+    user: {
+      userId: user?.id,
+      userRole: user?.role,
+      bloked: user?.bloked,
+    },
+    params: {
+      take: searchParams.take,
+      page: searchParams.page,
+      responsible: searchParams.responsible,
+    },
+  });
+  const users = await showUsers({ user });
   return (
     <>
       <div className="flex items-center gap-4">
         <HeadBody>Организации</HeadBody>
-        <div className="hidden items-center gap-2 md:ml-auto md:flex">
-          <Button asChild size="sm">
-            <Link href="/companies/create">Создать</Link>
-          </Button>
-        </div>
-      </div>
-      {companyes ? (
-        <CompanyList data={companyes} />
-      ) : (
-        <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h3 className="text-2xl font-bold tracking-tight">
-              Еще нет организаций
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Хотите создать новую организацию?
-            </p>
-            <Button asChild className="mt-4">
-              <Link href={"/companyes/create"}>Добавить организацию</Link>
+        {success && (
+          <div className="hidden items-center gap-2 md:ml-auto md:flex">
+            <Button asChild size="sm">
+              <Link href="/companies/create">Создать</Link>
             </Button>
-            CompanyList
           </div>
-        </div>
+        )}
+      </div>
+      {success ? (
+        <>
+          <FiltersCompany
+            permission={["ADMIN", "SALES_MANAGER"].includes(
+              user?.role || "USER"
+            )}
+            users={users}
+          />
+          <div className="relative  h-full max-w-full flex flex-col justify-end">
+            <CompanyDataTable
+              data={companies}
+              columns={columns}
+              role={user?.role}
+              users={users}
+            />
+            <DataTablePagination
+              className="mt-auto pt-4"
+              allCount={count || 0}
+            />
+          </div>
+        </>
+      ) : (
+        <FormError message={error} />
       )}
     </>
   );

@@ -10,7 +10,7 @@ const Navigation = async () => {
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {navigationMenu.map((item) => {
         if (item.name === "Менеджеры") {
-          if (role === "ADMIN") {
+          if (["ADMIN", "SALES_MANAGER"].includes(role || "USER")) {
             return (
               <Link
                 key={item.name}

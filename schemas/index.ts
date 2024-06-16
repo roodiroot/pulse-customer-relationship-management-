@@ -108,7 +108,12 @@ export const UpdateCaseSchema = z.object({
 export const SettingsSchema = z
   .object({
     name: z.optional(z.string()),
-    role: z.enum([UserRole.ADMIN, UserRole.USER]),
+    role: z.enum([
+      UserRole.ADMIN,
+      UserRole.USER,
+      UserRole.SALES_MANAGER,
+      UserRole.SALES_REP,
+    ]),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),

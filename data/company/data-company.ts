@@ -7,21 +7,36 @@ export interface ResCompany extends Company {
   } | null;
 }
 
-export const getAllCompanies = async (
-  userId?: string,
-  take?: number,
-  skip?: number
-): Promise<ResCompany[] | null> => {
+interface DataCompanies {
+  userId?: string;
+  responsible?: string | null;
+  take?: number;
+  skip?: number;
+}
+
+export const getAllCompanies = async ({
+  userId,
+  take,
+  skip,
+}: DataCompanies): Promise<{ companies: ResCompany[]; count: number }> => {
+  const wherwSearchParams = {
+    where: {
+      userId: userId,
+    },
+  };
   try {
     const companies = await db.company.findMany({
-      where: { userId },
+      ...wherwSearchParams,
       include: { user: { select: { name: true } } },
       take,
       skip,
     });
-    return companies;
+    const count = await db.company.count({
+      ...wherwSearchParams,
+    });
+    return { companies, count };
   } catch {
-    return null;
+    throw new Error("Error fetching companies");
   }
 };
 

@@ -5,8 +5,9 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { UpdateCaseSchema } from "@/schemas";
-import { getCaseById } from "@/data/cases/get-cases";
+
 import { currentUser } from "@/lib/auth";
+import { getCaseById } from "@/data/cases/data-case";
 
 //Выполнение сохраненного дела
 export const updateCase = async (

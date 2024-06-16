@@ -1,9 +1,10 @@
 "use server";
 
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
+
 import { db } from "@/lib/db";
 import { UpdateContactSchema } from "@/schemas";
-import { revalidatePath } from "next/cache";
-import { z } from "zod";
 
 export const updateContact = async (
   value: z.infer<typeof UpdateContactSchema>,
@@ -13,8 +14,6 @@ export const updateContact = async (
   if (!validatedFiled) {
     return { error: "Некорректные данные" };
   }
-
-  console.log(value);
 
   try {
     await db.contact.update({

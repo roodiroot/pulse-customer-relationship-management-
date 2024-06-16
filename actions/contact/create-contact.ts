@@ -1,6 +1,6 @@
 "use server";
 
-import { getCompanyById } from "@/data/companies/get-companies";
+import { getCompanyById } from "@/data/company/data-company";
 import { db } from "@/lib/db";
 import { ContactSchema } from "@/schemas";
 import { revalidatePath } from "next/cache";

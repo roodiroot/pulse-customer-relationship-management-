@@ -1,6 +1,6 @@
 "use server";
 
-import { getCompanyById } from "@/data/companies/get-companies";
+import { getCompanyById } from "@/data/company/data-company";
 import { currentUser } from "@/lib/auth";
 
 export const showOneCompanyById = async (id: string) => {

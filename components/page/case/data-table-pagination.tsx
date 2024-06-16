@@ -18,7 +18,6 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ROW_TABLE } from "@/constance/row-table";
 import { cn } from "@/lib/utils";
-import { boolean } from "zod";
 
 interface DataTablePaginationProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
@@ -34,8 +33,8 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const [take, setTake] = useState<string>(ROW_TABLE.toString());
-  const [page, setPage] = useState<string>("1");
+  const [take, setTake] = useState<string | null>(ROW_TABLE.toString() || null);
+  const [page, setPage] = useState<string | null>("1" || null);
 
   const searchtake = searchParams.get("take");
   const searchpage = searchParams.get("page");
@@ -76,24 +75,24 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   };
 
   useEffect(() => {
-    setTake(searchtake || ROW_TABLE.toString());
-    setPage(searchpage || "1");
+    setTake(Number(searchtake) ? searchtake : ROW_TABLE.toString());
+    setPage(Number(searchpage) ? searchpage : "1");
   }, [searchtake, searchpage]);
 
   return (
     <div className={cn("flex items-center justify-between px-2", className)}>
-      <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex-1 text-sm whitespace-nowrap text-muted-foreground">
         Нашлось: {allCount}
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
+        <div className="hidden sm:flex items-center space-x-2">
           <p className="text-sm font-medium">Показывать по:</p>
-          <Select value={take.toString()} onValueChange={addingTake}>
+          <Select value={take?.toString()} onValueChange={addingTake}>
             <SelectTrigger className="h-8 w-[70px]">
               <SelectValue placeholder="11" />
             </SelectTrigger>
             <SelectContent side="top">
-              {[3, 8, 20, 30, 40, 50].map((pageSize) => (
+              {[10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>

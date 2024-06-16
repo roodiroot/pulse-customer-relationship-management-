@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { changeDate } from "@/lib/change-date";
-import { ResCompany } from "@/data/companies/get-companies";
+import { ResCompany } from "@/data/company/data-company";
 
 interface CompanyListProps extends React.TableHTMLAttributes<HTMLTableElement> {
   data: ResCompany[];

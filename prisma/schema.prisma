@@ -22,6 +22,8 @@ enum ActionType {
 enum UserRole {
   USER
   ADMIN
+  SALES_MANAGER // руководитель продаж
+  SALES_REP // продавец
 }
 
 enum StageDeal {
@@ -44,6 +46,7 @@ model User {
   image         String?
   password      String?
   role          UserRole  @default(USER)
+  bloked        Boolean   @default(false)
   accounts      Account[]
   companies     Company[]
 }
@@ -104,14 +107,14 @@ model Company {
 }
 
 model Contact {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   phone     String
   name      String?
   mail      String?
   comment   String?
-  confirmed Boolean @default(false)
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  confirmed Boolean  @default(false)
+  companyId String?
+  company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@map("contact")
 }
@@ -121,8 +124,8 @@ model Deal {
   createdAt DateTime   @default(now())
   name      String
   cases     Case[]
-  companyId String
-  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId String?
+  company   Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
   stage     StageDeal?
 
   @@map("deal")
@@ -136,8 +139,8 @@ model Case {
   date        DateTime?
   responsible String?
   finished    Boolean    @default(false)
-  dealId      String
-  deals       Deal       @relation(fields: [dealId], references: [id])
+  dealId      String?
+  deals       Deal?      @relation(fields: [dealId], references: [id], onDelete: Cascade)
 
   @@map("case")
 }

@@ -1,158 +1,71 @@
-import Link from "next/link";
-import { ActionType } from "@prisma/client";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-
-import { changeDate } from "@/lib/change-date";
-import { CaseRes } from "@/queries/cases";
-import { actionType } from "@/lib/changing-types-action";
-import { showCases } from "@/actions/case/show-cases";
-
-import StatusBadge from "@/components/page/case/status-badge";
-import { StageBadge } from "@/components/page/company-page/stage-badge";
-import DataTablePagination from "@/components/page/case/data-table-pagination";
-import { ROW_TABLE } from "@/constance/row-table";
 import { currentUser } from "@/lib/auth";
-import Filters from "@/components/page/case/filters";
+import { ActionType } from "@prisma/client";
+import { showCases } from "@/actions/case/show-cases";
+import HeadBody from "@/components/cast-ui/head-body";
+import { columns } from "@/components/tables/affairs/columns";
+import FiltersAffair from "@/components/tables/affairs/filters-affair";
+import DataTablePagination from "@/components/page/case/data-table-pagination";
+import { AffairDataTable } from "@/components/tables/affairs/affair-data-table";
+import { showUsers } from "@/actions/personal/show-users";
+import FormError from "@/components/ui/form-error";
 
 const AffairsPage = async ({
   searchParams,
 }: {
   searchParams: {
     date: string;
+    dateEnd: string;
     finished: string;
     type: ActionType;
     take: string;
     page: string;
+    responsible: string;
   };
 }) => {
-  // сколько скипнуть
-  const s = () => {
-    const page = Number(searchParams.page);
-    const take = isNaN(Number(searchParams.take))
-      ? ROW_TABLE
-      : Number(searchParams.take);
-    if (isNaN(page)) {
-      return 0;
-    }
-    return page * take - take;
-  };
-  //определение типа по строке
-  const f = () => {
-    if (searchParams.finished === "1") {
-      return true;
-    }
-    if (searchParams.finished === "2") {
-      return false;
-    }
-    return undefined;
-  };
-
   const user = await currentUser();
-
-  const res = await showCases({
-    userId: user?.role !== "ADMIN" ? user?.id : undefined,
-    type: searchParams.type,
-    finished: f(),
-    start: searchParams.date,
-    // end,
-    take: isNaN(Number(searchParams.take))
-      ? ROW_TABLE
-      : Number(searchParams.take),
-    skip: s(),
+  const users = await showUsers({ user });
+  const { cases, count, success, error } = await showCases({
+    user: {
+      userId: user?.id,
+      userRole: user?.role,
+      bloked: user?.bloked,
+    },
+    params: {
+      finished: searchParams?.finished,
+      type: searchParams?.type,
+      date: searchParams?.date,
+      dateEnd: searchParams?.dateEnd,
+      take: searchParams?.take,
+      page: searchParams?.page,
+      responsible: searchParams.responsible,
+    },
   });
 
   return (
-    <div className="flex flex-col gap-6 h-full">
-      <Card>
-        <CardHeader className="px-4">
-          <CardTitle>Мои дела</CardTitle>
-          <CardDescription>
-            Отфильтруйте дела что посмотреть что у вас сегодня.
-          </CardDescription>
-          <Filters />
-        </CardHeader>
-      </Card>
-      <Card className="flex-1">
-        <CardContent className="py-4 flex flex-col h-full gap-4 justify-between">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="hidden sm:w-[200px] sm:table-cell">
-                  Название
-                </TableHead>
-                <TableHead className="hidden w-[100px] sm:table-cell">
-                  Сделка
-                </TableHead>
-                <TableHead className="hidden w-[130px] sm:table-cell">
-                  Статус события
-                </TableHead>
-                <TableHead className="hidden w-[120px] sm:table-cell">
-                  Этап сделки
-                </TableHead>
-                <TableHead className="hidden md:table-cell w-[100px]">
-                  Дата
-                </TableHead>
-                <TableHead className=" sm:text-right">Комментарий</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {res?.cases?.map((caseItem: CaseRes) => (
-                <TableRow key={caseItem.id} className="relative">
-                  <TableCell className="hidden sm:table-cell">
-                    <div className="font-medium">
-                      <Link
-                        href={`/companies/${caseItem.deals.companyId}/deal/${caseItem.dealId}`}
-                        className="absolute inset-0"
-                      />
-                      {actionType(caseItem.type)}
-                    </div>
-                    <div className="hidden text-sm text-muted-foreground md:inline">
-                      {caseItem.deals.company.name}
-                    </div>
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    {caseItem.deals.name}
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    <StatusBadge
-                      status={caseItem.finished}
-                      date={caseItem.date}
-                    />
-                  </TableCell>
-                  <TableCell className="hidden sm:table-cell">
-                    <StageBadge stage={caseItem.deals.stage} />
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {changeDate(caseItem.date).date}
-                  </TableCell>
-                  <TableCell className="sm:text-right">
-                    <div className=" line-clamp-2 text-muted-foreground">
-                      {caseItem.comment}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <DataTablePagination className="mt-auto" allCount={res?.count || 0} />
-        </CardContent>
-      </Card>
-    </div>
+    <>
+      <div className="flex items-center gap-4">
+        <HeadBody>Мои дела</HeadBody>
+      </div>
+      {success ? (
+        <>
+          <FiltersAffair
+            permission={["ADMIN", "SALES_MANAGER"].includes(
+              user?.role || "USER"
+            )}
+            users={users}
+          />
+          <div className="relative  h-full max-w-full flex flex-col justify-end">
+            <AffairDataTable data={cases} columns={columns} role={user?.role} />
+            <DataTablePagination
+              className="mt-auto pt-4"
+              allCount={count || 0}
+            />
+          </div>
+        </>
+      ) : (
+        <FormError message={error} />
+      )}
+    </>
   );
 };
 
