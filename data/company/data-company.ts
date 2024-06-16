@@ -8,7 +8,7 @@ export interface ResCompany extends Company {
 }
 
 interface DataCompanies {
-  userId?: string;
+  userId?: string | null;
   responsible?: string | null;
   take?: number;
   skip?: number;

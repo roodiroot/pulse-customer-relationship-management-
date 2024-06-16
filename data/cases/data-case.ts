@@ -14,7 +14,7 @@ export interface ResCase extends Case {
 }
 
 interface DataCase {
-  userId?: string;
+  userId?: string | null;
   start?: Date;
   end?: Date;
   type?: ActionType;

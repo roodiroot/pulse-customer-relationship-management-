@@ -18,7 +18,7 @@ export interface ResDeals extends Deal {
 }
 
 interface DataDeals {
-  userId?: string;
+  userId?: string | null;
   start?: Date;
   end?: Date;
   stage?: StageDeal;

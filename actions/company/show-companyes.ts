@@ -31,7 +31,8 @@ export const showCompanies = async ({
   const take = Number(params?.take) || ROW_TABLE;
   const page = Number(params?.page) || 1;
   const skip = page * take - take;
-  const responsible = params?.responsible || undefined;
+  const responsible =
+    params?.responsible === "null" ? null : params?.responsible || undefined;
   const userId = ["ADMIN", "SALES_MANAGER"].includes(user?.userRole || "USER")
     ? responsible
     : user?.userId;

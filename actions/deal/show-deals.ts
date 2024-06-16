@@ -31,7 +31,8 @@ export const showDeals = async ({
     };
   }
 
-  const responsible = params?.responsible || undefined;
+  const responsible =
+    params?.responsible === "null" ? null : params?.responsible || undefined;
   const userId = ["ADMIN", "SALES_MANAGER"].includes(user?.userRole || "USER")
     ? responsible
     : user.userId;
