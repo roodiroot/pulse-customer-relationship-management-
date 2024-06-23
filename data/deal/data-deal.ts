@@ -43,7 +43,7 @@ export const getAllDeals = async ({
         gte: start,
         lte: end,
       },
-      stage: stage,
+      stage,
     },
   };
   try {
@@ -51,6 +51,7 @@ export const getAllDeals = async ({
       ...parametrsSearch,
       take: take || ROW_TABLE,
       skip: skip || 0,
+      orderBy: { createdAt: "desc" },
       include: {
         company: {
           include: { user: true },
@@ -62,8 +63,8 @@ export const getAllDeals = async ({
       ...parametrsSearch,
     });
     return { deals, count };
-  } catch {
-    throw new Error("error");
+  } catch (e) {
+    throw new Error("Error");
   }
 };
 

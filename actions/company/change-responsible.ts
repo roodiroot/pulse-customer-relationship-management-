@@ -64,6 +64,7 @@ export const changeResponsibleBeIds = async (
         userId: userId,
       },
     });
+    revalidatePath("/analytics");
     revalidatePath("/companies");
   } catch (error) {
     throw new Error(`${error}`);

@@ -126,7 +126,7 @@ model Deal {
   cases     Case[]
   companyId String?
   company   Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  stage     StageDeal?
+  stage     StageDeal? @default(NEW)
 
   @@map("deal")
 }

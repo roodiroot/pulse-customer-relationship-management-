@@ -2,13 +2,13 @@
 
 import { ROW_TABLE } from "@/constance/row-table";
 import { getAllDeals } from "@/data/deal/data-deal";
-import { UserRole } from "@prisma/client";
+import { StageDeal, UserRole } from "@prisma/client";
 
 export const showDeals = async ({
   user,
   params,
 }: {
-  user: {
+  user?: {
     userId?: string;
     userRole?: UserRole;
     bloked?: boolean;
@@ -19,7 +19,7 @@ export const showDeals = async ({
     take?: string;
     page?: string;
     responsible?: string;
-    stage?: string;
+    stage?: StageDeal | "NOT_DIS" | "all";
   };
 }) => {
   if (["USER"].includes(user?.userRole || "") || user?.bloked) {
@@ -35,7 +35,14 @@ export const showDeals = async ({
     params?.responsible === "null" ? null : params?.responsible || undefined;
   const userId = ["ADMIN", "SALES_MANAGER"].includes(user?.userRole || "USER")
     ? responsible
-    : user.userId;
+    : user?.userId;
+
+  const stage =
+    params?.stage === "all"
+      ? undefined
+      : params?.stage === "NOT_DIS"
+      ? null
+      : params?.stage;
   const take = Number(params?.take) || ROW_TABLE;
   const page = Number(params?.page) || 1;
   const skip = page * take - take;
@@ -46,18 +53,19 @@ export const showDeals = async ({
     ? new Date(start.getTime() + 86400000)
     : undefined;
 
-  const deals = await getAllDeals({
+  const data = await getAllDeals({
     userId,
     start,
     end,
     take,
     skip,
-    stage: undefined,
+    // @ts-ignore
+    stage,
   });
 
   return {
     success: true,
     error: "",
-    ...deals,
+    ...data,
   };
 };

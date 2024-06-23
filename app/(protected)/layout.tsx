@@ -7,8 +7,6 @@ import Navigation from "./_components/navigation";
 import Header from "./_components/header";
 import Icon from "@/components/icons";
 import pack from "@/package.json";
-import SheetWrapper from "@/components/modals/sheet-wrapper";
-import SheetPersonResponsible from "@/components/modals/sheet-person-responsible";
 
 export default function CRMLayout({
   children,

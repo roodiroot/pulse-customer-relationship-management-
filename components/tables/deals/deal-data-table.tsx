@@ -35,7 +35,7 @@ export function DealDataTable<TValue, TData>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (table.getRowModel().rows.length === 0) return null;
+  if (table?.getRowModel().rows.length === 0) return null;
   return (
     <div className="relative flex-1 overflow-auto flex flex-col">
       <div className="relative flex-1 overflow-auto">

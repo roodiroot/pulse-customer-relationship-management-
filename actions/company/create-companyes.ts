@@ -52,6 +52,7 @@ export const createCompany = async (value: z.infer<typeof CompanySchema>) => {
         company.id
       );
     }
+    revalidatePath("/analytics");
     revalidatePath("/add-project");
     return {
       success: "Данные успешно сохранены",

@@ -14,6 +14,8 @@ export const showCompanies = async ({
     bloked?: boolean;
   };
   params?: {
+    date?: string;
+    dateEnd?: string;
     take?: string;
     page?: string;
     responsible?: string;
@@ -36,9 +38,17 @@ export const showCompanies = async ({
   const userId = ["ADMIN", "SALES_MANAGER"].includes(user?.userRole || "USER")
     ? responsible
     : user?.userId;
+  const start = params?.date ? new Date(params.date) : undefined;
+  const end = params?.dateEnd
+    ? new Date(new Date(params.dateEnd).getTime() + 86400000)
+    : start
+    ? new Date(start.getTime() + 86400000)
+    : undefined;
 
   const data = await getAllCompanies({
     userId,
+    start,
+    end,
     take,
     skip,
   });

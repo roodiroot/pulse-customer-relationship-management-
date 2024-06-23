@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/select";
 
 interface AffairStatusFilterProps {
-  status: string;
+  status?: string;
   setStatus: (value: string) => void;
 }
 
@@ -33,7 +33,7 @@ const AffairStatusFilter: React.FC<AffairStatusFilterProps> = ({
   return (
     <Select value={status} onValueChange={setStatus}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Статус" />
+        <SelectValue placeholder="Статус дела" />
       </SelectTrigger>
       <SelectContent>
         {statusList.map(({ value, name }) => (

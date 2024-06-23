@@ -13,7 +13,7 @@ export const columns: ColumnDef<ResDeals>[] = [
     accessorKey: "name",
     cell: ({ row }) => (
       <Link
-        href={`/companies/${row.original.id}`}
+        href={`/companies/${row.original?.companyId}/deal/${row.original.id}`}
         className="line-clamp-1 w-[130px]"
       >
         {row.getValue("name")}
@@ -24,9 +24,12 @@ export const columns: ColumnDef<ResDeals>[] = [
     header: "Компания",
     accessorKey: "company.name",
     cell: ({ row }) => (
-      <div className="line-clamp-1 w-[200px]">
+      <Link
+        href={`/companies/${row.original?.companyId}`}
+        className="line-clamp-1 w-[200px]"
+      >
         {row.original?.company?.name}
-      </div>
+      </Link>
     ),
   },
   {

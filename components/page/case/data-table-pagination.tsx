@@ -77,7 +77,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
   useEffect(() => {
     setTake(Number(searchtake) ? searchtake : ROW_TABLE.toString());
     setPage(Number(searchpage) ? searchpage : "1");
-  }, [searchtake, searchpage]);
+  }, [searchtake, searchpage, router, pathname]);
 
   return (
     <div className={cn("flex items-center justify-between px-2", className)}>

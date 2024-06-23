@@ -10,18 +10,26 @@ export interface ResCompany extends Company {
 interface DataCompanies {
   userId?: string | null;
   responsible?: string | null;
+  start?: Date;
+  end?: Date;
   take?: number;
   skip?: number;
 }
 
 export const getAllCompanies = async ({
   userId,
+  start,
+  end,
   take,
   skip,
 }: DataCompanies): Promise<{ companies: ResCompany[]; count: number }> => {
   const wherwSearchParams = {
     where: {
       userId: userId,
+      createdAt: {
+        gte: start,
+        lte: end,
+      },
     },
   };
   try {

@@ -38,7 +38,7 @@ const TypeStatusFilter: React.FC<TypeStatusFilterProps> = ({
   return (
     <Select value={type} onValueChange={setType}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Тип" />
+        <SelectValue placeholder="Тип дела" />
       </SelectTrigger>
       <SelectContent>
         {typesList.map(({ value, name }) => (

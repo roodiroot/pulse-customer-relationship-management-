@@ -17,6 +17,8 @@ const CompanyesPage = async ({
   searchParams: {
     take: string;
     page: string;
+    date: string;
+    dateEnd: string;
     responsible: string;
   };
 }) => {
@@ -30,6 +32,8 @@ const CompanyesPage = async ({
     params: {
       take: searchParams.take,
       page: searchParams.page,
+      date: searchParams?.date,
+      dateEnd: searchParams?.dateEnd,
       responsible: searchParams.responsible,
     },
   });

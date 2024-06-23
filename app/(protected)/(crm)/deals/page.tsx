@@ -7,13 +7,14 @@ import FiltersDeal from "@/components/tables/deals/filters-deal";
 import { DealDataTable } from "@/components/tables/deals/deal-data-table";
 import DataTablePagination from "@/components/page/case/data-table-pagination";
 import FormError from "@/components/ui/form-error";
+import { StageDeal } from "@prisma/client";
 
 const DealsPage = async ({
   searchParams,
 }: {
   searchParams: {
     responsible: string;
-    stage: string;
+    stage: StageDeal | "NOT_DIS";
     date: string;
     dateEnd: string;
     take: string;
