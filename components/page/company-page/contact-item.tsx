@@ -76,7 +76,7 @@ const ContactItem: React.FC<ContactItemProps> = ({
   };
 
   return (
-    <Card>
+    <Card className=" rounded-md">
       <Form {...form}>
         <CardHeader className="flex flex-row items-center justify-between pl-2 pt-4 pb-1">
           <FormField

@@ -22,7 +22,7 @@ const CommentCompany: React.FC<CommentCompanyProps> = ({
   comment,
 }) => {
   return (
-    <Card x-chunk="dashboard-01-chunk-4">
+    <Card x-chunk="dashboard-01-chunk-4" className="rounded-md">
       <CardHeader className="flex flex-row items-start gap-4">
         <div className="grid gap-2">
           <CardTitle>{companyName}</CardTitle>

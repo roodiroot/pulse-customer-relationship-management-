@@ -105,7 +105,7 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
 
   return (
     <>
-      <Card>
+      <Card className="rounded-md">
         <CardHeader className="px-7">
           <CardTitle>{companyName}</CardTitle>
           <StageRow stage={stage} dealId={dealId || ""} />
