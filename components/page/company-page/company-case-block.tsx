@@ -41,6 +41,7 @@ import { createCase } from "@/actions/case/create-case";
 import StageRow from "@/components/page/company-page/stage-row";
 import CompanyCaseList from "@/components/page/company-page/company-case-list";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import TiptapCase from "../../tiptap/tiptap-case";
 
 interface CompanyCaseBlockProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
@@ -209,10 +210,14 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
                     <FormItem className="col-span-2">
                       <FormLabel>Комментарий</FormLabel>
                       <FormControl>
-                        <Textarea
+                        {/* <Textarea
                           {...field}
                           placeholder="Это прекрасная организация, которая стремиться сотрудничать со мной во всех моих начинаниях. И платит мне много денег за это. Что поможет нам вместе стать самыми востребованными организациями."
                           className="min-h-32"
+                        /> */}
+                        <TiptapCase
+                          description={field.value}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />

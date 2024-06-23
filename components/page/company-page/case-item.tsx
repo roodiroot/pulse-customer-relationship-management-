@@ -13,9 +13,18 @@ export const CaseItem: React.FC<CaseItemProps> = ({ className, caseItem }) => {
   if (caseItem.finished) {
     return (
       <Card
-        className={cn("bg-muted pt-3 overflow-hidden opacity-80", className)}
+        className={cn(
+          "bg-muted pt-3 overflow-hidden opacity-80 rounded-md",
+          className
+        )}
       >
-        <CardContent className="text-sm pb-3">{caseItem.comment}</CardContent>
+        <CardContent className="text-sm pb-3">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: caseItem.comment as TrustedHTML,
+            }}
+          />
+        </CardContent>
         <CardFooter className="bg-background pt-3 pb-2 border-t">
           <div className="text-xs text-muted-foreground w-full flex justify-between items-center">
             <div className="flex items-center gap-2">

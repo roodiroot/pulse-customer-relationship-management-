@@ -44,7 +44,7 @@ const AnalyticsPage = async ({
       stage: searchParams?.stage,
       date: searchParams?.date,
       dateEnd: searchParams?.dateEnd,
-      take: "1000",
+      take: "99999",
       page: searchParams?.page,
     },
   });
@@ -152,9 +152,9 @@ const AnalyticsPage = async ({
                 </svg>
               </DatasCardWrapper>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="relative  h-full max-w-full flex flex-col justify-end">
-                <Card className="col-span-4">
+            <div className="grid gap-4 md:grid-cols-12">
+              <div className="relative  h-full max-w-full flex flex-col justify-end col-span-12  xl:col-span-10  2xl:col-span-6">
+                <Card className="">
                   <CardHeader>
                     <CardTitle>Сделки</CardTitle>
                   </CardHeader>

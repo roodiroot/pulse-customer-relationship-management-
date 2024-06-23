@@ -19,6 +19,7 @@ import { ActionType } from "@prisma/client";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import TiptapCase from "../../tiptap/tiptap-case";
 
 interface CaseItemChangingProps extends React.HTMLAttributes<HTMLDivElement> {
   caseId: string;
@@ -55,7 +56,7 @@ const CaseItemChanging: React.FC<CaseItemChangingProps> = ({
   };
 
   return (
-    <Card className="pt-3">
+    <Card className="pt-3 rounded-md">
       <CardContent className="text-sm">
         <Form {...form}>
           <FormField
@@ -75,7 +76,10 @@ const CaseItemChanging: React.FC<CaseItemChangingProps> = ({
                   )}
                 </FormLabel>
                 <FormControl>
-                  <Textarea {...field} className="min-h-24" />
+                  <TiptapCase
+                    description={field.value}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
