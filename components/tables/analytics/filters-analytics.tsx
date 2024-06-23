@@ -99,6 +99,7 @@ const FiltersAnalytics: React.FC<FiltersAnalyticsProps> = ({
     if (searchresrponsible) setResponsible(searchresrponsible);
     if (["1", "2", "3"].includes(searchfinished)) setFinished(searchfinished);
   }, [
+    searchtype,
     searchdate,
     searchresrponsible,
     searchdateend,

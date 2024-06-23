@@ -48,7 +48,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
       }
       router.push(pathname + "?" + params.toString());
     },
-    [searchParams]
+    [searchParams, pathname, router]
   );
 
   const del = useCallback(
@@ -57,7 +57,7 @@ const DataTablePagination: React.FC<DataTablePaginationProps> = ({
       params.delete(key);
       router.push(pathname + "?" + params.toString());
     },
-    [searchParams]
+    [searchParams, pathname, router]
   );
 
   const addingTake = (e: string) => {
