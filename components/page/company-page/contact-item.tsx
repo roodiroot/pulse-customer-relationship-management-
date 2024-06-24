@@ -1,39 +1,25 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { useState, useTransition } from "react";
+import { PenLine, PhoneCall } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
-import { Pen, PenLine, PhoneCall, User } from "lucide-react";
-import DropContact from "./contact-drop";
-import { Switch } from "@/components/ui/switch";
-import { useForm } from "react-hook-form";
-import { UpdateContactSchema } from "@/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useState, useTransition } from "react";
-import { updateContact } from "@/actions/contact/update-contact";
 import { cn } from "@/lib/utils";
-import InputPhoneMask from "@/components/mask/input-phone-mask";
-import ChangeCompletedContact from "./change-completed-contact";
-import { Button } from "@/components/ui/button";
+import DropContact from "./contact-drop";
 import { Badge } from "@/components/ui/badge";
+import { UpdateContactSchema } from "@/schemas";
+import ChangeCompletedContact from "./change-completed-contact";
+import InputPhoneMask from "@/components/mask/input-phone-mask";
+import { updateContact } from "@/actions/contact/update-contact";
 
 interface ContactItemProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   phone: string;

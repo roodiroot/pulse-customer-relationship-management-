@@ -1,5 +1,5 @@
 import { currentUser } from "@/lib/auth";
-import { Overview } from "./_components/overview";
+import { DealOverview } from "./_components/deal-overview";
 import FormError from "@/components/ui/form-error";
 import HeadBody from "@/components/cast-ui/head-body";
 import { showCases } from "@/actions/case/show-cases";
@@ -11,6 +11,7 @@ import FiltersAnalytics from "@/components/tables/analytics/filters-analytics";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { ActionType, StageDeal } from "@prisma/client";
+import { CaseOverview } from "./_components/case-overview";
 
 const AnalyticsPage = async ({
   searchParams,
@@ -83,7 +84,7 @@ const AnalyticsPage = async ({
       type: searchParams?.type,
       date: searchParams?.date,
       dateEnd: searchParams?.dateEnd,
-      take: searchParams?.take,
+      take: "99999",
       page: searchParams?.page,
       responsible: searchParams.responsible,
     },
@@ -153,13 +154,23 @@ const AnalyticsPage = async ({
               </DatasCardWrapper>
             </div>
             <div className="grid gap-4 md:grid-cols-12">
-              <div className="relative  h-full max-w-full flex flex-col justify-end col-span-12  xl:col-span-10  2xl:col-span-6">
+              <div className="relative  h-full max-w-full flex flex-col justify-end col-span-12  2xl:col-span-6">
+                <Card className="rounded-md">
+                  <CardHeader>
+                    <CardTitle>Дела</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pl-2">
+                    <CaseOverview cases={cases} />
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="relative  h-full max-w-full flex flex-col justify-end col-span-12  2xl:col-span-6">
                 <Card className="rounded-md">
                   <CardHeader>
                     <CardTitle>Сделки</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <Overview deals={deals} />
+                    <DealOverview deals={deals} />
                   </CardContent>
                 </Card>
               </div>

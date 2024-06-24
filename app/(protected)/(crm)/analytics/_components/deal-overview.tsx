@@ -1,67 +1,18 @@
 "use client";
 
-import { Deal, StageDeal } from "@prisma/client";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import {
   Bar,
   BarChart,
-  CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 
-const data = [
-  {
-    name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-];
+import { Deal, StageDeal } from "@prisma/client";
+
 interface TransformedDeal {
   name: StageDeal | "NOT_DIS";
   ids: string[];
@@ -105,8 +56,10 @@ function transformArray(deals: Deal[]): TransformedDeal[] {
 
   return Object.values(stageMap);
 }
-export function Overview({ deals }: { deals: Deal[] }) {
+export function DealOverview({ deals }: { deals: Deal[] }) {
   const data = transformArray(deals);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   return (
     <ResponsiveContainer width="100%" height={350}>
@@ -124,16 +77,20 @@ export function Overview({ deals }: { deals: Deal[] }) {
           tickLine={false}
           axisLine={false}
         />
-        <YAxis />
-        <Tooltip
-          wrapperClassName="bg-red-500 rounded-[4px] bg-opacity-50 p-2 text-slate-500"
-          labelClassName=""
-        />
+        <Tooltip />
         <Bar
           dataKey="ids.length"
           fill="currentColor"
           radius={[4, 4, 0, 0]}
-          className="fill-primary"
+          className="fill-primary cursor-pointer"
+          onClick={(event) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (params.has("stage")) {
+              params.delete("stage");
+            }
+            params.set("stage", event.name);
+            router.push(`/deals?${params.toString()}`);
+          }}
         />
       </BarChart>
     </ResponsiveContainer>
