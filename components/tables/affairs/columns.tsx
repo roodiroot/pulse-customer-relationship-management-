@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -10,6 +11,10 @@ import { actionType } from "@/lib/changing-types-action";
 import StatusBadge from "@/components/page/case/status-badge";
 import DropdownActions from "@/components/tables/dropdown-actions";
 import { StageBadge } from "@/components/page/company-page/stage-badge";
+
+function stripHtmlTags(html: string) {
+  return html.replace(/<[^>]*>?/gm, "");
+}
 
 export const columns: ColumnDef<ResCase>[] = [
   {
@@ -61,7 +66,7 @@ export const columns: ColumnDef<ResCase>[] = [
           date={row.original?.date}
         />
         <span className="text-sm opacity-55 italic">
-          {row.original?.comment}
+          {stripHtmlTags(row.original?.comment || "")}
         </span>
       </div>
     ),

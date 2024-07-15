@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Info } from "lucide-react";
 
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -23,21 +24,20 @@ const CommentCompany: React.FC<CommentCompanyProps> = ({
 }) => {
   return (
     <Card x-chunk="dashboard-01-chunk-4" className="rounded-md">
-      <CardHeader className="flex flex-row items-start gap-4">
-        <div className="grid gap-2">
-          <CardTitle>{companyName}</CardTitle>
-          <CardDescription>
-            Для подробной информации о компаии нажмите еще.
-          </CardDescription>
+      <CardHeader className="flex flex-row items-start gap-4 bg-muted/40">
+        <div className="flex gap-2 items-center font-medium">
+          <Info className="w-5 h-5 " />
+          {companyName}
         </div>
-        <Button asChild size="sm" className="ml-auto gap-1">
-          <Link href={`/companies/${companyId}`}>
-            Ещё
-            <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </Button>
       </CardHeader>
-      <CardContent>{comment}</CardContent>
+      <CardContent>
+        <p className="text-sm text-muted-foreground pt-6">{comment}</p>
+      </CardContent>
+      <CardFooter>
+        <Button asChild variant="link" className="gap-1 p-0 h-auto">
+          <Link href={`/companies/${companyId}`}>More...</Link>
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

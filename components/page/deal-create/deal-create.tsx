@@ -23,9 +23,10 @@ import { useRouter } from "next/navigation";
 
 interface DealCreateProps extends React.HTMLAttributes<HTMLDivElement> {
   companyId: string;
+  close?: () => void;
 }
 
-const DealCreate: React.FC<DealCreateProps> = ({ companyId }) => {
+const DealCreate: React.FC<DealCreateProps> = ({ companyId, close }) => {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -33,20 +34,24 @@ const DealCreate: React.FC<DealCreateProps> = ({ companyId }) => {
 
   const form = useForm<z.infer<typeof CreateDealSchema>>({
     resolver: zodResolver(CreateDealSchema),
-    defaultValues: {
-      name: "Разработка сайта",
-    },
   });
 
   function onSubmit(values: z.infer<typeof CreateDealSchema>) {
     setError("");
     setSuccess("");
+
     startTransition(() => {
       createDeal(values, companyId).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
-        router.push(`/companies/${companyId}/deal/${data.deal?.id}`);
-        form.reset();
+        if (data.success) {
+          if (close) {
+            close();
+          } else {
+            router.push(`/companies/${companyId}/deal/${data.deal?.id}`);
+          }
+          form.reset();
+        }
       });
     });
   }
@@ -59,11 +64,34 @@ const DealCreate: React.FC<DealCreateProps> = ({ companyId }) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <div className="">
-                <FormLabel>Название сделки</FormLabel>
-              </div>
+              <FormLabel className=" text-muted-foreground">
+                Trade name
+              </FormLabel>
               <FormControl>
-                <Input {...field} type="text" placeholder="Разработка сайта" />
+                <Input
+                  {...field}
+                  type="text"
+                  placeholder="Enter the name of the deal"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="contractPrice"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className=" text-muted-foreground">
+                Planned contract price
+              </FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  type="text"
+                  placeholder="Planned contract price"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

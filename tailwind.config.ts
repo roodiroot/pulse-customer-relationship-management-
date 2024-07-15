@@ -11,6 +11,9 @@ const config = {
   ],
   prefix: "",
   theme: {
+    listStyleType: {
+      revert: "revert",
+    },
     container: {
       center: true,
       padding: "2rem",

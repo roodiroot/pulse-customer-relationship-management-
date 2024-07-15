@@ -1,3 +1,5 @@
+"use client";
+
 import { updateCase } from "@/actions/case/update-case";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +21,10 @@ import { ActionType } from "@prisma/client";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import TiptapCase from "../../tiptap/tiptap-case";
+import TiptapCase from "../../../tiptap/tiptap-case";
+import CaseItemHeader from "./case-item-header";
+import { CircleCheck } from "lucide-react";
+import IconCase from "./icon-case";
 
 interface CaseItemChangingProps extends React.HTMLAttributes<HTMLDivElement> {
   caseId: string;
@@ -56,55 +61,47 @@ const CaseItemChanging: React.FC<CaseItemChangingProps> = ({
   };
 
   return (
-    <Card className="pt-3 rounded-md">
-      <CardContent className="text-sm">
-        <Form {...form}>
-          <FormField
-            control={form.control}
-            name="comment"
-            render={({ field }: { field: any }) => (
-              <FormItem className="col-span-2">
-                <FormLabel className="w-full flex items-center justify-between">
-                  <span>
-                    {changeDate(date).date} {changeDate(date).time}{" "}
-                    {changeDate(date).dayWeek}
-                  </span>{" "}
-                  {date && date < new Date() ? (
-                    <Badge variant="destructive">Событие просрочено</Badge>
-                  ) : (
-                    <Badge>Ожидает выполнения</Badge>
-                  )}
-                </FormLabel>
-                <FormControl>
-                  <TiptapCase
-                    description={field.value}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </Form>
+    <div className="relative pl-6 flex flex-col gap-2">
+      <div className="absolute top-0 left-0">
+        <IconCase type={type} />
+      </div>
+      <CaseItemHeader
+        type={type}
+        responsible={responsible || "not assigned"}
+        date={date || new Date()}
+        status={true}
+      />
+      <div className="relative flex gap-1 pb-6">
+        <div className="flex-1 flex flex-col">
+          <Form {...form}>
+            <FormField
+              control={form.control}
+              name="comment"
+              render={({ field }: { field: any }) => (
+                <FormItem className="flex-1">
+                  <FormControl>
+                    <TiptapCase
+                      description={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage className="absolute " />
+                </FormItem>
+              )}
+            />
+          </Form>
+        </div>
         <Button
           disabled={isPending}
-          variant="default"
-          size="sm"
-          className="mt-2"
+          className="h-auto self-stretch"
           onClick={form.handleSubmit(submit)}
         >
-          Сделать
-        </Button>
-      </CardContent>
-      <CardFooter className="bg-muted/50 py-3 border-t">
-        <div className="text-xs text-muted-foreground w-full flex justify-between">
-          <div className="flex items-center gap-2">
-            <span>Не выполнено</span> <div className="">{responsible}</div>
+          <div>
+            <CircleCheck className="w-5 h-5" />
           </div>
-          <Badge variant="secondary">{actionType(type)}</Badge>
-        </div>
-      </CardFooter>
-    </Card>
+        </Button>
+      </div>
+    </div>
   );
 };
 

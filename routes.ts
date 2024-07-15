@@ -1,6 +1,7 @@
 import {
   Briefcase,
   Building2,
+  CalendarCheck2,
   CircleDollarSign,
   Home,
   LineChart,
@@ -8,11 +9,12 @@ import {
 } from "lucide-react";
 
 export const navigationMenu = [
-  { name: "Дашборд", href: "/analytics", Icon: LineChart },
-  { name: "Менеджеры", href: "/personal", Icon: Users },
-  { name: "Организации", href: "/companies", Icon: Building2 },
-  { name: "Сделки", href: "/deals", Icon: CircleDollarSign },
-  { name: "Дела", href: "/affairs", Icon: Briefcase },
+  { name: "Dashboard", href: "/analytics", Icon: LineChart },
+  { name: "Calendar", href: "/calendar", Icon: CalendarCheck2 },
+  { name: "Team", href: "/personal", Icon: Users },
+  { name: "Companies", href: "/companies", Icon: Building2 },
+  { name: "Dealings", href: "/deals", Icon: CircleDollarSign },
+  { name: "Affairs", href: "/affairs", Icon: Briefcase },
 ];
 
 export const publicRoutes = [

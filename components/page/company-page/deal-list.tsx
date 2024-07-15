@@ -1,9 +1,19 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { changeDate } from "@/lib/change-date";
 import { Deal } from "@prisma/client";
-import { DollarSign } from "lucide-react";
+import { CircleDollarSign, DollarSign } from "lucide-react";
 import Link from "next/link";
 import { StageBadge } from "./stage-badge";
+import AddDealButton from "@/components/ui/add-deal-button";
+import FormError from "@/components/ui/form-error";
+import { DealWidgetDataTable } from "@/components/tables/deals/deal-widget-data-table";
+import { createColumnsWidget } from "@/components/tables/deals/columns-widget";
 
 interface DealListProps extends React.HTMLAttributes<HTMLDivElement> {
   dealList?: Deal[];
@@ -11,34 +21,40 @@ interface DealListProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const DealList: React.FC<DealListProps> = ({ dealList, companyId }) => {
-  if (!dealList || dealList.length === 0 || !companyId) {
-    return <div>С этой компанией еще нет сделок.</div>;
+  if (!companyId) {
+    return <FormError message="Company ID not found." />;
   }
   return (
-    <div className="flex flex-col gap-3">
-      <h2>Сделки с компанией</h2>
-      {dealList.map((deal) => (
-        <Card key={deal.id} className="relative bg-muted/50 hover:bg-muted/20">
-          <Link
-            href={`/companies/${companyId}/deal/${deal.id}`}
-            className="absolute inset-0"
-          />
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="flex items-center gap-4">
-              <span className="text-sm font-medium">Сделка</span>
-              <StageBadge stage={deal.stage} />
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{deal.name}</div>
-            <p className="text-xs text-muted-foreground">
-              Создана {changeDate(deal.createdAt).date.toLowerCase()}
-            </p>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+    <Card className="rounded-md">
+      <CardHeader className="bg-muted/40 flex-row justify-between">
+        <div className="flex gap-2 items-center font-medium">
+          <CircleDollarSign className="w-5 h-5 " />
+          Deals
+        </div>
+        <div className="text-xs font-light text-muted-foreground mt-4">
+          Total:{" "}
+          <span className="text-foreground">
+            {dealList
+              ?.reduce((sum, current) => {
+                // Проверяем, что current.contractPrice не равен null
+                if (current.contractPrice !== null) {
+                  return sum + current.contractPrice;
+                }
+                return sum;
+              }, 0)
+              .toLocaleString("en-En") + " $"}
+          </span>
+        </div>
+      </CardHeader>
+      <CardContent className="min-h-[166px]">
+        {dealList && (
+          <DealWidgetDataTable columns={createColumnsWidget} data={dealList} />
+        )}
+      </CardContent>
+      <CardFooter className="border-t">
+        <AddDealButton companyId={companyId} className="mt-4" />
+      </CardFooter>
+    </Card>
   );
 };
 

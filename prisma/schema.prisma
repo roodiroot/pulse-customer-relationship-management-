@@ -17,6 +17,8 @@ enum ActionType {
   Call
   Brief
   Meet
+  Email
+  Task
 }
 
 enum UserRole {
@@ -108,6 +110,7 @@ model Company {
 
 model Contact {
   id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
   phone     String
   name      String?
   mail      String?
@@ -120,13 +123,14 @@ model Contact {
 }
 
 model Deal {
-  id        String     @id @default(cuid())
-  createdAt DateTime   @default(now())
-  name      String
-  cases     Case[]
-  companyId String?
-  company   Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  stage     StageDeal? @default(NEW)
+  id            String     @id @default(cuid())
+  createdAt     DateTime   @default(now())
+  name          String
+  contractPrice Int?
+  cases         Case[]
+  companyId     String?
+  company       Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  stage         StageDeal? @default(NEW)
 
   @@map("deal")
 }

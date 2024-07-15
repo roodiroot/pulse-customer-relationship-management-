@@ -8,6 +8,7 @@ import { SaveCaseSchema } from "@/schemas";
 
 import { currentUser } from "@/lib/auth";
 import { getDealById } from "@/data/deal/data-deal";
+import { ActionType } from "@prisma/client";
 
 //Сохраниение дела
 export const createCase = async (
@@ -16,27 +17,30 @@ export const createCase = async (
   finished = false
 ) => {
   if (!dealId) {
-    return { error: "Не указан ID компании." };
+    return { error: "Company ID not specified." };
   }
 
   const validated = SaveCaseSchema.parse(value);
   if (!validated) {
-    return { error: "Не пройдена валидация формы." };
+    return { error: "Form validation failed." };
   }
 
   const deal = await getDealById(dealId);
   if (!deal) {
-    return { error: "Сделка с таким ID не существует." };
+    return { error: "No deal exists with this ID." };
   }
 
   if (finished) {
     if (validated.comment.length === 0) {
-      return { error: "Необходимо заполнить поле комментарий." };
+      return { error: "The comment field must be filled out." };
     }
   }
   if (!finished) {
     if (validated.date <= new Date()) {
-      return { error: "Дата сохраняемого события должна быть больше текущей." };
+      return {
+        error:
+          "The date of the saved event must be later than the current date.",
+      };
     }
   }
 
@@ -45,6 +49,7 @@ export const createCase = async (
   await db.case.create({
     data: {
       ...value,
+      type: value.type as ActionType,
       responsible: user?.name,
       finished,
       dealId,
@@ -52,5 +57,5 @@ export const createCase = async (
   });
   revalidatePath("/affairs");
   revalidatePath("/companies/[id]/[dealId]", "page");
-  return { success: "Дело успешно добавлено." };
+  return { success: "Task successfully added." };
 };

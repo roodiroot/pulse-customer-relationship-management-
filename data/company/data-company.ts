@@ -55,10 +55,10 @@ export const getCompanyById = async (id: string) => {
       include: {
         user: { select: { name: true } },
         deals: {
-          orderBy: { name: "asc" },
+          orderBy: { createdAt: "asc" },
         },
         contacts: {
-          orderBy: { name: "desc" },
+          orderBy: { createdAt: "asc" },
         },
       },
     });

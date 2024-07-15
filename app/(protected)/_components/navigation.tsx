@@ -13,7 +13,7 @@ const Navigation = () => {
   return (
     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
       {navigationMenu.map((item) => {
-        if (item.name === "Менеджеры") {
+        if (item.href === "/personal") {
           if (["ADMIN", "SALES_MANAGER"].includes(role || "USER")) {
             return <LinkNavigation key={item.name} item={item} path={path} />;
           }

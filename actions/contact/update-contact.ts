@@ -16,7 +16,7 @@ export const updateContact = async (
   }
 
   try {
-    await db.contact.update({
+    const l = await db.contact.update({
       where: { id: contactId },
       data: {
         name: value.name,
@@ -25,6 +25,7 @@ export const updateContact = async (
         phone: value.phone,
       },
     });
+
     revalidatePath("/companies/[id]", "page");
     revalidatePath("/companies/[id]/deal/[dealId]", "page");
     return {

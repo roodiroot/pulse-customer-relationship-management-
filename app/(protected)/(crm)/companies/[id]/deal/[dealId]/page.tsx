@@ -7,10 +7,13 @@ import { showOneDealById } from "@/actions/deal/show-one-deal";
 import ContactsList from "@/components/page/company-page/contact-list";
 import { StageBadge } from "@/components/page/company-page/stage-badge";
 import { showOneCompanyById } from "@/actions/company/show-one-company";
-import ContactCreate from "@/components/page/company-page/contact-create";
 import CommentCompany from "@/components/page/company-page/comment-company";
 import CompanyCaseBlock from "@/components/page/company-page/company-case-block";
 import FormError from "@/components/ui/form-error";
+import CompanyCaseList from "@/components/page/company-page/company-case-list";
+import AddAffairButton from "@/components/ui/add-affair-button";
+import { Separator } from "@/components/ui/separator";
+import StageRow from "@/components/page/company-page/stage-row";
 
 const AffairsDealPage = async ({
   params,
@@ -33,12 +36,14 @@ const AffairsDealPage = async ({
             />
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 order-2 lg:order-1">
-            <CompanyCaseBlock
-              companyName={company?.name}
-              dealId={deal?.id}
-              dealCase={deal?.cases}
-              stage={deal?.stage}
-            />
+            <StageRow stage={deal?.stage} dealId={deal?.id || ""} />
+            <ContactsList contacts={company?.contacts} />
+            <Separator className="mt-6" />
+            <div className="flex">
+              <AddAffairButton dealId={deal.id} />
+            </div>
+            <Separator />
+            <CompanyCaseList companyCase={deal?.cases} className="mt-6" />
           </div>
           <div className=" grid gap-4 order-1 lg:order-2 lg:sticky lg:top-0">
             <CommentCompany
@@ -46,8 +51,6 @@ const AffairsDealPage = async ({
               companyName={company?.name}
               comment={company?.comment}
             />
-            <ContactsList contacts={company?.contacts} />
-            <ContactCreate companyId={company?.id} />
           </div>
         </>
       ) : (

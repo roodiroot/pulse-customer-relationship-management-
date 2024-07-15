@@ -22,14 +22,14 @@ const ResetResponsibleButton: React.FC<ResetResponsibleButtonProps> = ({
   userId,
   users,
 }) => {
-  const resetResponsible = async (e: string) => {
-    if (e && companyId) {
-      await changeResponsible(companyId, e);
+  const handleResponsibleChange = async (newResponsibleId: string) => {
+    if (companyId) {
+      await changeResponsible(companyId, newResponsibleId);
     }
   };
 
   return (
-    <Select value={userId || "null"} onValueChange={resetResponsible}>
+    <Select value={userId || "null"} onValueChange={handleResponsibleChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Ответственный" />
       </SelectTrigger>

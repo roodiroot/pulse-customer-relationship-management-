@@ -19,8 +19,8 @@ import { UserRole } from "@prisma/client";
 
 const ComanyPage = async ({ params }: { params: { id: string } }) => {
   const company = await showOneCompanyById(params.id);
-  const data = await showUsers({});
   const user = await currentUser();
+  const data = await showUsers({ user });
   return (
     <Container>
       {company ? (
@@ -40,23 +40,22 @@ const ComanyPage = async ({ params }: { params: { id: string } }) => {
               )}
               <Button asChild size="sm" className="ml-auto gap-1">
                 <Link href={`/companies/${company?.id}/deal`}>
-                  Создать сделку
+                  Create a deal
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 order-2 lg:order-1">
-            <UpdateForm company={company} />
+            <ContactsList contacts={company?.contacts} companyId={company.id} />
+            <DealList dealList={company?.deals} companyId={company?.id} />
           </div>
           <div className="grid gap-6 order-1 lg:order-2 lg:sticky lg:top-0">
-            <DealList dealList={company?.deals} companyId={company?.id} />
-            <ContactsList contacts={company?.contacts} />
-            <ContactCreate companyId={company?.id} />
+            <UpdateForm company={company} />
           </div>
         </>
       ) : (
-        <FormError message="Не достаточно прав на просмотр данного ресурса" />
+        <FormError message="You do not have sufficient permissions to view this resource." />
       )}
     </Container>
   );

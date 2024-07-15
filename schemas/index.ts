@@ -9,8 +9,12 @@ const MIN_STUDENTS_LENGTH = 1;
 export const CreateDealSchema = z.object({
   name: z
     .string()
-    .min(1, { message: "Поле не может быть пустым." })
-    .max(20, { message: "Максимальная длина 20 символов" }),
+    .min(1, { message: "The field cannot be empty." })
+    .max(20, { message: "Maximum length 20 characters" }),
+  contractPrice: z.preprocess(
+    (val: any) => parseFloat(val),
+    z.number().min(1, { message: "The field cannot be empty." }).max(1000000)
+  ),
 });
 
 export const ContactSchema = z.object({
@@ -36,9 +40,10 @@ export const UpdateContactSchema = z.object({
   phone: z
     .string()
     .min(1, { message: "Поле не может быть пустым." })
-    .max(20, "не более 20 символов"),
-  mail: z.string(),
-  comment: z.string(),
+    .max(20, "не более 20 символов")
+    .optional(),
+  mail: z.string().optional(),
+  comment: z.string().optional(),
   name: z
     .string()
     .min(1, { message: "Поле не может быть пустым." })
@@ -97,12 +102,12 @@ export const UpdateCompanySchema = z.object({
 
 // Схема для создания нового дела
 export const SaveCaseSchema = z.object({
-  type: z.enum([ActionType.Brief, ActionType.Call, ActionType.Meet]),
+  type: z.enum(Object.values(ActionType) as [string, ...string[]]),
   comment: z.string(),
   date: z.date(),
 });
 export const UpdateCaseSchema = z.object({
-  comment: z.string().min(1, { message: "Введите комментарий к делу." }),
+  comment: z.string().min(1, { message: "Enter a comment for the task." }),
 });
 
 export const SettingsSchema = z

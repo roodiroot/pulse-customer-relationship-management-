@@ -37,43 +37,51 @@ export function DealDataTable<TValue, TData>({
 
   if (table?.getRowModel().rows.length === 0) return null;
   return (
-    <div className="relative flex-1 overflow-auto flex flex-col">
-      <div className="relative flex-1 overflow-auto">
-        <div className="absolute inset-0 w-full ">
-          <Table className="h-full">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+    <>
+      <div className="relative flex-1 overflow-auto flex flex-col">
+        <div className="relative flex-1 overflow-auto">
+          <div className="absolute inset-0 w-full ">
+            <Table className="h-full">
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="px-2 flex items-center justify-start border-t border-dashed text-sm text-muted-foreground flex-row gap-2 h-11">
+        <div>
+          {table.getFilteredSelectedRowModel().rows.length} из{" "}
+          {table.getFilteredRowModel().rows.length} выбрано
+        </div>
+      </div>
+    </>
   );
 }

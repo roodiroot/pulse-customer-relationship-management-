@@ -23,7 +23,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="9:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             9:00
           </label>
@@ -40,7 +40,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="9:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             9:30
           </label>
@@ -58,7 +58,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="10-am"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             10:00
           </label>
@@ -74,7 +74,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="10:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             10:30
           </label>
@@ -90,7 +90,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="11:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             11:00
           </label>
@@ -106,7 +106,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="11:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             11:30
           </label>
@@ -122,7 +122,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="12:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             12:00
           </label>
@@ -138,7 +138,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="12:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             12:30
           </label>
@@ -154,7 +154,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="13:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             13:00
           </label>
@@ -170,7 +170,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="13:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             13:30
           </label>
@@ -186,7 +186,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="14:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             14:00
           </label>
@@ -202,7 +202,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="14:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             14:30
           </label>
@@ -218,7 +218,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="15:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             15:00
           </label>
@@ -234,7 +234,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="15:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             15:30
           </label>
@@ -250,7 +250,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="16:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             16:00
           </label>
@@ -266,7 +266,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="16:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             16:30
           </label>
@@ -282,7 +282,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="17:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             17:00
           </label>
@@ -298,7 +298,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="17:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             17:30
           </label>
@@ -314,7 +314,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="18:00"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             18:00
           </label>
@@ -330,7 +330,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ setTime, ...props }) => {
           />
           <label
             htmlFor="18:30"
-            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-full cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
+            className="inline-flex items-center justify-center w-full px-2 py-1 text-sm font-medium text-center hover:bg-muted border border-input rounded-md cursor-pointer peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground"
           >
             18:30
           </label>

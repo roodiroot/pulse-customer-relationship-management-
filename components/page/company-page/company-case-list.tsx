@@ -1,16 +1,24 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import CaseItem from "../blocks/case-item/case-item";
 import { Case } from "@prisma/client";
-import CaseItem from "./case-item";
 
 interface ComanyCaseListProps extends React.HTMLAttributes<HTMLDivElement> {
   companyCase?: Case[];
 }
 
-const CompanyCaseList: React.FC<ComanyCaseListProps> = ({ companyCase }) => {
+const CompanyCaseList: React.FC<ComanyCaseListProps> = ({
+  companyCase,
+  className,
+}) => {
   if (!companyCase || companyCase.length === 0) {
-    return <div className="">У вас нет дел с этой компанией</div>;
+    return (
+      <div className={className}>You have no business with this company.</div>
+    );
   }
   return (
-    <div className="flex flex-col-reverse gap-y-4">
+    <div className={cn("flex flex-col-reverse gap-y-6", className)}>
       {companyCase?.map((c: Case) => (
         <CaseItem caseItem={c} key={c.id} />
       ))}

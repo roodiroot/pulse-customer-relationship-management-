@@ -7,11 +7,19 @@ import Navigation from "./_components/navigation";
 import Header from "./_components/header";
 import Icon from "@/components/icons";
 import pack from "@/package.json";
+import ShowContactSheet from "@/components/modals/show-contact-sheet";
+import CreateContactSheet from "@/components/modals/create-contact-sheet";
+import CreateDealSheet from "@/components/modals/create-deal-sheet";
+import CreateCaseSheet from "@/components/modals/create-affair-sheet";
 
 export default function CRMLayout({
   children,
+  searchParams,
 }: Readonly<{
   children: React.ReactNode;
+  searchParams: {
+    createContact: string;
+  };
 }>) {
   return (
     <>
@@ -41,6 +49,10 @@ export default function CRMLayout({
           </main>
         </div>
       </div>
+      <ShowContactSheet />
+      <CreateContactSheet />
+      <CreateDealSheet />
+      <CreateCaseSheet />
     </>
   );
 }

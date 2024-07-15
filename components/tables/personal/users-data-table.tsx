@@ -91,6 +91,12 @@ export function UsersDataTable<TValue, TData>({
           </div>
         </div>
       </div>
+      <div className="px-2 flex items-center justify-start border-t border-dashed text-sm text-muted-foreground flex-row gap-2 h-11">
+        <div>
+          {table.getFilteredSelectedRowModel().rows.length} из{" "}
+          {table.getFilteredRowModel().rows.length} выбрано
+        </div>
+      </div>
       <SheetChangeUserRole
         onOpenChange={setOpenSheetUserRole}
         open={openSheetUserRole}

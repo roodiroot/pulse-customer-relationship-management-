@@ -12,43 +12,23 @@ interface TypeStatusFilterProps {
   setType: (value: ActionType | "all") => void;
 }
 
-const typesList = [
-  {
-    value: "all",
-    name: "Все",
-  },
-  {
-    value: ActionType.Call,
-    name: "Звонок",
-  },
-  {
-    value: ActionType.Meet,
-    name: "Встреча",
-  },
-  {
-    value: ActionType.Brief,
-    name: "Бриф",
-  },
-];
-
 const TypeStatusFilter: React.FC<TypeStatusFilterProps> = ({
   type,
   setType,
-}) => {
-  return (
-    <Select value={type} onValueChange={setType}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder="Тип дела" />
-      </SelectTrigger>
-      <SelectContent>
-        {typesList.map(({ value, name }) => (
-          <SelectItem key={value} value={value}>
-            {name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-};
+}) => (
+  <Select value={type} onValueChange={setType}>
+    <SelectTrigger className="w-full">
+      <SelectValue placeholder="Тип дела" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="all">Show all</SelectItem>
+      {Object.keys(ActionType).map((name) => (
+        <SelectItem key={name} value={name}>
+          {name}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+);
 
 export default TypeStatusFilter;

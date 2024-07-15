@@ -1,6 +1,7 @@
 "use client";
 
 import { Toggle } from "@/components/ui/toggle";
+import { cn } from "@/lib/utils";
 import { Editor } from "@tiptap/react";
 import {
   Bold,
@@ -13,15 +14,21 @@ import {
 
 type Props = {
   editor: Editor | null;
+  className?: string;
 };
 
-const Toolbar = ({ editor }: Props) => {
+const Toolbar = ({ editor, className }: Props) => {
   if (!editor) {
     return null;
   }
 
   return (
-    <div className="border border-input bg-transparent rounded-md flex gap-[2px] p-[2px]">
+    <div
+      className={cn(
+        "bg-transparent rounded-md flex gap-[2px] p-[2px]",
+        className
+      )}
+    >
       <Toggle
         size={"sm"}
         pressed={editor.isActive("heading")}

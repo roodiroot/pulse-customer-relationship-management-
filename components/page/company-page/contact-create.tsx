@@ -21,10 +21,11 @@ import { useState, useTransition } from "react";
 import { createContact } from "@/actions/contact/create-contact";
 
 interface ContactCreateProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  companyId?: string;
+  companyId?: string | null;
+  close?: () => void;
 }
 
-const ContactCreate: React.FC<ContactCreateProps> = ({ companyId }) => {
+const ContactCreate: React.FC<ContactCreateProps> = ({ companyId, close }) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -40,96 +41,97 @@ const ContactCreate: React.FC<ContactCreateProps> = ({ companyId }) => {
   });
 
   function onSubmit(values: z.infer<typeof ContactSchema>) {
+    if (!companyId) {
+      return setError("Company id not specified");
+    }
     setError("");
     setSuccess("");
     startTransition(() => {
       createContact(values, companyId).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
+        if (close) {
+          close();
+        }
         form.reset();
       });
     });
   }
 
   return (
-    <div className="grid w-full items-start gap-6">
-      <Form {...form}>
-        <fieldset className="grid gap-6 rounded-lg border p-4">
-          <legend className="-ml-1 px-1 text-sm font-medium">
-            Новый контакт
-          </legend>
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <div className="flex justify-between items-baseline">
-                  <FormLabel>Имя</FormLabel>
-                </div>
-                <FormControl>
-                  <Input {...field} type="text" placeholder="Иванов Иван дир" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Телефон</FormLabel>
-                <FormControl>
-                  <InputPhoneMask
-                    setValue={field.onChange}
-                    value={field.value}
-                    type="text"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="mail"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Почта</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="text"
-                    placeholder="example@mail.com"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="comment"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Комментарий</FormLabel>
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    placeholder="Буквально пару слов..."
-                    className="min-h-[4rem]"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </fieldset>
-        <div className="">
-          <Button onClick={form.handleSubmit(onSubmit)}>Добавить</Button>
-        </div>
-      </Form>
-    </div>
+    <Form {...form}>
+      <FormField
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <FormItem>
+            <div className="flex justify-between items-baseline">
+              <FormLabel>Contact Name</FormLabel>
+            </div>
+            <FormControl>
+              <Input {...field} type="text" placeholder="Marcus Krajcik Sr." />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="phone"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Phone</FormLabel>
+            <FormControl>
+              <InputPhoneMask
+                setValue={field.onChange}
+                value={field.value}
+                type="text"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="mail"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input {...field} type="text" placeholder="example@mail.com" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="comment"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Сomment</FormLabel>
+            <FormControl>
+              <Textarea
+                {...field}
+                placeholder="Just a few words..."
+                className="min-h-[4rem]"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <div className="flex gap-2">
+        <Button onClick={form.handleSubmit(onSubmit)}>Create</Button>
+        {close && (
+          <Button variant="outline" onClick={() => close()}>
+            Сancel
+          </Button>
+        )}
+      </div>
+    </Form>
   );
 };
 

@@ -8,7 +8,7 @@ const DealCreatePage = async ({ params }: { params: { id: string } }) => {
     <Container>
       <div className="flex items-center gap-4 lg:col-span-3">
         <BackButton />
-        <HeaderForCRM text="Создание сделки" />
+        <HeaderForCRM text="Creating a deal" />
       </div>
       <DealCreate companyId={params.id} />
     </Container>

@@ -13,20 +13,20 @@ export const createDeal = async (
 ) => {
   if (!companyId) {
     return {
-      error: "Не указан ID компании.",
+      error: "Company ID not specified.",
     };
   }
   const validated = CreateDealSchema.parse(value);
   if (!validated) {
     return {
-      error: "Введены не правильные данные.",
+      error: "Invalid data entered.",
     };
   }
 
   const company = await getCompanyById(companyId);
   if (!company) {
     return {
-      error: "Компании с таким ID не существует.",
+      error: "There is no technology with ID this way.",
     };
   }
 
@@ -34,18 +34,19 @@ export const createDeal = async (
     const deal = await db.deal.create({
       data: {
         name: validated.name,
+        contractPrice: validated.contractPrice,
         companyId: companyId,
       },
     });
     revalidatePath("/analytics");
     revalidatePath("/companies/[id]", "page");
     return {
-      success: "Сделка успешно создана.",
+      success: "The deal has been successfully created.",
       deal,
     };
   } catch {
     return {
-      error: "Не предвиденная ошибка.",
+      error: "Unexpected error.",
     };
   }
 };

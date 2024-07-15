@@ -42,11 +42,13 @@ import StageRow from "@/components/page/company-page/stage-row";
 import CompanyCaseList from "@/components/page/company-page/company-case-list";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TiptapCase from "../../tiptap/tiptap-case";
+import { Separator } from "@/components/ui/separator";
 
 interface CompanyCaseBlockProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
+  dealId: string;
+  close?: () => void;
   companyName?: string;
-  dealId?: string;
   dealCase?: Case[];
   stage?: StageDeal | null;
 }
@@ -56,6 +58,7 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
   dealId,
   dealCase,
   stage,
+  close,
 }) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -94,164 +97,158 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
           if (res.error) {
             return setError(res.error || "");
           }
+
           setSuccess(res.success || "");
           form.reset();
+          if (close) {
+            close();
+          }
         })
         .catch(() => {
-          setError("Не обработанная ошибка");
+          setError("Unhandled error");
         });
     });
   };
 
   return (
     <>
-      <Card className="rounded-md">
-        <CardHeader className="px-7">
-          <CardTitle>{companyName}</CardTitle>
-          <StageRow stage={stage} dealId={dealId || ""} />
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <div className="grid grid-cols-2 gap-x-4 pb-6 ">
-              <div className="col-span-2 grid  items-start gap-x-4 lg:grid-cols-3">
-                <FormField
-                  control={form.control}
-                  name="type"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Тип</FormLabel>
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Выбирите тип события" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value={ActionType.Call}>
-                            Звонок
-                          </SelectItem>
-                          <SelectItem value={ActionType.Brief}>Бриф</SelectItem>
-                          <SelectItem value={ActionType.Meet}>
-                            Встреча
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="text-sm leading-6">Дата</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </FormItem>
-                  )}
-                />
-                <div className="flex flex-col">
-                  <Label className="text-sm leading-6">Время</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full mt-2",
-                          !time && "text-muted-foreground"
-                        )}
-                      >
-                        {time ? time : <span>Время события</span>}
-                        <Clock10Icon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <TimePicker setTime={setTime} className="mt-2" />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-              </div>
-              <div className="mt-4 col-span-2">
-                <FormField
-                  control={form.control}
-                  name="comment"
-                  render={({ field }: { field: any }) => (
-                    <FormItem className="col-span-2">
-                      <FormLabel>Комментарий</FormLabel>
+      <Form {...form}>
+        <div className="flex flex-col">
+          <div className="relative col-span-2 flex flex-col gap-2">
+            <div className="col-span-3">
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }: { field: any }) => (
+                  <FormItem className="col-span-2">
+                    <FormControl>
+                      <TiptapCase
+                        description={field.value}
+                        onChange={field.onChange}
+                        className="min-h-[200px] border-0 bg-muted/40"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex">
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem className="">
+                    <Select
+                      disabled={isPending}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
-                        {/* <Textarea
-                          {...field}
-                          placeholder="Это прекрасная организация, которая стремиться сотрудничать со мной во всех моих начинаниях. И платит мне много денег за это. Что поможет нам вместе стать самыми востребованными организациями."
-                          className="min-h-32"
-                        /> */}
-                        <TiptapCase
-                          description={field.value}
-                          onChange={field.onChange}
-                        />
+                        <SelectTrigger variant="link">
+                          <SelectValue placeholder="Select event type" />
+                        </SelectTrigger>
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="col-span-2 space-x-3">
-                <Button
-                  variant="outline"
-                  disabled={isPending}
-                  onClick={form.handleSubmit((value) => submit(value))}
-                  className="mt-3"
-                >
-                  Сохранить
-                </Button>
-                <Button
-                  disabled={isPending}
-                  onClick={form.handleSubmit((value) => submit(value, true))}
-                  className="mt-3"
-                >
-                  Выполнить
-                </Button>
-              </div>
-              <div className="col-span-2 mt-4 h-11">
-                <FormError message={error} />
-                <FormSuccess message={success} />
+                      <SelectContent>
+                        {Object.keys(ActionType).map((name) => (
+                          <SelectItem
+                            className="cursor-pointer"
+                            key={name}
+                            value={name}
+                          >
+                            {name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="relative flex flex-col">
+                    <Popover modal={true}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="link"
+                            className={cn(
+                              "w-full",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto p-0 absolute z-[150]"
+                        align="start"
+                      >
+                        <Calendar
+                          className=""
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </FormItem>
+                )}
+              />
+              <div className="flex flex-col">
+                <Popover modal={true}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="link"
+                      className={cn("w-full", !time && "text-muted-foreground")}
+                    >
+                      {time ? time : <span>Время события</span>}
+                      <Clock10Icon className="ml-2 h-4 w-4 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <TimePicker setTime={setTime} className="mt-2" />
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
-          </Form>
-          <CompanyCaseList companyCase={dealCase} />
-        </CardContent>
-      </Card>
+          </div>
+          <Separator className="w-full mt-2" />
+
+          <div className="">
+            <Button
+              variant="outline"
+              disabled={isPending}
+              onClick={form.handleSubmit((value) => submit(value))}
+              className="mt-3 "
+            >
+              Set event for the future
+            </Button>
+            <Button
+              variant="outline"
+              disabled={isPending}
+              onClick={form.handleSubmit((value) => submit(value, true))}
+              className="mt-3"
+            >
+              Complete task now
+            </Button>
+          </div>
+          <div className="col-span-2 mt-4 h-11">
+            <FormError message={error} />
+            <FormSuccess message={success} />
+          </div>
+        </div>
+      </Form>
     </>
   );
 };
