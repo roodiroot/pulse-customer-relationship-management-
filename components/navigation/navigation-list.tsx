@@ -6,7 +6,7 @@ import { navigationMenu } from "@/routes";
 import { useCurrentRole } from "@/hooks/use-current-role";
 import LinkNavigation from "@/components/navigation/link-navigation";
 
-const Navigation = () => {
+const NavigationList = () => {
   const role = useCurrentRole();
   const path = usePathname();
 
@@ -25,4 +25,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default NavigationList;

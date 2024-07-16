@@ -17,7 +17,7 @@ export const createColumnsWidget = (pathname: string): ColumnDef<Contact>[] => [
     cell: ({ row }) => (
       <Link
         href={`/companies/${row.original?.companyId}/deal/${row?.original?.id}`}
-        className="line-clamp-1 min-w-[300px]"
+        className="line-clamp-1 min-w-[250px]"
       >
         {row.getValue("name")}
       </Link>

@@ -37,7 +37,10 @@ const AffairsDealPage = async ({
           </div>
           <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 order-2 lg:order-1">
             <StageRow stage={deal?.stage} dealId={deal?.id || ""} />
-            <ContactsList contacts={company?.contacts} />
+            <ContactsList
+              contacts={company?.contacts}
+              companyId={company?.id}
+            />
             <Separator className="mt-6" />
             <div className="flex">
               <AddAffairButton dealId={deal.id} />

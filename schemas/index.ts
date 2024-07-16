@@ -13,7 +13,10 @@ export const CreateDealSchema = z.object({
     .max(20, { message: "Maximum length 20 characters" }),
   contractPrice: z.preprocess(
     (val: any) => parseFloat(val),
-    z.number().min(1, { message: "The field cannot be empty." }).max(1000000)
+    z
+      .number()
+      .min(1, { message: "The field cannot be empty." })
+      .max(1000000000000)
   ),
 });
 

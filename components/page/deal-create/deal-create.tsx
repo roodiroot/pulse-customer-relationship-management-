@@ -20,6 +20,7 @@ import { createDeal } from "@/actions/deal/create-deal";
 import FormError from "@/components/ui/form-error";
 import FormSuccess from "@/components/ui/form-success";
 import { useRouter } from "next/navigation";
+import NumberInput from "@/components/ui/input-number";
 
 interface DealCreateProps extends React.HTMLAttributes<HTMLDivElement> {
   companyId: string;
@@ -34,6 +35,9 @@ const DealCreate: React.FC<DealCreateProps> = ({ companyId, close }) => {
 
   const form = useForm<z.infer<typeof CreateDealSchema>>({
     resolver: zodResolver(CreateDealSchema),
+    defaultValues: {
+      name: "",
+    },
   });
 
   function onSubmit(values: z.infer<typeof CreateDealSchema>) {
@@ -87,9 +91,14 @@ const DealCreate: React.FC<DealCreateProps> = ({ companyId, close }) => {
                 Planned contract price
               </FormLabel>
               <FormControl>
-                <Input
+                {/* <Input
                   {...field}
                   type="text"
+                  placeholder="Planned contract price"
+                /> */}
+                <NumberInput
+                  gvalue={field.value}
+                  onChange={field.onChange}
                   placeholder="Planned contract price"
                 />
               </FormControl>

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
-import SearchPanel from "./search";
+import SearchPanel from "../../app/(protected)/_components/search";
 import Icon from "@/components/icons";
-import UserButton from "./user-button";
+import UserButton from "../../app/(protected)/_components/user-button";
 import { navigationMenu } from "@/routes";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
