@@ -14,6 +14,7 @@ import CompanyCaseList from "@/components/page/company-page/company-case-list";
 import AddAffairButton from "@/components/ui/add-affair-button";
 import { Separator } from "@/components/ui/separator";
 import StageRow from "@/components/page/company-page/stage-row";
+import Generate from "@/app/(protected)/_components/generate";
 
 const AffairsDealPage = async ({
   params,
@@ -46,6 +47,7 @@ const AffairsDealPage = async ({
               <AddAffairButton dealId={deal.id} />
             </div>
             <Separator />
+            <Generate companyCase={deal?.cases} />
             <CompanyCaseList companyCase={deal?.cases} className="mt-6" />
           </div>
           <div className=" grid gap-4 order-1 lg:order-2 lg:sticky lg:top-0">

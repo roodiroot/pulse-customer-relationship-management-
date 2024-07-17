@@ -5,7 +5,7 @@ import StatusCase from "./status-case";
 import { PhoneCall } from "lucide-react";
 
 interface CaseItemHeaderProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  type: ActionType;
+  type: ActionType | "ai";
   responsible: string;
   date: Date;
   status?: boolean;
