@@ -1,6 +1,6 @@
 "use server";
 
-import { ROW_TABLE } from "@/constance/row-table";
+import { ROW_TABLE } from "@/constance/constance";
 import { getAllDeals } from "@/data/deal/data-deal";
 import { StageDeal, UserRole } from "@prisma/client";
 

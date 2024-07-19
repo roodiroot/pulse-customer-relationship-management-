@@ -2,7 +2,7 @@
 
 import { ActionType, UserRole } from "@prisma/client";
 
-import { ROW_TABLE } from "@/constance/row-table";
+import { ROW_TABLE } from "@/constance/constance";
 import { getAllCases } from "@/data/cases/data-case";
 
 export const showCases = async ({
