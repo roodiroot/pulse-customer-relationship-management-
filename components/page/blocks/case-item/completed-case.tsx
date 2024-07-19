@@ -17,7 +17,7 @@ const CompletedCase: React.FC<CompletedCaseProps> = ({
   comment,
 }) => {
   return (
-    <div className="relative flex flex-col gap-2 pl-6">
+    <div className="relative flex flex-col gap-2 pl-6 [&:not(:first-child)]:before:w-[2px] [&:not(:first-child)]:before:h-[17px] [&:not(:first-child)]:before:absolute [&:not(:first-child)]:before:top-full [&:not(:first-child)]:before:left-8 [&:not(:first-child)]:before:bg-border">
       <div className="absolute top-0 left-0">
         <IconCase type={type} />
       </div>

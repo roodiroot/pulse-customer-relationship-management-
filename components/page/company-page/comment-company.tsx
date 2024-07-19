@@ -31,7 +31,9 @@ const CommentCompany: React.FC<CommentCompanyProps> = ({
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground pt-6">{comment}</p>
+        <p className="text-sm text-muted-foreground pt-6 line-clamp-5">
+          {comment}
+        </p>
       </CardContent>
       <CardFooter>
         <Button asChild variant="link" className="gap-1 p-0 h-auto">

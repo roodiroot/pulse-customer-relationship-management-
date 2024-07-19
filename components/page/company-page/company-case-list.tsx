@@ -12,18 +12,15 @@ const CompanyCaseList: React.FC<ComanyCaseListProps> = ({
   companyCase,
   className,
 }) => {
-  if (!companyCase || companyCase.length === 0) {
+  if (companyCase && companyCase.length > 0) {
     return (
-      <div className={className}>You have no business with this company.</div>
+      <div className={cn("flex flex-col-reverse gap-y-6", className)}>
+        {companyCase?.map((c: Case) => (
+          <CaseItem caseItem={c} key={c.id} />
+        ))}
+      </div>
     );
   }
-  return (
-    <div className={cn("flex flex-col-reverse gap-y-6", className)}>
-      {companyCase?.map((c: Case) => (
-        <CaseItem caseItem={c} key={c.id} />
-      ))}
-    </div>
-  );
 };
 
 export default CompanyCaseList;

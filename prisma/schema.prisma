@@ -128,6 +128,7 @@ model Deal {
   name          String
   contractPrice Int?
   cases         Case[]
+  summaries     Summary[]
   companyId     String?
   company       Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
   stage         StageDeal? @default(NEW)
@@ -147,4 +148,14 @@ model Case {
   deals       Deal?      @relation(fields: [dealId], references: [id], onDelete: Cascade)
 
   @@map("case")
+}
+
+model Summary {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  comment   String?
+  dealId    String?
+  deals     Deal?    @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  @@map("summary")
 }

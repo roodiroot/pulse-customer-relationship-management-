@@ -1,6 +1,4 @@
-"use server";
-
-export async function sendPostRequest(input?: string) {
+export async function generateGPT(input?: string) {
   const url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion";
   const data = {
     modelUri: `gpt://${process.env.X_FOLDER_ID}/yandexgpt-lite`,
@@ -12,7 +10,7 @@ export async function sendPostRequest(input?: string) {
     messages: [
       {
         role: "system",
-        text: "сформеруй краткое саммери по событиям в crm-системе в 1 абзац. Важно поддержиавать хронологию событий от самых старых к новым. И представить это в вите истории",
+        text: "Сформируй краткое саммери по событиям в crm-системе в 1 абзац. Важно поддерживать хронологию событий от самых старых к новым. И представить это в виде истории. Некоторые обозначения: Если написано тнб или анб - то это означает по задаче не удалось связаться с клиентом. Если комментарий не понятен или имеет просто непонятный набор букв не учитывай его в хронологии событий",
       },
       {
         role: "user",

@@ -2,7 +2,7 @@
 
 import { Session } from "next-auth";
 
-import { ROW_TABLE } from "@/constance/row-table";
+import { ROW_TABLE } from "@/constance/constance";
 import { getAllUsers } from "@/data/personal/get-users";
 
 export const showUsers = async ({

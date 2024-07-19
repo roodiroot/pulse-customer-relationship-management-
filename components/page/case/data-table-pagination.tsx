@@ -6,7 +6,6 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -16,8 +15,10 @@ import {
 } from "@/components/ui/select";
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ROW_TABLE } from "@/constance/row-table";
+
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ROW_TABLE } from "@/constance/constance";
 
 interface DataTablePaginationProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {

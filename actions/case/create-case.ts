@@ -7,8 +7,8 @@ import { db } from "@/lib/db";
 import { SaveCaseSchema } from "@/schemas";
 
 import { currentUser } from "@/lib/auth";
-import { getDealById } from "@/data/deal/data-deal";
 import { ActionType } from "@prisma/client";
+import { getDealById } from "@/data/deal/data-deal";
 
 //Сохраниение дела
 export const createCase = async (

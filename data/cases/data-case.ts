@@ -1,6 +1,7 @@
-import { ROW_TABLE } from "@/constance/row-table";
 import { db } from "@/lib/db";
-import { ActionType, Case, Company, Deal, StageDeal } from "@prisma/client";
+import { ROW_TABLE } from "@/constance/constance";
+
+import { ActionType, Case, Company } from "@prisma/client";
 
 export interface ResCase extends Case {
   deals: {

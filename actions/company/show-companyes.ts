@@ -1,6 +1,6 @@
 "use server";
 
-import { ROW_TABLE } from "@/constance/row-table";
+import { ROW_TABLE } from "@/constance/constance";
 import { getAllCompanies } from "@/data/company/data-company";
 import { UserRole } from "@prisma/client";
 

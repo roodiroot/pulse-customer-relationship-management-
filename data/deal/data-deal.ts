@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { ROW_TABLE } from "@/constance/row-table";
+import { ROW_TABLE } from "@/constance/constance";
 import { Deal, StageDeal, UserRole } from "@prisma/client";
 
 export interface ResDeals extends Deal {

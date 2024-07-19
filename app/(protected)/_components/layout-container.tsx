@@ -5,7 +5,7 @@ interface LayoutContainerProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {}
 const LayoutContainer: React.FC<LayoutContainerProps> = ({ children }) => {
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] xl:grid-cols-[280px_1fr]">
+    <div className="grid min-h-screen w-full md:grid-cols-[200px_1fr] xl:grid-cols-[240px_1fr]">
       <Navigation />
       <div className="flex flex-col ">
         <Header />

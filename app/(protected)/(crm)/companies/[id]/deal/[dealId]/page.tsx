@@ -14,7 +14,9 @@ import CompanyCaseList from "@/components/page/company-page/company-case-list";
 import AddAffairButton from "@/components/ui/add-affair-button";
 import { Separator } from "@/components/ui/separator";
 import StageRow from "@/components/page/company-page/stage-row";
-import Generate from "@/app/(protected)/_components/generate";
+import Generate from "@/components/generate/summary/generate";
+import { showSummariesById } from "@/actions/sammary/show-summary";
+import { MIN_COUNT_CASE_FOR_GENERATE } from "@/constance/constance";
 
 const AffairsDealPage = async ({
   params,
@@ -23,6 +25,7 @@ const AffairsDealPage = async ({
 }) => {
   const deal = await showOneDealById(params.dealId);
   const company = await showOneCompanyById(params.id);
+  const summary = await showSummariesById(params.dealId);
 
   return (
     <Container>
@@ -42,13 +45,8 @@ const AffairsDealPage = async ({
               contacts={company?.contacts}
               companyId={company?.id}
             />
-            <Separator className="mt-6" />
-            <div className="flex">
-              <AddAffairButton dealId={deal.id} />
-            </div>
-            <Separator />
-            <Generate companyCase={deal?.cases} />
-            <CompanyCaseList companyCase={deal?.cases} className="mt-6" />
+            <AddAffairButton dealId={deal.id} className="mt-6" />
+            <CompanyCaseList companyCase={deal?.cases} />
           </div>
           <div className=" grid gap-4 order-1 lg:order-2 lg:sticky lg:top-0">
             <CommentCompany
@@ -56,6 +54,14 @@ const AffairsDealPage = async ({
               companyName={company?.name}
               comment={company?.comment}
             />
+            {deal?.cases?.filter((i) => i.finished)?.length >=
+            MIN_COUNT_CASE_FOR_GENERATE ? (
+              <Generate
+                companyCase={deal?.cases}
+                dealId={deal.id}
+                summary={summary}
+              />
+            ) : null}
           </div>
         </>
       ) : (
