@@ -31,8 +31,14 @@ const CommentCompany: React.FC<CommentCompanyProps> = ({
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground pt-6 line-clamp-5">
-          {comment}
+        <p className="text-sm  pt-6 line-clamp-5">
+          {comment && comment.trim() !== "" ? (
+            comment
+          ) : (
+            <span className="text-muted-foreground">
+              Enter brief company information to be displayed here.{comment}
+            </span>
+          )}
         </p>
       </CardContent>
       <CardFooter>

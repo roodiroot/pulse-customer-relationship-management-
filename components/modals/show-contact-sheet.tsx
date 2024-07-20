@@ -1,30 +1,36 @@
 "use client";
 
 import {
+  BookOpenText,
+  Building2,
+  LucideInfo,
+  Mail,
+  NotebookText,
+  Phone,
+  Trash2,
+} from "lucide-react";
+import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+import { useFetchNotes } from "@/queries/notes";
+import { Button } from "@/components/ui/button";
+import NotesList from "@/components/page/contact/notes/notes-list";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { getRelativeDateString } from "@/lib/get-relative-date-string";
+import CreateNoteField from "@/components/page/contact/notes/create-note-field";
+import ChangeFieldContact from "@/components/page/contact/change-field-contact";
+import DeleteContactButton from "@/components/page/contact/delete-contact-button";
 import { getUniquiContactById } from "@/actions/contact/get-ubiqui-contact-by-id";
 
 import { Contact } from "@prisma/client";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
-import {
-  BookOpenText,
-  Building2,
-  LucideInfo,
-  Mail,
-  Phone,
-  Trash2,
-} from "lucide-react";
-import ChangeFieldContact from "../page/contact/change-field-contact";
-import DeleteContactButton from "../page/contact/delete-contact-button";
-import { Avatar, AvatarFallback } from "../ui/avatar";
 
 interface ShowContactSheetProps {}
 
@@ -38,6 +44,8 @@ const ShowContactSheet: React.FC<ShowContactSheetProps> = () => {
   const pathname = usePathname();
   const param = useSearchParams();
   const contactParam = param.get("showContactId");
+
+  const { data } = useFetchNotes(contactParam || "");
 
   useEffect(() => {
     if (contactParam) {
@@ -64,7 +72,10 @@ const ShowContactSheet: React.FC<ShowContactSheetProps> = () => {
 
   return (
     <Sheet open={open} onOpenChange={() => handleClose()}>
-      <SheetContent style={{ minWidth: "700px" }} className="flex flex-col">
+      <SheetContent
+        style={{ minWidth: "600px" }}
+        className="flex flex-col overflow-y-auto"
+      >
         <SheetHeader>
           <div className="flex gap-4 items-start">
             <Avatar>
@@ -78,7 +89,7 @@ const ShowContactSheet: React.FC<ShowContactSheetProps> = () => {
             </div>
           </div>
         </SheetHeader>
-        <div className="mt-4 space-y-4 w-full h-[calc(100% - 48px)] flex-1 flex-col">
+        <div className="mt-4 space-y-8 w-full h-[calc(100% - 48px)] flex-1 flex-col">
           <Card className="rounded-md ">
             <CardHeader className="bg-muted/40">
               <div className="flex gap-2 items-center font-medium">
@@ -124,36 +135,39 @@ const ShowContactSheet: React.FC<ShowContactSheetProps> = () => {
                 </ChangeFieldContact>
               </div>
             </CardContent>
-            <CardFooter>
-              <div className="flex-1 flex items-end">
-                <div className="w-full flex justify-between items-end text-xs font-light mt-auto text-muted-foreground">
-                  Created on:{" "}
-                  {new Date("2024-07-07T12:34:56Z").toLocaleDateString(
-                    "en-En",
-                    {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
-                  )}
-                </div>
-                <DeleteContactButton
-                  contactId={dataContact?.id || ""}
-                  close={handleClose}
-                >
-                  <Button asChild variant="link" className="text-destructive ">
-                    <div className="flex gap-2">
-                      <Trash2 className="w-4 h-4" />
-                      Delete Contact
-                    </div>
-                  </Button>
-                </DeleteContactButton>
-              </div>
-            </CardFooter>
           </Card>
-          <Button variant="outline" onClick={handleClose}>
+          {/* <Button variant="outline" onClick={handleClose}>
             Close
-          </Button>
+          </Button> */}
+          <Card className="rounded-md ">
+            <CardHeader className="bg-muted/40">
+              <div className="flex gap-2 items-center font-medium">
+                <NotebookText className="w-5 h-5 " />
+                Notes
+              </div>
+            </CardHeader>
+            <CardContent>
+              <CreateNoteField contactId={contactParam} className="mt-6" />
+              <NotesList notesList={data} className="mt-4" />
+            </CardContent>
+          </Card>
+          <div className="flex-1 flex items-end">
+            <div className="w-full flex justify-between items-end text-xs font-light mt-auto text-muted-foreground">
+              Created on:{" "}
+              {getRelativeDateString(dataContact?.createdAt || new Date())}
+            </div>
+            <DeleteContactButton
+              contactId={dataContact?.id || ""}
+              close={handleClose}
+            >
+              <Button asChild variant="link" className="text-destructive ">
+                <div className="flex gap-2">
+                  <Trash2 className="w-4 h-4" />
+                  Delete Contact
+                </div>
+              </Button>
+            </DeleteContactButton>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

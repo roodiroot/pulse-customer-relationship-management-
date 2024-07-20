@@ -6,6 +6,14 @@ const MAX_STRING_LENGTH = 50;
 const MAX_STUDENTS_LENGTH = 5;
 const MIN_STUDENTS_LENGTH = 1;
 
+export const CreateNoteSchema = z.object({
+  text: z
+    .string()
+    .min(1, { message: "The field cannot be empty." })
+    .max(1000, { message: "Maximum length 1000 characters" })
+    .trim(),
+});
+//DEAL
 export const CreateDealSchema = z.object({
   name: z
     .string()
@@ -17,6 +25,21 @@ export const CreateDealSchema = z.object({
       .number()
       .min(1, { message: "The field cannot be empty." })
       .max(1000000000000)
+  ),
+});
+export const UpdateDealSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "The field cannot be empty." })
+    .max(20, { message: "Maximum length 20 characters" })
+    .optional(),
+  contractPrice: z.preprocess(
+    (val: any) => parseFloat(val),
+    z
+      .number()
+      .min(1, { message: "The field cannot be empty." })
+      .max(1000000000000)
+      .optional()
   ),
 });
 

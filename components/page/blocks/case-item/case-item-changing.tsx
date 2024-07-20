@@ -61,8 +61,8 @@ const CaseItemChanging: React.FC<CaseItemChangingProps> = ({
   };
 
   return (
-    <div className="relative pl-6 flex flex-col gap-2">
-      <div className="absolute top-0 left-0">
+    <div className="relative flex flex-col gap-2 md:pl-6">
+      <div className="absolute top-0 left-0 hidden md:block">
         <IconCase type={type} />
       </div>
       <CaseItemHeader

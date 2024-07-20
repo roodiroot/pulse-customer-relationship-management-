@@ -17,6 +17,7 @@ import StageRow from "@/components/page/company-page/stage-row";
 import Generate from "@/components/generate/summary/generate";
 import { showSummariesById } from "@/actions/sammary/show-summary";
 import { MIN_COUNT_CASE_FOR_GENERATE } from "@/constance/constance";
+import UpdateFormDeal from "@/components/page/deal-create/update-form-deal";
 
 const AffairsDealPage = async ({
   params,
@@ -49,6 +50,7 @@ const AffairsDealPage = async ({
             <CompanyCaseList companyCase={deal?.cases} />
           </div>
           <div className=" grid gap-4 order-1 lg:order-2 lg:sticky lg:top-0">
+            <UpdateFormDeal deal={deal} />
             <CommentCompany
               companyId={company?.id}
               companyName={company?.name}

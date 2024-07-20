@@ -29,12 +29,12 @@ export const updateCompany = async (
     const company = await db.company.update({
       where: { id: companyId },
       data: {
-        name: validated.name,
-        comment: validated.comment,
-        TIN: validated.TIN,
-        address: validated.address,
-        mainOKVED: validated.mainOKVED,
-        owner: validated.owner,
+        name: validated.name?.trim(),
+        comment: validated.comment?.trim(),
+        TIN: validated.TIN?.trim(),
+        address: validated.address?.trim(),
+        mainOKVED: validated.mainOKVED?.trim(),
+        owner: validated.owner?.trim(),
         dateRegistr: validated.dateRegistr,
       },
     });

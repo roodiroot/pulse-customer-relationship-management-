@@ -1,12 +1,13 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
+import { db } from "@/lib/db";
+import { generateGPT } from "@/data/yandexGPT";
 import { MIN_COUNT_CASE_FOR_GENERATE } from "@/constance/constance";
 import { getSummariesByDealId } from "@/data/summary/data-summaries";
-import { generateGPT } from "@/data/yandexGPT";
-import { db } from "@/lib/db";
 
 import { Case } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 
 function convertArrayToString(arr?: Case[]) {
   return arr
@@ -29,32 +30,38 @@ function convertArrayToString(arr?: Case[]) {
 }
 
 export const summaryGenerate = async (dealId: string, arr: Case[]) => {
-  const currendDeal = await db.deal.findUnique({ where: { id: dealId } });
-  if (!currendDeal) return { error: "Не верный id сделки." };
+  const currentDeal = await db.deal.findUnique({ where: { id: dealId } });
+  if (!currentDeal) return { error: "Invalid deal ID." };
 
-  const finishCases = arr?.filter((item) => item.finished)?.length || 0;
-  if (!arr || finishCases < MIN_COUNT_CASE_FOR_GENERATE)
-    return { error: "Не достаточно кейсов для генерации резюме." };
+  const finishedCases = arr?.filter((item) => item.finished)?.length || 0;
+  if (!arr || finishedCases < MIN_COUNT_CASE_FOR_GENERATE)
+    return { error: "Not enough cases for generating a summary." };
 
   const input = convertArrayToString(arr);
 
   try {
-    const { count } = await getSummariesByDealId(dealId);
-    if (count) {
+    const summaryCount = await getSummariesByDealId(dealId);
+    if (summaryCount.count) {
       await db.summary.deleteMany({ where: { dealId } });
     }
-    const { message, status } = await generateGPT(input);
-    if (status !== "ALTERNATIVE_STATUS_FINAL" || !message?.text)
-      return { error: "Генерация неудалась." };
+
+    const generateGPTResponse = await generateGPT(input);
+    if (
+      generateGPTResponse.status !== "ALTERNATIVE_STATUS_FINAL" ||
+      !generateGPTResponse.message?.text
+    ) {
+      return { error: "Failed to generate." };
+    }
+
     await db.summary.create({
       data: {
-        comment: message.text,
-        dealId: currendDeal.id,
+        comment: generateGPTResponse.message.text,
+        dealId: currentDeal.id,
       },
     });
     revalidatePath("/companies/[id]/[dealId]", "page");
     return { success: "Success." };
   } catch (error) {
-    return { error: "Генерация неудалась." };
+    return { error: "Failed to generate." };
   }
 };

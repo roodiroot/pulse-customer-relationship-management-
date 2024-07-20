@@ -10,11 +10,11 @@ import Container from "@/components/utils/container";
 import { showUsers } from "@/actions/personal/show-users";
 import HeaderForCRM from "@/components/utils/header-for-crm";
 import DealList from "@/components/page/company-page/deal-list";
-import UpdateForm from "@/components/page/company-create/update-form";
 import ContactsList from "@/components/page/company-page/contact-list";
 import { showOneCompanyById } from "@/actions/company/show-one-company";
-import ContactCreate from "@/components/page/company-page/contact-create";
+import UpdateFormCompany from "@/components/page/company-create/update-form-company";
 import ResetResponsibleButton from "@/components/page/company-page/buttons/reset-responsible";
+
 import { UserRole } from "@prisma/client";
 
 const ComanyPage = async ({ params }: { params: { id: string } }) => {
@@ -51,7 +51,7 @@ const ComanyPage = async ({ params }: { params: { id: string } }) => {
             <DealList dealList={company?.deals} companyId={company?.id} />
           </div>
           <div className="grid gap-6 order-1 lg:order-2 lg:sticky lg:top-0">
-            <UpdateForm company={company} />
+            <UpdateFormCompany company={company} />
           </div>
         </>
       ) : (

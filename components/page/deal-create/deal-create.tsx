@@ -91,11 +91,6 @@ const DealCreate: React.FC<DealCreateProps> = ({ companyId, close }) => {
                 Planned contract price
               </FormLabel>
               <FormControl>
-                {/* <Input
-                  {...field}
-                  type="text"
-                  placeholder="Planned contract price"
-                /> */}
                 <NumberInput
                   gvalue={field.value}
                   onChange={field.onChange}

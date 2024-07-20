@@ -1,8 +1,9 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { StageDeal } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+
+import { StageDeal } from "@prisma/client";
 
 export const appointStageForDeal = async (dealId: string, stage: StageDeal) => {
   if (!dealId || !stage) return { error: "Не все данные переданы." };

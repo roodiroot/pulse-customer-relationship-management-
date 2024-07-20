@@ -36,7 +36,7 @@ const FormChangeField: React.FC<FormChangeFieldProps> = ({
   companyId,
   pattern,
   close,
-}: any) => {
+}) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();

@@ -11,11 +11,12 @@ interface CompanyList extends Company {
   contacts: Contact[];
 }
 
-interface UpdateFormProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
+interface UpdateFormCompanyProps
+  extends React.HtmlHTMLAttributes<HTMLDivElement> {
   company: CompanyList | null;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = ({ company }) => {
+const UpdateFormCompany: React.FC<UpdateFormCompanyProps> = ({ company }) => {
   if (company === null) {
     return <div>Loading...</div>;
   }
@@ -80,4 +81,4 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ company }) => {
   );
 };
 
-export default UpdateForm;
+export default UpdateFormCompany;

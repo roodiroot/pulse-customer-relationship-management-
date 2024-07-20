@@ -26,7 +26,11 @@ const CaseItemHeader: React.FC<CaseItemHeaderProps> = ({
             assigned to <span className="text-foreground">{responsible}</span>
           </span>
         </div>
-        {status && <StatusCase date={date} />}
+        {status && (
+          <div className="hidden md:block ">
+            <StatusCase date={date} />
+          </div>
+        )}
       </div>
       <div className="text-xs">{getRelativeDateString(date || new Date())}</div>
     </div>

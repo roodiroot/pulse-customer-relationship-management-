@@ -51,6 +51,7 @@ model User {
   bloked        Boolean   @default(false)
   accounts      Account[]
   companies     Company[]
+  notes         Notes[]
 }
 
 model Account {
@@ -117,9 +118,22 @@ model Contact {
   comment   String?
   confirmed Boolean  @default(false)
   companyId String?
+  notes     Notes[]
   company   Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@map("contact")
+}
+
+model Notes {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  text      String
+  contactId String
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@map("notes")
 }
 
 model Deal {

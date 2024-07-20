@@ -71,7 +71,6 @@ function transformData(data: Case[]): TransformedData[] {
 
 export function CaseOverview({ cases }: { cases: Case[] }) {
   const data = transformData(cases);
-  console.log(data);
   const searchParams = useSearchParams();
   const router = useRouter();
 

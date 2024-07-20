@@ -18,6 +18,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import CompanyCaseBlock from "@/components/page/company-page/company-case-block";
+import { Card, CardContent, CardHeader } from "../ui/card";
+import { LucideInfo } from "lucide-react";
 
 interface CreateCaseSheetProps {}
 
@@ -44,12 +46,27 @@ const CreateCaseSheet: React.FC<CreateCaseSheetProps> = ({}) => {
 
   return (
     <Sheet onOpenChange={() => handleClose()} open={open}>
-      <SheetContent>
+      <SheetContent style={{ minWidth: "500px" }}>
         <SheetHeader>
           <SheetTitle>Add New Task to Deal</SheetTitle>
         </SheetHeader>
         <div className="mt-4 space-y-4">
-          <CompanyCaseBlock dealId={caseParam || ""} close={handleClose} />
+          <Card className="rounded-md">
+            <CardHeader className="bg-muted/40">
+              <div className="flex gap-2 items-center font-medium">
+                <LucideInfo className="w-5 h-5 " />
+                Deal info
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="mt-4 space-y-2">
+                <CompanyCaseBlock
+                  dealId={caseParam || ""}
+                  close={handleClose}
+                />
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </SheetContent>
     </Sheet>

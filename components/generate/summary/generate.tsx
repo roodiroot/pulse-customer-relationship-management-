@@ -11,6 +11,7 @@ import { Case, Summary } from "@prisma/client";
 import FormError from "@/components/ui/form-error";
 import FormSuccess from "@/components/ui/form-success";
 import { deleteSummariesByDealId } from "@/actions/sammary/delete-summary";
+import { useToast } from "@/components/ui/use-toast";
 
 interface GenerateProps extends React.HTMLAttributes<HTMLDivElement> {
   dealId: string;
@@ -22,6 +23,8 @@ const Generate: React.FC<GenerateProps> = ({
   companyCase,
   summary,
 }) => {
+  const { toast } = useToast();
+
   const [comment, setComment] = useState("");
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -34,10 +37,14 @@ const Generate: React.FC<GenerateProps> = ({
       if (!companyCase) return;
       summaryGenerate(dealId, companyCase).then((data) => {
         if (data?.success) {
-          setSuccess(data?.success);
+          toast({
+            description: data?.success,
+          });
         }
         if (data?.error) {
-          setError(data?.error);
+          toast({
+            description: data?.error,
+          });
         }
       });
     });
@@ -45,10 +52,14 @@ const Generate: React.FC<GenerateProps> = ({
   const deleteGenerate = () => {
     deleteSummariesByDealId(dealId).then((data) => {
       if (data?.success) {
-        setSuccess(data?.success);
+        toast({
+          description: data?.success,
+        });
       }
       if (data?.error) {
-        setError(data?.error);
+        toast({
+          description: data?.error,
+        });
       }
     });
   };

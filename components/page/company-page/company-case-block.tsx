@@ -43,6 +43,7 @@ import CompanyCaseList from "@/components/page/company-page/company-case-list";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TiptapCase from "../../tiptap/tiptap-case";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CompanyCaseBlockProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
@@ -60,6 +61,7 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
   stage,
   close,
 }) => {
+  const { toast } = useToast();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -93,13 +95,18 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
     if (!dealId) return;
     startTransition(() => {
       createCase({ ...value, date: d }, dealId, completed)
-        .then((res) => {
-          if (res.error) {
-            return setError(res.error || "");
+        .then((data) => {
+          if (data.error) {
+            toast({
+              description: data?.error,
+            });
           }
-
-          setSuccess(res.success || "");
-          form.reset();
+          if (data.success) {
+            toast({
+              description: data?.success,
+            });
+            form.reset();
+          }
           if (close) {
             close();
           }
@@ -115,24 +122,6 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
       <Form {...form}>
         <div className="flex flex-col">
           <div className="relative col-span-2 flex flex-col gap-2">
-            <div className="col-span-3">
-              <FormField
-                control={form.control}
-                name="comment"
-                render={({ field }: { field: any }) => (
-                  <FormItem className="col-span-2">
-                    <FormControl>
-                      <TiptapCase
-                        description={field.value}
-                        onChange={field.onChange}
-                        className="min-h-[200px] border-0 bg-muted/40"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
             <div className="flex">
               <FormField
                 control={form.control}
@@ -222,10 +211,27 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
                 </Popover>
               </div>
             </div>
+            <div className="col-span-3">
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }: { field: any }) => (
+                  <FormItem className="col-span-2">
+                    <FormControl>
+                      <TiptapCase
+                        description={field.value}
+                        onChange={field.onChange}
+                        className="min-h-[200px] border-0 bg-muted/10"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-          <Separator className="w-full mt-2" />
 
-          <div className="">
+          <div className="flex items-center justify-between mt-10">
             <Button
               variant="outline"
               disabled={isPending}
@@ -243,10 +249,10 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
               Complete task now
             </Button>
           </div>
-          <div className="col-span-2 mt-4 h-11">
+          {/* <div className="col-span-2 mt-4 h-11">
             <FormError message={error} />
             <FormSuccess message={success} />
-          </div>
+          </div> */}
         </div>
       </Form>
     </>
