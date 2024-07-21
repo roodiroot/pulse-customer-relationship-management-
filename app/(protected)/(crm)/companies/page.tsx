@@ -10,6 +10,7 @@ import FiltersCompany from "@/components/tables/companies/filters-company";
 import DataTablePagination from "@/components/page/case/data-table-pagination";
 import { CompanyDataTable } from "@/components/tables/companies/company-data-table";
 import FormError from "@/components/ui/form-error";
+import TableContainer from "@/components/utils/table-container";
 
 const CompanyesPage = async ({
   searchParams,
@@ -39,7 +40,7 @@ const CompanyesPage = async ({
   });
   const users = await showUsers({ user });
   return (
-    <>
+    <TableContainer>
       <div className="flex items-center gap-4">
         <HeadBody>Организации</HeadBody>
         {success && (
@@ -74,7 +75,7 @@ const CompanyesPage = async ({
       ) : (
         <FormError message={error} />
       )}
-    </>
+    </TableContainer>
   );
 };
 

@@ -16,47 +16,52 @@ import UpdateFormCompany from "@/components/page/company-create/update-form-comp
 import ResetResponsibleButton from "@/components/page/company-page/buttons/reset-responsible";
 
 import { UserRole } from "@prisma/client";
+import ColTwoContainer from "@/components/utils/col-two-container";
+import ColOneContainer from "@/components/utils/col-one-container";
 
 const ComanyPage = async ({ params }: { params: { id: string } }) => {
   const company = await showOneCompanyById(params.id);
   const user = await currentUser();
   const data = await showUsers({ user });
+
+  if (!company) {
+    return (
+      <Container>
+        <FormError message="You do not have sufficient permissions to view this resource." />
+      </Container>
+    );
+  }
+
   return (
     <Container>
-      {company ? (
-        <>
-          <div className="flex items-center gap-4 lg:col-span-3">
-            <BackButton />
-            <HeaderForCRM text={company?.name} />
-            <div className="ml-auto flex flex-col sm:flex-row gap-4 items-center">
-              {user?.role === UserRole.ADMIN ? (
-                <ResetResponsibleButton
-                  users={data?.users}
-                  userId={company?.userId}
-                  companyId={company?.id}
-                />
-              ) : (
-                <Badge variant="outline">{user?.name}</Badge>
-              )}
-              <Button asChild size="sm" className="ml-auto gap-1">
-                <Link href={`/companies/${company?.id}/deal`}>
-                  Create a deal
-                  <ArrowUpRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+      <ColTwoContainer>
+        <div className="flex items-center gap-4 lg:col-span-3">
+          <BackButton />
+          <HeaderForCRM text={company?.name} />
+          <div className="ml-auto flex flex-col sm:flex-row gap-4 items-center">
+            {user?.role === UserRole.ADMIN ? (
+              <ResetResponsibleButton
+                users={data?.users}
+                userId={company?.userId}
+                companyId={company?.id}
+              />
+            ) : (
+              <Badge variant="outline">{user?.name}</Badge>
+            )}
+            <Button asChild size="sm" className="ml-auto gap-1">
+              <Link href={`/companies/${company?.id}/deal`}>
+                Create a deal
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
-          <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 order-2 lg:order-1">
-            <ContactsList contacts={company?.contacts} companyId={company.id} />
-            <DealList dealList={company?.deals} companyId={company?.id} />
-          </div>
-          <div className="grid gap-6 order-1 lg:order-2 lg:sticky lg:top-0">
-            <UpdateFormCompany company={company} />
-          </div>
-        </>
-      ) : (
-        <FormError message="You do not have sufficient permissions to view this resource." />
-      )}
+        </div>
+        <ContactsList contacts={company?.contacts} companyId={company.id} />
+        <DealList dealList={company?.deals} companyId={company?.id} />
+      </ColTwoContainer>
+      <ColOneContainer>
+        <UpdateFormCompany company={company} />
+      </ColOneContainer>
     </Container>
   );
 };

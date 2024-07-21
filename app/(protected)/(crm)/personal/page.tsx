@@ -6,6 +6,7 @@ import { showUsers } from "@/actions/personal/show-users";
 import { createColumns } from "@/components/tables/personal/columns";
 import { UsersDataTable } from "@/components/tables/personal/users-data-table";
 import DataTablePagination from "@/components/page/case/data-table-pagination";
+import TableContainer from "@/components/utils/table-container";
 
 const PersolnalPage = async ({
   searchParams,
@@ -22,7 +23,7 @@ const PersolnalPage = async ({
   });
 
   return (
-    <div className="flex flex-col gap-6 h-full">
+    <TableContainer>
       <div className="flex items-center gap-4">
         <HeadBody>Персонал</HeadBody>
       </div>
@@ -39,7 +40,7 @@ const PersolnalPage = async ({
           />
         </div>
       )}
-    </div>
+    </TableContainer>
   );
 };
 

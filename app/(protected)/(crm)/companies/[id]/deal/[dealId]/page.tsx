@@ -18,6 +18,8 @@ import Generate from "@/components/generate/summary/generate";
 import { showSummariesById } from "@/actions/sammary/show-summary";
 import { MIN_COUNT_CASE_FOR_GENERATE } from "@/constance/constance";
 import UpdateFormDeal from "@/components/page/deal-create/update-form-deal";
+import ColTwoContainer from "@/components/utils/col-two-container";
+import ColOneContainer from "@/components/utils/col-one-container";
 
 const AffairsDealPage = async ({
   params,
@@ -28,47 +30,46 @@ const AffairsDealPage = async ({
   const company = await showOneCompanyById(params.id);
   const summary = await showSummariesById(params.dealId);
 
+  if (!deal) {
+    return (
+      <Container>
+        <FormError message="Insufficient permissions to view this resource." />
+      </Container>
+    );
+  }
+
   return (
     <Container>
-      {deal ? (
-        <>
-          <div className="flex items-center gap-4 lg:col-span-3">
-            <BackButton />
-            <HeaderForCRM text={deal?.name} />
-            <StageBadge
-              stage={deal?.stage || StageDeal.NEW}
-              className=" inline-flex"
-            />
-          </div>
-          <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 order-2 lg:order-1">
-            <StageRow stage={deal?.stage} dealId={deal?.id || ""} />
-            <ContactsList
-              contacts={company?.contacts}
-              companyId={company?.id}
-            />
-            <AddAffairButton dealId={deal.id} className="mt-6" />
-            <CompanyCaseList companyCase={deal?.cases} />
-          </div>
-          <div className=" grid gap-4 order-1 lg:order-2 lg:sticky lg:top-0">
-            <UpdateFormDeal deal={deal} />
-            <CommentCompany
-              companyId={company?.id}
-              companyName={company?.name}
-              comment={company?.comment}
-            />
-            {deal?.cases?.filter((i) => i.finished)?.length >=
-            MIN_COUNT_CASE_FOR_GENERATE ? (
-              <Generate
-                companyCase={deal?.cases}
-                dealId={deal.id}
-                summary={summary}
-              />
-            ) : null}
-          </div>
-        </>
-      ) : (
-        <FormError message="Не достаточно прав на просмотр данного ресурса" />
-      )}
+      <ColTwoContainer>
+        <div className="flex items-center gap-4">
+          <BackButton />
+          <HeaderForCRM text={deal?.name} />
+          <StageBadge
+            stage={deal?.stage || StageDeal.NEW}
+            className=" inline-flex"
+          />
+        </div>
+        <StageRow stage={deal?.stage} dealId={deal?.id || ""} />
+        <ContactsList contacts={company?.contacts} companyId={company?.id} />
+        <AddAffairButton dealId={deal.id} className="mt-6" />
+        <CompanyCaseList companyCase={deal?.cases} />
+      </ColTwoContainer>
+      <ColOneContainer>
+        <UpdateFormDeal deal={deal} />
+        <CommentCompany
+          companyId={company?.id}
+          companyName={company?.name}
+          comment={company?.comment}
+        />
+        {deal?.cases?.filter((i) => i.finished)?.length >=
+        MIN_COUNT_CASE_FOR_GENERATE ? (
+          <Generate
+            companyCase={deal?.cases}
+            dealId={deal.id}
+            summary={summary}
+          />
+        ) : null}
+      </ColOneContainer>
     </Container>
   );
 };

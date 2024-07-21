@@ -18,5 +18,9 @@ export const useCreateNote = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
     },
+    onError: (error: Error) => {
+      // Обработка ошибки
+      console.error("Ошибка при создании заметки:", error);
+    },
   });
 };

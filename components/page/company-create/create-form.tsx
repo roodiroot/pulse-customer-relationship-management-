@@ -76,7 +76,7 @@ const CreateForm = () => {
   return (
     <>
       <Form {...form}>
-        <div className="grid auto-rows-max items-start gap-4 md:sticky md:top-0 lg:col-span-2 ">
+        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
           <div className="flex flex-col gap-4">
             <AddMainInfoCompany form={form} error={error} success={success} />
             <div className="hidden items-center gap-2 md:flex">

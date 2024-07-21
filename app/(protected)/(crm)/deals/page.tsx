@@ -8,6 +8,7 @@ import { DealDataTable } from "@/components/tables/deals/deal-data-table";
 import DataTablePagination from "@/components/page/case/data-table-pagination";
 import FormError from "@/components/ui/form-error";
 import { StageDeal } from "@prisma/client";
+import TableContainer from "@/components/utils/table-container";
 
 const DealsPage = async ({
   searchParams,
@@ -40,7 +41,7 @@ const DealsPage = async ({
   });
 
   return (
-    <div className="flex flex-col gap-6 h-full">
+    <TableContainer>
       <div className="flex items-center gap-4">
         <HeadBody>Сделки</HeadBody>
       </div>
@@ -68,7 +69,7 @@ const DealsPage = async ({
       ) : (
         <FormError message={error} />
       )}
-    </div>
+    </TableContainer>
   );
 };
 

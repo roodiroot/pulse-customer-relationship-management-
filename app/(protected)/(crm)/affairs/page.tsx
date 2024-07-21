@@ -8,6 +8,7 @@ import DataTablePagination from "@/components/page/case/data-table-pagination";
 import { AffairDataTable } from "@/components/tables/affairs/affair-data-table";
 import { showUsers } from "@/actions/personal/show-users";
 import FormError from "@/components/ui/form-error";
+import TableContainer from "@/components/utils/table-container";
 
 const AffairsPage = async ({
   searchParams,
@@ -42,7 +43,7 @@ const AffairsPage = async ({
   });
 
   return (
-    <>
+    <TableContainer>
       <div className="flex items-center gap-4">
         <HeadBody>Мои дела</HeadBody>
       </div>
@@ -65,7 +66,7 @@ const AffairsPage = async ({
       ) : (
         <FormError message={error} />
       )}
-    </>
+    </TableContainer>
   );
 };
 
