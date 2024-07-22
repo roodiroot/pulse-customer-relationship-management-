@@ -26,7 +26,7 @@ const StatusBadge = ({
 
   return (
     <Badge className={cn("text-xs text-foreground whitespace-nowrap")}>
-      {status ? "Выполнено" : "Не выполнено"}
+      {status ? "Completed" : "Not Completed"}
     </Badge>
   );
 };

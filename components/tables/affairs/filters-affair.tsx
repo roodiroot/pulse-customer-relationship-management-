@@ -25,7 +25,7 @@ const FiltersAffair: React.FC<FiltersAffairProps> = ({
 
   const [date, setDate] = useState<Date | undefined>();
   const [dateEnd, setDateEnd] = useState<Date | undefined>();
-  const [finished, setFinished] = useState("3");
+  const [finished, setFinished] = useState<string | undefined>();
   const [type, setType] = useState<ActionType | undefined | "all">();
   const [responsible, setResponsible] = useState<string | undefined>();
 
@@ -66,19 +66,19 @@ const FiltersAffair: React.FC<FiltersAffairProps> = ({
     return addParamToUrl("dateEnd", new Date(e).toJSON());
   };
 
-  const addingStatus = (e: string) => {
+  const addingStatus = (e?: string) => {
     setFinished(e);
-    if (e === "3") return removeParamFromUrl("finished");
+    if (e === "all" || !e) return removeParamFromUrl("finished");
     return addParamToUrl("finished", e);
   };
-  const addingType = (e: ActionType | "all") => {
+  const addingType = (e?: ActionType | "all") => {
     setType(e);
     if (!e || e === "all") return removeParamFromUrl("type");
     return addParamToUrl("type", e);
   };
-  const addingResponsible = (e: string) => {
+  const addingResponsible = (e?: string) => {
     setResponsible(e);
-    if (e === "all") return removeParamFromUrl("responsible");
+    if (e === "all" || !e) return removeParamFromUrl("responsible");
     return addParamToUrl("responsible", e);
   };
 
@@ -98,16 +98,27 @@ const FiltersAffair: React.FC<FiltersAffairProps> = ({
 
   return (
     <ContainerFilters>
-      <TypeStatusFilter setType={addingType} type={type} />
-      <AffairStatusFilter setStatus={addingStatus} status={finished} />
-      <ExactDateFilter date={date} setDate={addingDate} />
-      <ExactDateFilter date={dateEnd} setDate={addingDateEnd} />
       <ResponsibleFilter
         permission={permission}
         users={users?.users}
         setResponsible={addingResponsible}
         responsible={responsible}
       />
+      <ExactDateFilter
+        date={date}
+        setDate={addingDate}
+        placeholder="Task Creation Date/Start"
+      />
+      <ExactDateFilter
+        date={dateEnd}
+        setDate={addingDateEnd}
+        placeholder="Task Creation Date/End"
+      />
+      <TypeStatusFilter
+        setType={addingType as (e?: string) => void}
+        type={type}
+      />
+      <AffairStatusFilter setStatus={addingStatus} status={finished} />
     </ContainerFilters>
   );
 };

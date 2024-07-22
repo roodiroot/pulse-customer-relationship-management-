@@ -56,9 +56,9 @@ const FiltersDeal: React.FC<FiltersProps> = ({ users, permission = false }) => {
     if (!e) return removeParamFromUrl("date");
     return addParamToUrl("date", new Date(e).toJSON());
   };
-  const addingStage = (e: StageDeal | "all" | "NOT_DIS") => {
+  const addingStage = (e?: StageDeal | "all" | "NOT_DIS") => {
     setStage(e);
-    if (!e) return removeParamFromUrl("stage");
+    if (!e || e === "all") return removeParamFromUrl("stage");
     return addParamToUrl("stage", e);
   };
   const addingDateEnd = (e?: Date) => {
@@ -66,9 +66,9 @@ const FiltersDeal: React.FC<FiltersProps> = ({ users, permission = false }) => {
     if (!e) return removeParamFromUrl("dateEnd");
     return addParamToUrl("dateEnd", new Date(e).toJSON());
   };
-  const addingResponsible = (e: string) => {
+  const addingResponsible = (e?: string) => {
     setResponsible(e);
-    if (e === "all") return removeParamFromUrl("responsible");
+    if (e === "all" || !e) return removeParamFromUrl("responsible");
     return addParamToUrl("responsible", e);
   };
 
@@ -81,15 +81,23 @@ const FiltersDeal: React.FC<FiltersProps> = ({ users, permission = false }) => {
 
   return (
     <ContainerFilters>
-      <ExactDateFilter date={date} setDate={addingDate} />
-      <ExactDateFilter date={dateEnd} setDate={addingDateEnd} />
       <ResponsibleFilter
         permission={permission}
         users={users?.users}
         setResponsible={addingResponsible}
         responsible={responsible}
       />
-      <StageStatusFilter stage={stage} setStage={addingStage} />
+      <ExactDateFilter
+        date={date}
+        setDate={addingDate}
+        placeholder="Deal Creation Date/Start"
+      />
+      <ExactDateFilter
+        date={dateEnd}
+        setDate={addingDateEnd}
+        placeholder="Deal Creation Date/End"
+      />
+      <StageStatusFilter stage={stage} setStage={addingStage as () => void} />
     </ContainerFilters>
   );
 };

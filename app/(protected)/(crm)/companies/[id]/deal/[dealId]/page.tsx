@@ -46,7 +46,7 @@ const AffairsDealPage = async ({
           <HeaderForCRM text={deal?.name} />
           <StageBadge
             stage={deal?.stage || StageDeal.NEW}
-            className=" inline-flex"
+            className="hidden sm:inline-flex"
           />
         </div>
         <StageRow stage={deal?.stage} dealId={deal?.id || ""} />

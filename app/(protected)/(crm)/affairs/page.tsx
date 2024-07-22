@@ -44,9 +44,7 @@ const AffairsPage = async ({
 
   return (
     <TableContainer>
-      <div className="flex items-center gap-4">
-        <HeadBody>Мои дела</HeadBody>
-      </div>
+      <HeadBody>My Tasks</HeadBody>
       {success ? (
         <>
           <FiltersAffair

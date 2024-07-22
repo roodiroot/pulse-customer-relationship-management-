@@ -6,6 +6,7 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  TriangleDownIcon,
 } from "@radix-ui/react-icons";
 import * as SelectPrimitive from "@radix-ui/react-select";
 
@@ -57,7 +58,8 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <CaretSortIcon className="h-4 w-4 opacity-50" />
+      {/* <CaretSortIcon className="h-4 w-4 opacity-50" /> */}
+      <TriangleDownIcon className="h-5 w-5 opacity-80 ml-1" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));

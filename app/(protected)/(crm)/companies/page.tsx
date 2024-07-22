@@ -2,15 +2,15 @@ import Link from "next/link";
 
 import { currentUser } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import FormError from "@/components/ui/form-error";
 import HeadBody from "@/components/cast-ui/head-body";
 import { showUsers } from "@/actions/personal/show-users";
+import TableContainer from "@/components/utils/table-container";
 import { columns } from "@/components/tables/companies/columns";
 import { showCompanies } from "@/actions/company/show-companyes";
 import FiltersCompany from "@/components/tables/companies/filters-company";
 import DataTablePagination from "@/components/page/case/data-table-pagination";
 import { CompanyDataTable } from "@/components/tables/companies/company-data-table";
-import FormError from "@/components/ui/form-error";
-import TableContainer from "@/components/utils/table-container";
 
 const CompanyesPage = async ({
   searchParams,
@@ -42,11 +42,11 @@ const CompanyesPage = async ({
   return (
     <TableContainer>
       <div className="flex items-center gap-4">
-        <HeadBody>Организации</HeadBody>
+        <HeadBody>List of Companies</HeadBody>
         {success && (
           <div className="hidden items-center gap-2 md:ml-auto md:flex">
             <Button asChild size="sm">
-              <Link href="/companies/create">Создать</Link>
+              <Link href="/companies/create">Create</Link>
             </Button>
           </div>
         )}

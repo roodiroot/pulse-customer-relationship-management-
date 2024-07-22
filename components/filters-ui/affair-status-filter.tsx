@@ -5,24 +5,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import TubSelectTrigger from "./tub-select-trigger";
 
 interface AffairStatusFilterProps {
   status?: string;
-  setStatus: (value: string) => void;
+  setStatus: (value?: string) => void;
 }
 
 const statusList = [
   {
-    value: "3",
-    name: "Все",
+    value: "all",
+    name: "All Task Statuses",
   },
   {
     value: "2",
-    name: "Не выполнено",
+    name: "Not Completed",
   },
   {
     value: "1",
-    name: "Выполнено",
+    name: "Completed",
   },
 ];
 
@@ -32,9 +33,12 @@ const AffairStatusFilter: React.FC<AffairStatusFilterProps> = ({
 }) => {
   return (
     <Select value={status} onValueChange={setStatus}>
-      <SelectTrigger className="w-full">
-        <SelectValue placeholder="Статус дела" />
-      </SelectTrigger>
+      <TubSelectTrigger
+        placeholder="Task Status"
+        value={status}
+        setValue={setStatus}
+        nonValue="all"
+      />
       <SelectContent>
         {statusList.map(({ value, name }) => (
           <SelectItem key={value} value={value}>

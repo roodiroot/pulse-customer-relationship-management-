@@ -42,9 +42,7 @@ const DealsPage = async ({
 
   return (
     <TableContainer>
-      <div className="flex items-center gap-4">
-        <HeadBody>Сделки</HeadBody>
-      </div>
+      <HeadBody>Deals</HeadBody>
       {success ? (
         <>
           <FiltersDeal

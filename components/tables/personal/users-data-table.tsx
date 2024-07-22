@@ -57,7 +57,7 @@ export function UsersDataTable<TValue, TData>({
         <div className="relative flex-1 overflow-auto">
           <div className="absolute inset-0 w-full ">
             <Table className="h-full">
-              <TableHeader>
+              <TableHeader className="bg-muted/40">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (

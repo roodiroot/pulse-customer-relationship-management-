@@ -154,7 +154,7 @@ const AnalyticsPage = async ({
               </DatasCardWrapper>
             </div>
             <div className="grid gap-4 md:grid-cols-12">
-              <div className="relative  h-full max-w-full flex flex-col justify-end col-span-12  2xl:col-span-6">
+              {/* <div className="relative  h-full max-w-full flex flex-col justify-end col-span-12  2xl:col-span-6">
                 <Card className="rounded-md">
                   <CardHeader>
                     <CardTitle>Дела</CardTitle>
@@ -163,7 +163,7 @@ const AnalyticsPage = async ({
                     <CaseOverview cases={cases} />
                   </CardContent>
                 </Card>
-              </div>
+              </div> */}
               <div className="relative  h-full max-w-full flex flex-col justify-end col-span-12  2xl:col-span-6">
                 <Card className="rounded-md">
                   <CardHeader>

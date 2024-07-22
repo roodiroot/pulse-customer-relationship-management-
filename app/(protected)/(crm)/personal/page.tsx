@@ -24,9 +24,7 @@ const PersolnalPage = async ({
 
   return (
     <TableContainer>
-      <div className="flex items-center gap-4">
-        <HeadBody>Персонал</HeadBody>
-      </div>
+      <HeadBody>Team</HeadBody>
       {["SALES_REP", "USER"].includes(user?.role || "USER") || user?.bloked ? (
         <FormError message="У вас нет разрешения на доступ к этой странице" />
       ) : (

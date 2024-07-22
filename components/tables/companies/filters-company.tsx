@@ -53,9 +53,9 @@ const FiltersCompany: React.FC<FiltersCompanyProps> = ({
     return addParamToUrl("date", new Date(e).toJSON());
   };
 
-  const addingResponsible = (e: string) => {
+  const addingResponsible = (e?: string) => {
     setResponsible(e);
-    if (e === "all") return removeParamFromUrl("responsible");
+    if (e === "all" || !e) return removeParamFromUrl("responsible");
     return addParamToUrl("responsible", e);
   };
 
@@ -72,7 +72,11 @@ const FiltersCompany: React.FC<FiltersCompanyProps> = ({
         setResponsible={addingResponsible}
         responsible={responsible}
       />
-      <ExactDateFilter date={date} setDate={addingDate} />
+      <ExactDateFilter
+        date={date}
+        setDate={addingDate}
+        placeholder="Company Creation Date"
+      />
     </ContainerFilters>
   );
 };

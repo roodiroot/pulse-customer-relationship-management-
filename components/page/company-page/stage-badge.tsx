@@ -9,12 +9,20 @@ import { Badge } from "@/components/ui/badge";
 
 interface StageItemProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
   stage?: StageDeal | null;
+  nobadge?: boolean;
 }
 
 const StageBadge = React.forwardRef<HTMLInputElement, StageItemProps>(
-  ({ stage = "NEW", ...props }, ref) => {
+  ({ stage = "NEW", nobadge = false, className, ...props }, ref) => {
     const name = useStage(stage || StageDeal.NEW)?.name;
 
+    if (nobadge) {
+      return (
+        <div {...props} className={cn(className)}>
+          {name}
+        </div>
+      );
+    }
     return (
       // <span
       //   ref={ref}
@@ -44,7 +52,11 @@ const StageBadge = React.forwardRef<HTMLInputElement, StageItemProps>(
       // >
       //   {name}
       // </span>
-      <Badge variant="outline" className="whitespace-nowrap">
+      <Badge
+        {...props}
+        variant="outline"
+        className={cn("whitespace-nowrap", className)}
+      >
         {name}
       </Badge>
     );

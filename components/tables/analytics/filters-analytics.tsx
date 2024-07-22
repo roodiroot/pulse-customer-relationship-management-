@@ -65,9 +65,9 @@ const FiltersAnalytics: React.FC<FiltersAnalyticsProps> = ({
     if (!e) return removeParamFromUrl("date");
     return addParamToUrl("date", new Date(e).toJSON());
   };
-  const addingStage = (e: StageDeal | "all" | "NOT_DIS") => {
+  const addingStage = (e?: StageDeal | "all" | "NOT_DIS") => {
     setStage(e);
-    if (!e) return removeParamFromUrl("stage");
+    if (!e || e === "all") return removeParamFromUrl("stage");
     return addParamToUrl("stage", e);
   };
   const addingDateEnd = (e?: Date) => {
@@ -75,17 +75,17 @@ const FiltersAnalytics: React.FC<FiltersAnalyticsProps> = ({
     if (!e) return removeParamFromUrl("dateEnd");
     return addParamToUrl("dateEnd", new Date(e).toJSON());
   };
-  const addingResponsible = (e: string) => {
+  const addingResponsible = (e?: string) => {
     setResponsible(e);
-    if (e === "all") return removeParamFromUrl("responsible");
+    if (e === "all" || !e) return removeParamFromUrl("responsible");
     return addParamToUrl("responsible", e);
   };
-  const addingStatus = (e: string) => {
+  const addingStatus = (e?: string) => {
     setFinished(e);
-    if (e === "3") return removeParamFromUrl("finished");
+    if (e === "all" || !e) return removeParamFromUrl("finished");
     return addParamToUrl("finished", e);
   };
-  const addingType = (e: ActionType | "all") => {
+  const addingType = (e?: ActionType | "all") => {
     setType(e);
     if (!e || e === "all") return removeParamFromUrl("type");
     return addParamToUrl("type", e);
@@ -117,8 +117,14 @@ const FiltersAnalytics: React.FC<FiltersAnalyticsProps> = ({
         setResponsible={addingResponsible}
         responsible={responsible}
       />
-      <StageStatusFilter stage={stage} setStage={addingStage} />
-      <TypeStatusFilter setType={addingType} type={type} />
+      <StageStatusFilter
+        stage={stage}
+        setStage={addingStage as (value?: string) => void}
+      />
+      <TypeStatusFilter
+        setType={addingType as (value?: string) => void}
+        type={type}
+      />
       <AffairStatusFilter setStatus={addingStatus} status={finished} />
     </ContainerFilters>
   );

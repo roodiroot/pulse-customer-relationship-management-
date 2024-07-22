@@ -6,13 +6,7 @@ const ContainerFilters: React.FC<ContainerFiltersProps> = ({
   ...props
 }) => {
   return (
-    <div
-      className={cn(
-        "pt-3 grid  gap-x-4 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
-        className
-      )}
-      {...props}
-    />
+    <div className={cn("flex gap-1 py-1 flex-wrap", className)} {...props} />
   );
 };
 

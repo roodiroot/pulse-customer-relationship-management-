@@ -17,8 +17,8 @@ export const stages = [
   // { value: StageDeal.PAYMENT, name: "Оплата" },
   // { value: StageDeal.REFUSAL, name: "Отказ" },
   { value: StageDeal.NEW, name: "New" },
-  { value: StageDeal.ACCESS, name: "Contact Decision Maker" },
-  { value: StageDeal.APPOINTMENT, name: "Presentation" },
+  { value: StageDeal.ACCESS, name: "Access" }, //Contact Decision Maker
+  { value: StageDeal.APPOINTMENT, name: "Appointment" },
   { value: StageDeal.DIAGNOSTICS, name: "Diagnostics" },
   { value: StageDeal.INVOICE, name: "Invoice" },
   {
