@@ -20,11 +20,14 @@ const Header = () => {
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col">
           <nav className="grid gap-2 text-lg font-medium">
-            <Link href="/" className="flex items-center gap-2">
-              <Icon.logo className="w-5 fill-foreground" />
-              <span className="">CRM</span>
-            </Link>
-            {navigationMenu.map((item) => (
+            <div className="flex items-center gap-2">
+              <Icon.logo className="w-6 fill-foreground" />
+              <div className="text-xs flex flex-col">
+                <span className="">Castomer</span>
+                <span className="">RelateManager</span>
+              </div>
+            </div>
+            {navigationMenu.map((item: any) => (
               <Link
                 key={item.name}
                 href={item.href}

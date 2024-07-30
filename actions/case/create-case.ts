@@ -56,6 +56,8 @@ export const createCase = async (
     },
   });
   revalidatePath("/affairs");
+  revalidatePath("/calendar/week");
+  revalidatePath("/calendar/month");
   revalidatePath("/companies/[id]/[dealId]", "page");
   return { success: "Task successfully added." };
 };

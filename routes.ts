@@ -10,7 +10,7 @@ import {
 
 export const navigationMenu = [
   { name: "Dashboard", href: "/analytics", Icon: LineChart },
-  { name: "Calendar", href: "/calendar", Icon: CalendarCheck2 },
+  { name: "Calendar", href: "/calendar/month", Icon: CalendarCheck2 },
   { name: "Team", href: "/personal", Icon: Users },
   { name: "Companies", href: "/companies", Icon: Building2 },
   { name: "Dealings", href: "/deals", Icon: CircleDollarSign },

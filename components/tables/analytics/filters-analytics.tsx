@@ -109,13 +109,21 @@ const FiltersAnalytics: React.FC<FiltersAnalyticsProps> = ({
 
   return (
     <ContainerFilters>
-      <ExactDateFilter date={date} setDate={addingDate} />
-      <ExactDateFilter date={dateEnd} setDate={addingDateEnd} />
       <ResponsibleFilter
         permission={permission}
         users={users?.users}
         setResponsible={addingResponsible}
         responsible={responsible}
+      />
+      <ExactDateFilter
+        date={date}
+        setDate={addingDate}
+        placeholder="Task Creation Date/Start"
+      />
+      <ExactDateFilter
+        date={dateEnd}
+        setDate={addingDateEnd}
+        placeholder="Task Creation Date/End"
       />
       <StageStatusFilter
         stage={stage}

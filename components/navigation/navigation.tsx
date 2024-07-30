@@ -13,8 +13,11 @@ const Navigation = () => {
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2">
-            <Icon.logo className="w-5 fill-foreground" />
-            <span className="">CRM</span>
+            <Icon.logo className="w-6 fill-foreground" />
+            <div className="text-xs flex flex-col">
+              <span className="">Castomer</span>
+              <span className="">RelateManager</span>
+            </div>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />

@@ -2,14 +2,16 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+
 import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 import { Case, Deal, StageDeal } from "@prisma/client";
 
@@ -74,28 +76,31 @@ export function CaseOverview({ cases }: { cases: Case[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color: "hsl(var(--chart-5))",
+    },
+  } satisfies ChartConfig;
+
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data}>
+    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+      <BarChart accessibilityLayer data={data}>
+        <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="date"
-          stroke="#888888"
-          fontSize={12}
+          dataKey="name"
           tickLine={false}
+          tickMargin={10}
           axisLine={false}
+          tickFormatter={(value) => value.slice(0, 3)}
         />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        <Tooltip />
+        <ChartTooltip content={<ChartTooltipContent />} />
         <Bar
+          className="cursor-pointer"
           dataKey="length"
-          fill="currentColor"
-          radius={[4, 4, 0, 0]}
-          className="fill-primary cursor-pointer"
+          name="count"
+          fill="var(--color-desktop)"
+          radius={4}
           onClick={(event) => {
             const params = new URLSearchParams(searchParams.toString());
             if (params.has("stage")) {
@@ -106,6 +111,6 @@ export function CaseOverview({ cases }: { cases: Case[] }) {
           }}
         />
       </BarChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   );
 }
