@@ -11,7 +11,7 @@ const MonthTimeSwich = ({
   currenntDate: Dayjs;
 }) => {
   return (
-    <div className="">
+    <div className="flex">
       <Button
         onClick={() => setToday(today.month(today.month() - 1))}
         variant="outline"
@@ -22,7 +22,7 @@ const MonthTimeSwich = ({
       <Button
         onClick={() => setToday(currenntDate)}
         variant="outline"
-        className="rounded-none border-x-0"
+        className="rounded-none border-x-0 hidden sm:inline-flex"
       >
         Today
       </Button>
