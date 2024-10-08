@@ -1,14 +1,14 @@
 import * as nodemailer from "nodemailer";
 
 export const transporter = nodemailer.createTransport({
-  host: "smtp.beget.com",
-  port: 465,
+  host: process.env.MAIL_HOST,
+  port: process.env.MAIL_PORT,
   secure: true,
   auth: {
-    user: "sender@matryoshka-studio.ru",
-    pass: "mAGq8&L&",
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
   },
   tls: {
     rejectUnauthorized: false,
   },
-});
+} as nodemailer.TransportOptions);
