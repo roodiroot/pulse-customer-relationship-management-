@@ -3,9 +3,9 @@ import {
   CardHeader,
   CardContent,
   CardFooter,
-} from '@/components/ui/card';
-import BackButton from './back-button';
-import Social from './social';
+} from "@/components/ui/card";
+import BackButton from "./back-button";
+import Social from "./social";
 
 interface CardWrapperProps extends React.HtmlHTMLAttributes<HTMLElement> {
   headerLabel: string;
@@ -23,7 +23,7 @@ const CardWrapper: React.FC<CardWrapperProps> = ({
 }) => {
   return (
     <div className="w-full px-4 py-9">
-      <Card className="mx-auto sm:w-[400px] shadow-md dark:bg-accent-400 bg-white-project rounded-[36px]">
+      <Card className="mx-auto sm:w-[400px] dark:bg-accent-400 bg-white-project rounded-md">
         <CardHeader className="w-full text-center text-2xl font-semibold">
           {headerLabel}
         </CardHeader>

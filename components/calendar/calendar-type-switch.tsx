@@ -33,25 +33,23 @@ const CalendarTypeSwitch = () => {
     <div className="flex items-center">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="hidden w-[200px] justify-between sm:inline-flex"
-            >
-              {tables.find((table: any) => table.tab === pathname)?.label}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-            <Button
-              variant="ghost"
-              aria-expanded={open}
-              className="h-8 w-8 p-0 sm:hidden"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="hidden w-[200px] justify-between sm:inline-flex"
+          >
+            {tables.find((table: any) => table.tab === pathname)?.label}
+            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+          {/* <Button
+            variant="ghost"
+            aria-expanded={open}
+            className="h-8 w-8 p-0 sm:hidden"
+          >
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button> */}
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <div className="overflow-hidden p-1  [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium ">

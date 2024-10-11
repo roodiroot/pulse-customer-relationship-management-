@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { User } from "lucide-react";
+import { LogOut, LucideLogOut, Settings, User } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -30,18 +30,26 @@ const UserButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>
-          <Link href="/profile">{user?.name || "Гость"}</Link>
+          <Link className="font-mono" href="/profile">
+            {user?.name || "Гость"}
+          </Link>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Link href="/settings">Настройки</Link>
+          <div className="flex items-center gap-2">
+            <Settings className="w-4 h-4 text-foreground/70" />
+            <Link href="/settings/profile">Settings</Link>
+          </div>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <ThemeSwitch />
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <LogoutButton>Выйти</LogoutButton>
+          <div className="flex items-center gap-2">
+            <LucideLogOut className="w-4 h-4 text-foreground/70" />
+            <LogoutButton>Logout</LogoutButton>
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

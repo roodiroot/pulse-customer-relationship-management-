@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 
 export const navigationMenu = [
-  { name: "Dashboard", href: "/analytics", Icon: LineChart },
   { name: "Calendar", href: "/calendar/month", Icon: CalendarCheck2 },
+  { name: "Dashboard", href: "/analytics", Icon: LineChart },
   { name: "Team", href: "/personal", Icon: Users },
   { name: "Companies", href: "/companies", Icon: Building2 },
   { name: "Dealings", href: "/deals", Icon: CircleDollarSign },
@@ -36,4 +36,4 @@ export const authRoutes = [
 
 export const apiAuthPrefix = "/api/auth";
 
-export const DEFAULT_LOGIN_REDIRECT = "/affairs";
+export const DEFAULT_LOGIN_REDIRECT = "/calendar/month";
