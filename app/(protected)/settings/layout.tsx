@@ -1,15 +1,9 @@
-import Link from "next/link";
-import Container from "@/components/utils/container";
 import Navigation from "@/components/page/settings/navigation";
 
 const SettingsLayout = ({
   children,
-  searchParams,
 }: Readonly<{
   children: React.ReactNode;
-  searchParams: {
-    createContact: string;
-  };
 }>) => {
   return (
     <div className="absolute inset-0 grid items-start gap-y-4 lg:grid-cols-4">
