@@ -1,24 +1,14 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-const navigationSettings = [
-  {
-    name: "Profile",
-    href: "/settings/profile",
-  },
-  {
-    name: "Integrations",
-    href: "/settings/integrations",
-  },
-];
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { navigationSettings } from "@/routes";
 
 const Navigation = () => {
   const path = usePathname();
 
-  console.log(path);
   return (
     <nav className="grid gap-1 text-sm text-muted-foreground">
       {navigationSettings.map((i) => (

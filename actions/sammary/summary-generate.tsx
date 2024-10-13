@@ -8,6 +8,7 @@ import { MIN_COUNT_CASE_FOR_GENERATE } from "@/constance/constance";
 import { getSummariesByDealId } from "@/data/summary/data-summaries";
 
 import { Case } from "@prisma/client";
+import { currentSettings } from "@/lib/auth";
 
 function convertArrayToString(arr?: Case[]) {
   return arr
@@ -32,6 +33,10 @@ function convertArrayToString(arr?: Case[]) {
 export const summaryGenerate = async (dealId: string, arr: Case[]) => {
   const currentDeal = await db.deal.findUnique({ where: { id: dealId } });
   if (!currentDeal) return { error: "Invalid deal ID." };
+  const settings = await currentSettings();
+  if (!settings?.aiAssistent) {
+    return { error: "The ability to generate is disabled in the settings." };
+  }
 
   const finishedCases = arr?.filter((item) => item.finished)?.length || 0;
   if (!arr || finishedCases < MIN_COUNT_CASE_FOR_GENERATE)

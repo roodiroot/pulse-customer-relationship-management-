@@ -13,8 +13,8 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Customer Relationship Management",
-  description: "Matryoshka-studio Customer Relationship Management",
+  title: "PULSE",
+  description: "Pulse crm (customer relationship management)",
 };
 
 const RootLayout = async ({

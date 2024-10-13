@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
-
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false);

@@ -4,9 +4,8 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
-import { CompanySchema } from "@/schemas";
-import { createContact } from "../contact/create-contact";
 import { currentUser } from "@/lib/auth";
+import { CompanySchema } from "@/schemas";
 import { UserRole } from "@prisma/client";
 
 export const createCompany = async (value: z.infer<typeof CompanySchema>) => {
@@ -41,17 +40,6 @@ export const createCompany = async (value: z.infer<typeof CompanySchema>) => {
         userId: user.id,
       },
     });
-    for (let i = 0; i < validated.contacts.length; i++) {
-      await createContact(
-        {
-          name: validated.contacts[i].name,
-          phone: validated.contacts[i].phone,
-          mail: validated.contacts[i].mail,
-          comment: validated.contacts[i].comment,
-        },
-        company.id
-      );
-    }
     revalidatePath("/analytics");
     revalidatePath("/add-project");
     return {

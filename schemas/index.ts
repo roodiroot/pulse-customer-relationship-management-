@@ -84,7 +84,7 @@ export const CompanySchema = z.object({
     .string()
     .min(1, { message: "Введите название компании." })
     .max(50, { message: "Не более 50 символов" }),
-  comment: z.string().min(1, { message: "Введите комментарий." }),
+  comment: z.string().max(1000, { message: "Введите комментарий." }),
   TIN: z
     .string()
     .min(8, { message: "Введите ИНН компании." })
@@ -93,14 +93,6 @@ export const CompanySchema = z.object({
   address: z.string().max(100, { message: "Не более 100 символов" }),
   owner: z.string().max(50, { message: "Не более 50 символов" }),
   mainOKVED: z.string().max(150, { message: "Не более 150 символов" }),
-  contacts: z
-    .array(ContactSchema)
-    .min(MIN_STUDENTS_LENGTH, {
-      message: `Вам нужно добавить как минимум ${MIN_STUDENTS_LENGTH} контакт.`,
-    })
-    .max(MAX_STUDENTS_LENGTH, {
-      message: `Вы можете добавить максимум ${MAX_STUDENTS_LENGTH} контактов`,
-    }),
 });
 export const UpdateCompanySchema = z.object({
   name: z
@@ -138,7 +130,7 @@ export const UpdateCaseSchema = z.object({
 
 export const SettingsSchema = z
   .object({
-    name: z.optional(z.string()),
+    name: z.optional(z.string().min(3)),
     role: z.enum([
       UserRole.ADMIN,
       UserRole.USER,
@@ -156,7 +148,11 @@ export const SettingsSchema = z
       }
       return true;
     },
-    { message: "Новый пароль должен быть", path: ["newPassword"] }
+    {
+      message:
+        "Error: New password field cannot be empty. Please provide a new password.",
+      path: ["newPassword"],
+    }
   )
   .refine(
     (data) => {
@@ -165,7 +161,10 @@ export const SettingsSchema = z
       }
       return true;
     },
-    { message: "Пароль должен быть", path: ["password"] }
+    {
+      message: "You must enter your current password before making changes.",
+      path: ["password"],
+    }
   );
 
 export const LoginSchema = z.object({

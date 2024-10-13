@@ -49,11 +49,13 @@ model User {
   password      String?
   role          UserRole  @default(USER)
   bloked        Boolean   @default(false)
+  settings      Settings?
   accounts      Account[]
   companies     Company[]
   notes         Notes[]
 }
 
+// =============== AUTORISATION MODELS ====================
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -91,6 +93,18 @@ model PasswordResetToken {
   @@unique([email, token])
 }
 
+// =============== SETTINGS MODELS ====================
+
+model Settings {
+  id          String  @id @default(cuid())
+  user        User?   @relation(fields: [userId], references: [id])
+  userId      String? @unique
+  aiAssistent Boolean @default(false)
+
+  @@map("settings")
+}
+
+// =============== CRM MODELS ====================
 model Company {
   id          String    @id @default(cuid())
   createdAt   DateTime  @default(now())

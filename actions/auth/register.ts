@@ -27,11 +27,17 @@ export const register = async (value: z.infer<typeof RegisterSchema>) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.user.create({
+  const user = await db.user.create({
     data: {
       name,
       email,
       password: hashedPassword,
+    },
+  });
+  // register settings
+  await db.settings.create({
+    data: {
+      userId: user.id,
     },
   });
 
@@ -39,7 +45,4 @@ export const register = async (value: z.infer<typeof RegisterSchema>) => {
   await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   return { succsess: "Письмо с подтверждением отправлено на ваш email" };
-  return {
-    succsess: "На данный момент нет возможности регестрации пользователей.",
-  };
 };

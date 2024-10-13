@@ -1,18 +1,16 @@
 "use client";
 
 import { z } from "zod";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
 
 import { CompanySchema } from "@/schemas";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import BackButton from "@/components/back-button";
 import { createCompany } from "@/actions/company/create-companyes";
-import CreateContact from "@/components/page/company-create/crate-contacts";
-import AddMainInfoCompany from "@/app/(protected)/(crm)/companies/create/_components/add-main";
+import AddCompanyInfo from "@/components/page/company-create/add-company-info";
 
 const CreateForm = () => {
   const router = useRouter();
@@ -31,22 +29,7 @@ const CreateForm = () => {
       owner: "",
       mainOKVED: "",
       comment: "",
-      contacts: [
-        {
-          name: "",
-          phone: "",
-          mail: "",
-          comment: "",
-        },
-      ],
     },
-  });
-
-  const { control } = form;
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "contacts",
   });
 
   const onSubmit = (value: z.infer<typeof CompanySchema>) => {
@@ -78,8 +61,8 @@ const CreateForm = () => {
       <Form {...form}>
         <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 ">
           <div className="flex flex-col gap-4">
-            <AddMainInfoCompany form={form} error={error} success={success} />
-            <div className="hidden items-center gap-2 md:flex">
+            <AddCompanyInfo form={form} error={error} success={success} />
+            <div className="items-center gap-2 flex border-b pb-6 ">
               <Button
                 disabled={isPending}
                 onClick={form.handleSubmit(onSubmitAndGo)}
@@ -95,28 +78,6 @@ const CreateForm = () => {
               </Button>
             </div>
           </div>
-        </div>
-        <CreateContact
-          control={control}
-          fields={fields}
-          remove={remove}
-          append={append}
-          className="grid gap-4"
-        />
-        <div className="flex items-center gap-2 md:hidden">
-          <Button
-            disabled={isPending}
-            onClick={form.handleSubmit(onSubmitAndGo)}
-          >
-            Сохранить и перейти
-          </Button>
-          <Button
-            disabled={isPending}
-            onClick={form.handleSubmit(onSubmit)}
-            variant="outline"
-          >
-            Сохранить
-          </Button>
         </div>
       </Form>
     </>

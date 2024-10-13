@@ -1,8 +1,8 @@
 "use server";
 
 import * as z from "zod";
-import { AuthError } from "next-auth";
 import bcrypt from "bcrypt";
+import { AuthError } from "next-auth";
 
 import { LoginSchema } from "@/schemas";
 

@@ -12,7 +12,7 @@ const SettingsLayout = ({
   };
 }>) => {
   return (
-    <div className="absolute inset-0 grid items-start gap-y-4 lg:grid-cols-4 auto-rows-min">
+    <div className="absolute inset-0 grid items-start gap-y-4 lg:grid-cols-4">
       <div className="h-full overflow-y-auto px-2 py-4 sm:px-4 lg:py-6 lg:px-6 space-y-4">
         <Navigation />
       </div>

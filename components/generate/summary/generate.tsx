@@ -12,6 +12,7 @@ import FormError from "@/components/ui/form-error";
 import FormSuccess from "@/components/ui/form-success";
 import { deleteSummariesByDealId } from "@/actions/sammary/delete-summary";
 import { useToast } from "@/components/ui/use-toast";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface GenerateProps extends React.HTMLAttributes<HTMLDivElement> {
   dealId: string;
@@ -24,7 +25,6 @@ const Generate: React.FC<GenerateProps> = ({
   summary,
 }) => {
   const { toast } = useToast();
-
   const [comment, setComment] = useState("");
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");

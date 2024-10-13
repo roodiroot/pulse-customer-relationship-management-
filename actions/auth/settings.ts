@@ -12,10 +12,12 @@ import { getUserById } from "@/data/auth/user";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
-  if (!user || !user.id) return { error: "Не авторизован" };
+  if (!user || !user.id)
+    return { error: "Access denied. You need to be logged in to proceed." };
 
   const dbUser = await getUserById(user.id);
-  if (!dbUser) return { error: "Не авторизован" };
+  if (!dbUser)
+    return { error: "Access denied. You need to be logged in to proceed." };
 
   if (user?.isOAuth) {
     values.email = undefined;
@@ -29,7 +31,11 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
       dbUser.password
     );
 
-    if (!passwordMatch) return { error: "Неверный пароль" };
+    if (!passwordMatch)
+      return {
+        error:
+          "Error: Current password does not match our records. Please try again.",
+      };
 
     const hashedPassword = await bcrypt.hash(values.newPassword, 10);
     values.password = hashedPassword;
@@ -44,6 +50,6 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   });
 
   return {
-    success: "Данные успешно обновлены",
+    success: "Data successfully updated.",
   };
 };

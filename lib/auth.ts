@@ -1,4 +1,4 @@
-import { auth } from '@/auth';
+import { auth } from "@/auth";
 
 export const currentUser = async () => {
   const session = await auth();
@@ -7,4 +7,9 @@ export const currentUser = async () => {
 export const currentRole = async () => {
   const session = await auth();
   return session?.user.role;
+};
+
+export const currentSettings = async () => {
+  const session = await auth();
+  return session?.user.settings;
 };

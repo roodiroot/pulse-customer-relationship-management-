@@ -1,11 +1,11 @@
-import NextAuth, { type DefaultSession, type Session } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import NextAuth, { type DefaultSession, type Session } from "next-auth";
 
-import authConfig from "@/auth.config";
 import { db } from "@/lib/db";
-
-import { getAccoutByUserId } from "./data/auth/account";
-import { getUserById } from "./data/auth/user";
+import authConfig from "@/auth.config";
+import { getUserById } from "@/data/auth/user";
+import { getAccoutByUserId } from "@/data/auth/account";
+import { getSettingsByUserId } from "./data/auth/settings";
 
 declare module "next-auth" {
   interface Session {
@@ -13,6 +13,9 @@ declare module "next-auth" {
       role: "ADMIN" | "USER" | "SALES_MANAGER" | "SALES_REP";
       isOAuth: boolean;
       bloked: boolean;
+      settings: {
+        aiAssistent?: boolean;
+      };
     } & DefaultSession["user"];
   }
 }
@@ -44,7 +47,6 @@ export const {
       const existingUser = await getUserById(user.id);
       //Если email не верифицирован
       if (!existingUser?.emailVerified) return false;
-      //TODO: Add 2FA check
       return true;
     },
     async session({ session, token }: { session: Session; token?: any }) {
@@ -59,7 +61,9 @@ export const {
         session.user.email = token.email;
         session.user.isOAuth = token.isOAuth as boolean;
         session.user.bloked = token.bloked as boolean;
+        session.user.settings = token.settings;
       }
+      // console.log("token", session.user.settings);
       return session;
     },
     async jwt({ token }) {
@@ -68,11 +72,14 @@ export const {
       if (!existingUser) return token;
 
       const existingAccount = await getAccoutByUserId(existingUser.id);
+      const settings = await getSettingsByUserId(existingUser.id);
+      token.settings = settings || {};
       token.isOAuth = !!existingAccount;
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
       token.bloked = existingUser.bloked;
+
       return token;
     },
   },
