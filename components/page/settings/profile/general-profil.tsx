@@ -55,7 +55,7 @@ const GeneralProfile = () => {
           }
         })
         .catch(() => {
-          setError("Что то пошло не так");
+          setError("Something went wrong.");
         });
     });
   };

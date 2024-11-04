@@ -3,8 +3,13 @@ import * as z from "zod";
 
 const MAX_STRING_LENGTH = 50;
 
-const MAX_STUDENTS_LENGTH = 5;
-const MIN_STUDENTS_LENGTH = 1;
+export const CreateTelegramNotification = z.object({
+  telegramChatId: z
+    .string()
+    .min(1, { message: "The field cannot be empty." })
+    .max(1000, { message: "Maximum length 1000 characters" })
+    .trim(),
+});
 
 export const CreateNoteSchema = z.object({
   text: z

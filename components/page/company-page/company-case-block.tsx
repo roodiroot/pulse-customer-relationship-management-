@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 import { format } from "date-fns";
-import { useForm } from "react-hook-form";
-import { useState, useTransition } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useEffect, useState, useTransition } from "react";
 import { CalendarIcon, Clock10Icon } from "lucide-react";
 import { ActionType, Case, StageDeal } from "@prisma/client";
 
@@ -62,11 +62,13 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
   close,
 }) => {
   const { toast } = useToast();
+  const date = new Date();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-
-  const [time, setTime] = useState("10:00");
+  const [time, setTime] = useState(
+    `${date.getHours() || "00"}:${date.getMinutes() || "00"}`
+  );
 
   const form = useForm<z.infer<typeof SaveCaseSchema>>({
     resolver: zodResolver(SaveCaseSchema),
@@ -77,24 +79,35 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
     },
   });
 
+  // Слушаем изменения даты и времени, чтобы объединить их в одно значение
+  useEffect(() => {
+    if (form.getValues().date && time) {
+      const [hours, minutes] = time.split(":");
+      const combinedDateTime = new Date(form.getValues().date);
+      combinedDateTime.setHours(Number(hours));
+      combinedDateTime.setMinutes(Number(minutes));
+      combinedDateTime.setSeconds(0);
+      combinedDateTime.setMilliseconds(0);
+
+      // Устанавливаем комбинированное значение в поле формы
+      form.setValue("date", combinedDateTime);
+    }
+  }, [form.getValues().date, time]);
+
   const submit = (
     value: z.infer<typeof SaveCaseSchema>,
     completed?: boolean
   ) => {
-    let d: Date;
     if (completed) {
-      d = new Date();
-    } else {
-      d = new Date(value.date);
-      d.setHours(Number(time.split(":")[0]));
-      d.setMinutes(Number(time.split(":")[1]));
+      console.log(completed);
+      value.date = new Date();
     }
 
     setError("");
     setSuccess("");
     if (!dealId) return;
     startTransition(() => {
-      createCase({ ...value, date: d }, dealId, completed)
+      createCase({ ...value }, dealId, completed)
         .then((data) => {
           if (data.error) {
             toast({
@@ -194,22 +207,7 @@ const CompanyCaseBlock: React.FC<CompanyCaseBlockProps> = ({
                   </FormItem>
                 )}
               />
-              <div className="flex flex-col">
-                <Popover modal={true}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="link"
-                      className={cn("w-full", !time && "text-muted-foreground")}
-                    >
-                      {time ? time : <span>Время события</span>}
-                      <Clock10Icon className="ml-2 h-4 w-4 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <TimePicker setTime={setTime} className="mt-2" />
-                  </PopoverContent>
-                </Popover>
-              </div>
+              <TimePicker value={time} setValue={setTime} />
             </div>
             <div className="col-span-3">
               <FormField

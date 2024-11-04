@@ -55,7 +55,7 @@ const CreateCaseSheet: React.FC<CreateCaseSheetProps> = ({}) => {
             <CardHeader className="bg-muted/40">
               <div className="flex gap-2 items-center font-medium">
                 <LucideInfo className="w-5 h-5 " />
-                Deal info
+                Create a task
               </div>
             </CardHeader>
             <CardContent>
@@ -70,14 +70,6 @@ const CreateCaseSheet: React.FC<CreateCaseSheetProps> = ({}) => {
         </div>
       </SheetContent>
     </Sheet>
-    // <Dialog onOpenChange={() => handleClose()} open={open}>
-    //   <DialogContent>
-    //     <DialogHeader>
-    //       <DialogTitle>Create a case with the company</DialogTitle>
-    //     </DialogHeader>
-    //     <CompanyCaseBlock dealId={caseParam || ""} />
-    //   </DialogContent>
-    // </Dialog>
   );
 };
 

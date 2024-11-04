@@ -1,4 +1,5 @@
 import GeneralProfile from "./general-profil";
+import TelegramNotification from "./telegram-notification";
 import ThemeSwitchForSettings from "./theme-swich-for-settings";
 
 const ProfileForm = () => {
@@ -6,6 +7,7 @@ const ProfileForm = () => {
     <div className="space-y-6">
       <GeneralProfile />
       <ThemeSwitchForSettings />
+      <TelegramNotification />
     </div>
   );
 };
