@@ -2,11 +2,9 @@
 
 import * as React from "react";
 import {
-  CaretSortIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  TriangleDownIcon,
 } from "@radix-ui/react-icons";
 import * as SelectPrimitive from "@radix-ui/react-select";
 

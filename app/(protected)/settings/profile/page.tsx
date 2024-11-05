@@ -1,10 +1,15 @@
+import { showSettingsForUser } from "@/actions/settings/show-settings-for-user";
 import ProfileForm from "@/components/page/settings/profile/profile-form";
 import WrapperSettings from "@/components/page/settings/wrapper-settings";
+import { currentUser } from "@/lib/auth";
 
-const SettingsGeneralPage = () => {
+const SettingsGeneralPage = async () => {
+  const user = await currentUser();
+  const settings = await showSettingsForUser(user && user.id);
+  console.log(settings);
   return (
     <WrapperSettings title="Profile">
-      <ProfileForm />
+      <ProfileForm settings={settings} />
     </WrapperSettings>
   );
 };

@@ -96,11 +96,12 @@ model PasswordResetToken {
 // =============== SETTINGS MODELS ====================
 
 model Settings {
-  id             String  @id @default(cuid())
-  user           User?   @relation(fields: [userId], references: [id])
-  userId         String? @unique
-  aiAssistent    Boolean @default(false)
-  telegramChatId String?
+  id                  String  @id @default(cuid())
+  user                User?   @relation(fields: [userId], references: [id])
+  userId              String? @unique
+  aiAssistent         Boolean @default(false)
+  telegramSendMessage Boolean @default(false)
+  telegramChatId      String?
 
   @@map("settings")
 }

@@ -9,6 +9,7 @@ import { currentRole, currentUser } from "@/lib/auth";
 import { CreateTelegramNotification, SettingsSchema } from "@/schemas";
 import { UserRole } from "@prisma/client";
 import { getUserById } from "@/data/auth/user";
+import { revalidatePath } from "next/cache";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
@@ -54,6 +55,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   };
 };
 
+// Изменение настроек User
 export const setTelegramApi = async (
   value: z.infer<typeof CreateTelegramNotification>
 ) => {
@@ -65,8 +67,6 @@ export const setTelegramApi = async (
   if (!dbUser)
     return { error: "Access denied. You need to be logged in to proceed." };
 
-  console.log(value);
-
   try {
     await db.settings.update({
       where: { userId: dbUser.id },
@@ -77,8 +77,30 @@ export const setTelegramApi = async (
   } catch (error) {
     return { error: "Error writing to the database." };
   }
-
   return {
     success: "Data successfully updated.",
   };
+};
+
+// Переключение чека работы телеграм боты
+export const toggleTelegrmsender = async (value: boolean) => {
+  const user = await currentUser();
+  if (!user || !user.id)
+    return { error: "Access denied. You need to be logged in to proceed." };
+
+  const dbUser = await getUserById(user.id);
+  if (!dbUser)
+    return { error: "Access denied. You need to be logged in to proceed." };
+
+  try {
+    await db.settings.update({
+      where: { userId: dbUser.id },
+      data: {
+        telegramSendMessage: value,
+      },
+    });
+    return { success: "ok." };
+  } catch (error) {
+    return { error: "Error writing to the database." };
+  }
 };

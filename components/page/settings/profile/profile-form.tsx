@@ -1,13 +1,17 @@
+import { Settings } from "@prisma/client";
 import GeneralProfile from "./general-profil";
 import TelegramNotification from "./telegram-notification";
 import ThemeSwitchForSettings from "./theme-swich-for-settings";
 
-const ProfileForm = () => {
+interface ProfileFormProps {
+  settings?: Settings[];
+}
+const ProfileForm: React.FC<ProfileFormProps> = ({ settings }) => {
   return (
     <div className="space-y-6">
       <GeneralProfile />
       <ThemeSwitchForSettings />
-      <TelegramNotification />
+      <TelegramNotification settings={settings} />
     </div>
   );
 };

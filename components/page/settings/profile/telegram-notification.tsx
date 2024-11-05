@@ -13,16 +13,22 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { CreateTelegramNotification, SettingsSchema } from "@/schemas";
+import { Settings } from "@prisma/client";
 import { Button } from "@/components/ui/button";
-import { setTelegramApi, settings } from "@/actions/auth/settings";
 import FormError from "@/components/ui/form-error";
 import FormSuccess from "@/components/ui/form-success";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { setTelegramApi, settings } from "@/actions/auth/settings";
 import InputWrapper from "@/components/page/settings/input-wrapper";
+import { CreateTelegramNotification, SettingsSchema } from "@/schemas";
+import SwitchTGSender from "./swich-tg-sender";
 
-const TelegramNotification = () => {
-  const user = useCurrentUser();
+interface TelegramNotificationProps {
+  settings?: Settings[];
+}
+
+const TelegramNotification: React.FC<TelegramNotificationProps> = ({
+  settings,
+}) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
@@ -32,7 +38,10 @@ const TelegramNotification = () => {
   const form = useForm<z.infer<typeof CreateTelegramNotification>>({
     resolver: zodResolver(CreateTelegramNotification),
     defaultValues: {
-      telegramChatId: "",
+      telegramChatId:
+        settings && settings[0]?.telegramChatId
+          ? settings[0]?.telegramChatId
+          : "",
     },
   });
   const submit = (value: z.infer<typeof CreateTelegramNotification>) => {
@@ -63,6 +72,9 @@ const TelegramNotification = () => {
         className="space-y-4 border-b pb-6 "
       >
         <div className="space-y-4">
+          <SwitchTGSender
+            value={settings ? settings[0].telegramSendMessage : false}
+          />
           <FormField
             control={form.control}
             name="telegramChatId"
