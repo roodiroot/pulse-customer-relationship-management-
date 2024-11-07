@@ -3,7 +3,7 @@ import CalendarTypeSwitch from "@/components/calendar/calendar-type-switch";
 interface HeaderWrapperCalendarProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
   title: string;
-  countAllCase: number;
+  countAllCase?: number;
 }
 const HeaderWrapperCalendar: React.FC<HeaderWrapperCalendarProps> = ({
   title,
@@ -13,7 +13,7 @@ const HeaderWrapperCalendar: React.FC<HeaderWrapperCalendarProps> = ({
   return (
     <div className="flex items-center justify-between border-b px-6 py-4 lg:flex-none">
       <h1 className="font-bold leading-6">
-        {title} <span className="font-light">({countAllCase})</span>
+        {title} <span className="font-light">({countAllCase || 0})</span>
       </h1>
       <div className="flex">
         {children}
