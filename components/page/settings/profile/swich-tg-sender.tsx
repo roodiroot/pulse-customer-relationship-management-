@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import SwitchWrapper from "../swich-wrapper";
-import { toggleTelegrmsender } from "@/actions/auth/settings";
+import { toggleTelegrmsender } from "@/actions/settings/settings";
 
 const SwitchTGSender = ({ value }: { value: boolean }) => {
   const [onSend, setOnSend] = useState(value);

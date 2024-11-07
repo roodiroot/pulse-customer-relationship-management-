@@ -1,10 +1,30 @@
+import dayjs from "dayjs";
+
+import { currentUser } from "@/lib/auth";
 import { showCases } from "@/actions/case/show-cases";
 import MonthCalendarBlock from "@/components/calendar/month/month-calendar-block";
-import { currentUser } from "@/lib/auth";
-import { ActionType, Case, StageDeal } from "@prisma/client";
+
+import { ActionType, StageDeal } from "@prisma/client";
+
+const isValidDate = (dateString: string): string | undefined => {
+  if (!dateString) {
+    return undefined;
+  }
+  const date = dayjs(dateString);
+  return date.isValid() ? date.toString() : undefined;
+};
 
 const MonthCalendarPage = async ({
-  searchParams,
+  searchParams: {
+    responsible,
+    stage,
+    date: dateString,
+    dateEnd: dateEndString,
+    take,
+    page,
+    finished,
+    type,
+  },
 }: {
   searchParams: {
     responsible: string;
@@ -18,28 +38,29 @@ const MonthCalendarPage = async ({
   };
 }) => {
   const user = await currentUser();
-  const {
-    cases,
-    count: countCase,
-    success: successCase,
-    error: errorCase,
-  } = await showCases({
-    user: {
-      userId: user?.id,
-      userRole: user?.role,
-      bloked: user?.bloked,
-    },
+  const currentDate = dayjs();
+
+  const startDate =
+    isValidDate(dateString) ?? currentDate.startOf("month").toISOString();
+  const endDate =
+    isValidDate(dateEndString) ?? currentDate.endOf("month").toISOString();
+
+  const { cases, count, success, error } = await showCases({
+    user: { userId: user?.id, userRole: user?.role, bloked: user?.bloked },
     params: {
-      finished: searchParams?.finished,
-      type: searchParams?.type,
-      date: searchParams?.date,
-      dateEnd: searchParams?.dateEnd,
-      take: "99999",
-      page: searchParams?.page,
-      responsible: searchParams.responsible,
+      finished,
+      type,
+      date: startDate,
+      dateEnd: endDate,
+      take: "1000",
+      page,
+      responsible,
     },
   });
-  return <MonthCalendarBlock tasks={cases} />;
+
+  console.log(count);
+
+  return <MonthCalendarBlock tasks={cases} countAllCase={count} />;
 };
 
 export default MonthCalendarPage;

@@ -4,12 +4,10 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 
 import { db } from "@/lib/db";
-import { currentRole, currentUser } from "@/lib/auth";
+import { currentUser } from "@/lib/auth";
+import { getUserById } from "@/data/auth/user";
 
 import { CreateTelegramNotification, SettingsSchema } from "@/schemas";
-import { UserRole } from "@prisma/client";
-import { getUserById } from "@/data/auth/user";
-import { revalidatePath } from "next/cache";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();

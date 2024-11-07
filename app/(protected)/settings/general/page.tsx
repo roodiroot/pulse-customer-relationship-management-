@@ -1,7 +1,6 @@
 "use client";
 
-import { settings } from "@/actions/auth/settings";
-import HeadBody from "@/components/cast-ui/head-body";
+import { settings } from "@/actions/settings/settings";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,16 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ColOneContainer from "@/components/utils/col-one-container";
-import ColTwoContainer from "@/components/utils/col-two-container";
-import Container from "@/components/utils/container";
+
 import { useAdmin } from "@/hooks/use-admin";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserRole } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

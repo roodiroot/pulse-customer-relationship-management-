@@ -6,7 +6,7 @@ import { currentUser } from "@/lib/auth";
 const SettingsGeneralPage = async () => {
   const user = await currentUser();
   const settings = await showSettingsForUser(user && user.id);
-  console.log(settings);
+
   return (
     <WrapperSettings title="Profile">
       <ProfileForm settings={settings} />

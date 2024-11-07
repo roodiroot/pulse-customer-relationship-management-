@@ -17,10 +17,11 @@ import { Settings } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import FormError from "@/components/ui/form-error";
 import FormSuccess from "@/components/ui/form-success";
-import { setTelegramApi, settings } from "@/actions/auth/settings";
+import { setTelegramApi } from "@/actions/settings/settings";
 import InputWrapper from "@/components/page/settings/input-wrapper";
-import { CreateTelegramNotification, SettingsSchema } from "@/schemas";
-import SwitchTGSender from "./swich-tg-sender";
+import SwitchTGSender from "@/components/page/settings/profile/swich-tg-sender";
+
+import { CreateTelegramNotification } from "@/schemas";
 
 interface TelegramNotificationProps {
   settings?: Settings[];

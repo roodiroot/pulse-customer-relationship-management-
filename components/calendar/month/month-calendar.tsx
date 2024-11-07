@@ -3,6 +3,7 @@ import { generateDate } from "@/lib/calendar";
 
 const MonthCalendar = ({ tasks, today }: any) => {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  console.log("MonthCalendar render", tasks);
   const taskList = generateDate(today.month(), today.year(), tasks);
   return (
     <div className="shadow-sm ring-0 lg:flex lg:flex-auto lg:flex-col bg-[hsl(var(--border))]">
@@ -68,7 +69,7 @@ const MonthCalendar = ({ tasks, today }: any) => {
             </div>
           ))}
         </div>
-        <div className="w-full isolate grid grid-cols-7 grid-rows-6 gap-[1px] lg:hidden">
+        {/* <div className="w-full isolate grid grid-cols-7 grid-rows-6 gap-[1px] lg:hidden">
           {taskList.map(({ date, currentMonth, today, tasks }, index) => (
             <div
               key={index}
@@ -98,7 +99,7 @@ const MonthCalendar = ({ tasks, today }: any) => {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

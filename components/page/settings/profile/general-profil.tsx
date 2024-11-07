@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { SettingsSchema } from "@/schemas";
 import { Button } from "@/components/ui/button";
-import { settings } from "@/actions/auth/settings";
+import { settings } from "@/actions/settings/settings";
 import FormError from "@/components/ui/form-error";
 import FormSuccess from "@/components/ui/form-success";
 import { useCurrentUser } from "@/hooks/use-current-user";

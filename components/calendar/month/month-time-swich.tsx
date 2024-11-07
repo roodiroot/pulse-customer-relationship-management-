@@ -5,15 +5,19 @@ const MonthTimeSwich = ({
   today,
   setToday,
   currenntDate,
+  addDateForURL,
 }: {
   today: Dayjs;
   setToday: (time: Dayjs) => void;
   currenntDate: Dayjs;
+  addDateForURL: () => void;
 }) => {
   return (
     <div className="flex">
       <Button
-        onClick={() => setToday(today.month(today.month() - 1))}
+        onClick={() => {
+          setToday(today.month(today.month() - 1));
+        }}
         variant="outline"
         className="rounded-r-none border-r-0"
       >

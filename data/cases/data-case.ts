@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { ROW_TABLE } from "@/constance/constance";
 
 import { ActionType, Case, Company } from "@prisma/client";
+import dayjs from "dayjs";
 
 export interface ResCase extends Case {
   deals: {
@@ -33,6 +34,13 @@ export const getAllCases = async ({
   take,
   skip,
 }: DataCase): Promise<{ cases: ResCase[]; count: number }> => {
+  // проверяем даты которые пришли на валидность
+  if (!dayjs(start).isValid()) {
+    start = undefined;
+  }
+  if (!dayjs(end).isValid()) {
+    end = undefined;
+  }
   const parametrsSearch = {
     where: {
       deals: { company: { userId } },
@@ -62,7 +70,7 @@ export const getAllCases = async ({
     });
 
     return { cases, count };
-  } catch {
+  } catch (err) {
     throw new Error("error");
   }
 };

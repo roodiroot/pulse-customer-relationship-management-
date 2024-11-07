@@ -36,9 +36,10 @@ export const generateDate = (
       Meet: [],
       Brief: [],
     };
+    console.log(tasks);
 
     // Filter and categorize tasks for the current date
-    tasks.forEach((task) => {
+    tasks?.forEach((task) => {
       if (dayjs(task.date).format("YYYY-MM-DD") === formattedDate) {
         if (task.type in tasksForDate) {
           tasksForDate[task.type as keyof TasksForDate].push(task);
