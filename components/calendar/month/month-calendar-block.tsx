@@ -54,7 +54,6 @@ const MonthCalendarBlock: React.FC<CalendarProps> = ({
   return (
     <>
       <MonthHeaderCalendar
-        addDateForURL={updateStartAndEndDate}
         today={selectedDate}
         setToday={setSelectedDate}
         currenntDate={currentDate}

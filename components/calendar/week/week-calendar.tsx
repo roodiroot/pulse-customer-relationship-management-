@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { cn } from "@/lib/utils";
 import TimeLine from "@/components/calendar/week//time-line";
 import TaskCloud from "@/components/calendar/week/task-cloud";
-import { generateWeekDays, taskForWeek } from "@/lib/calendar";
+import { generateWeekDays, taskForWeek } from "@/lib/calendar/calendar";
 
 import { Case } from "@prisma/client";
 

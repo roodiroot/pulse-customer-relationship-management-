@@ -1,20 +1,24 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
-import { months } from "@/lib/calendar";
+import { months } from "@/lib/calendar/calendar";
 import WeekTimeSwich from "@/components/calendar/week/week-time-swich";
 import HeaderWrapperCalendar from "@/components/calendar/header-wrapper";
 
 const WeekHeaderCalendar = ({
   offset,
   setOffset,
+  countAllCase,
+  currentDate,
 }: {
   offset: number;
   setOffset: (value: number) => void;
+  countAllCase?: number;
+  currentDate: Dayjs;
 }) => {
-  const currenntDate = dayjs();
-  const startOfWeek = currenntDate.startOf("week").add(offset, "week");
+  const startOfWeek = currentDate.startOf("week").add(offset, "week");
   return (
     <HeaderWrapperCalendar
+      countAllCase={countAllCase}
       title={months[startOfWeek.month()] + " " + startOfWeek.year()}
     >
       <WeekTimeSwich setOffset={setOffset} offset={offset} />

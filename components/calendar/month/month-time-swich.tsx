@@ -5,12 +5,10 @@ const MonthTimeSwich = ({
   today,
   setToday,
   currenntDate,
-  addDateForURL,
 }: {
   today: Dayjs;
   setToday: (time: Dayjs) => void;
   currenntDate: Dayjs;
-  addDateForURL: () => void;
 }) => {
   return (
     <div className="flex">

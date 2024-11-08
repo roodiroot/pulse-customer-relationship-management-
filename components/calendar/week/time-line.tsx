@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useEffect, useRef } from "react";
 
-import { timeToNumber } from "@/lib/calendar";
+import { timeToNumber } from "@/lib/calendar/calendar";
 
 const TimeLine = () => {
   const ref = useRef<HTMLLIElement | null>(null);

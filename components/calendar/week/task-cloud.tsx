@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 import dayjs from "dayjs";
 
-import { timeToNumber, typeToNumber } from "@/lib/calendar";
+import { timeToNumber, typeToNumber } from "@/lib/calendar/calendar";
 
 import { Case } from "@prisma/client";
 

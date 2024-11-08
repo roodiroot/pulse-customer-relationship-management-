@@ -1,74 +1,56 @@
-import { ActionType, Case } from "@prisma/client";
 import dayjs from "dayjs";
+import { ActionType, Case } from "@prisma/client";
 
-type TasksForDate = {
-  Call: Case[];
-  Meet: Case[];
-  Brief: Case[];
-};
-
-export const generateDate = (
-  month = dayjs().month(),
-  year = dayjs().year(),
-  tasks: Case[]
-) => {
-  const firstDateOfMonth = dayjs().year(year).month(month).startOf("month");
-  const lastDateOfMonth = dayjs().year(year).month(month).endOf("month");
+export const generateDate = (today = dayjs(), tasks: Case[]) => {
+  const firstDateOfMonth = dayjs(today).startOf("month");
+  const lastDateOfMonth = dayjs(today).endOf("month");
 
   const arrayOfDate = [];
 
-  //create prefix date
-  for (let i = 0; i < firstDateOfMonth.day(); i++) {
+  const prefixDays = (firstDateOfMonth.day() + 6) % 7;
+
+  // Создаем префиксные даты
+  for (let i = 0; i < prefixDays; i++) {
     arrayOfDate.push({
       currentMonth: false,
       date: firstDateOfMonth.date(i),
     });
   }
 
-  //generate current date
-  for (let i = firstDateOfMonth.date(); i <= lastDateOfMonth.date(); i++) {
+  // console.log(groupedTasks);
+
+  // Генерация дат текущего месяца и задачь на каждый день
+  for (let i = 1; i <= lastDateOfMonth.date(); i++) {
     const currentDate = firstDateOfMonth.date(i);
-    const formattedDate = currentDate.format("YYYY-MM-DD");
 
-    // Initialize task categories
-    const tasksForDate: TasksForDate = {
-      Call: [],
-      Meet: [],
-      Brief: [],
-    };
-    console.log(tasks);
-
-    // Filter and categorize tasks for the current date
-    tasks?.forEach((task) => {
-      if (dayjs(task.date).format("YYYY-MM-DD") === formattedDate) {
-        if (task.type in tasksForDate) {
-          tasksForDate[task.type as keyof TasksForDate].push(task);
-        }
+    const groupedTasks = tasks.reduce((acc: any, task) => {
+      const taskDate = dayjs(new Date(task.date || "")).format("DD/MM/YYYY");
+      if (taskDate === dayjs(currentDate).format("DD/MM/YYYY")) {
+        const { type } = task;
+        acc[type] = acc[type] || [];
+        acc[type].push(task);
       }
-    });
+      return acc;
+    }, {});
 
     arrayOfDate.push({
       currentMonth: true,
-      date: firstDateOfMonth.date(i),
-      today:
-        firstDateOfMonth.date(i).toDate().toDateString() ===
-        dayjs().toDate().toDateString(),
-      tasks: tasksForDate,
+      date: currentDate,
+      today: currentDate.isSame(dayjs(), "day"),
+      tasks: groupedTasks,
     });
   }
 
-  //generate suffix date
+  // Генерация суффиксных дат
   const remaining = 42 - arrayOfDate.length;
-  for (
-    let i = lastDateOfMonth.date() + 1;
-    i <= lastDateOfMonth.date() + remaining;
-    i++
-  ) {
+
+  for (let i = 1; i <= remaining; i++) {
     arrayOfDate.push({
       currentMonth: false,
-      date: firstDateOfMonth.date(i),
+      date: lastDateOfMonth.add(i, "day"),
     });
   }
+
   return arrayOfDate;
 };
 

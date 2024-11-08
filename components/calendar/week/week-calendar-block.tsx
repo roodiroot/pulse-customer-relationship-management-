@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import dayjs from "dayjs";
+import { useCallback, useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import WeekCalendar from "@/components/calendar/week/week-calendar";
 import WeekHeaderCalendar from "@/components/calendar/week/week-header-calendar";
+
 import { Case } from "@prisma/client";
 
 export type Task = {
@@ -19,67 +22,57 @@ export type Task = {
 
 interface WeekCalendarProps {
   tasks: Case[];
+  counCase?: number;
 }
 
-// const tasksForWeek: Case[] = [
-//   {
-//     id: "clupzflek000a5ld8lq9ly0fz",
-//     createdAt: "2024-04-07T20:34:44.635Z",
-//     type: "Meet",
-//     comment: "тнб",
-//     date: "2024-08-01T08:26:21.274Z",
-//     responsible: null,
-//     finished: true,
-//     dealId: "clupzdiw600065ld8aqcuxo54",
-//   },
-//   {
-//     id: "clupzflek000a5ld8lq9ly0fz",
-//     createdAt: "2024-04-07T20:34:44.635Z",
-//     type: "Meet",
-//     comment: "тнб",
-//     date: "2024-08-01T09:00:21.274Z",
-//     responsible: null,
-//     finished: true,
-//     dealId: "clupzdiw600065ld8aqcuxo54",
-//   },
-//   {
-//     id: "clupzflek000a5ld8lq9ly0fz",
-//     createdAt: "2024-04-07T20:34:44.635Z",
-//     type: "Meet",
-//     comment: "тнб",
-//     date: "2024-08-01T09:15:21.274Z",
-//     responsible: null,
-//     finished: true,
-//     dealId: "clupzdiw600065ld8aqcuxo54",
-//   },
-//   {
-//     id: "clupzflek000a5ld8lq9ly0fz",
-//     createdAt: "2024-04-07T20:34:44.635Z",
-//     type: "Call",
-//     comment: "тнб",
-//     date: "2024-07-28T07:00:21.274Z",
-//     responsible: null,
-//     finished: true,
-//     dealId: "clupzdiw600065ld8aqcuxo54",
-//   },
-//   {
-//     id: "clupzflek000a5ld8lq9ly0fz",
-//     createdAt: "2024-04-07T20:34:44.635Z",
-//     type: "Brief",
-//     comment: "тнб",
-//     date: "2024-07-29T09:30:21.274Z",
-//     responsible: null,
-//     finished: true,
-//     dealId: "clupzdiw600065ld8aqcuxo54",
-//   },
-// ];
-
-const WeekCalendarBlock: React.FC<WeekCalendarProps> = ({ tasks }) => {
+const WeekCalendarBlock: React.FC<WeekCalendarProps> = ({
+  tasks,
+  counCase,
+}) => {
   const [offset, setOffset] = useState(0);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const currentDate = dayjs();
+
+  const updateUrlParams = useCallback(
+    (keys: string[], values: string[]) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("page"); // Remove page parameter to reset to first page
+      keys.forEach((key, index) => {
+        params.set(key, values[index]);
+      });
+      router.push(`${pathname}?${params}`);
+    },
+    [searchParams, pathname, router]
+  );
+
+  useEffect(() => {
+    updateStartAndEndDate();
+  }, [offset]);
+
+  const updateStartAndEndDate = () => {
+    const firstDay = dayjs(currentDate.add(offset, "week"))
+      .startOf("week")
+      .toDate();
+    const lastDay = dayjs(currentDate.add(offset, "week"))
+      .endOf("week")
+      .toDate();
+
+    updateUrlParams(
+      ["date", "dateEnd"],
+      [firstDay.toISOString(), lastDay.toISOString()]
+    );
+  };
 
   return (
     <>
-      <WeekHeaderCalendar offset={offset} setOffset={setOffset} />
+      <WeekHeaderCalendar
+        offset={offset}
+        currentDate={currentDate}
+        setOffset={setOffset}
+        countAllCase={counCase}
+      />
       <WeekCalendar tasks={tasks} offset={offset} />
     </>
   );

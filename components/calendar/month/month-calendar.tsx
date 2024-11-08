@@ -1,10 +1,13 @@
+import Link from "next/link";
+import { Dayjs } from "dayjs";
+
 import { cn } from "@/lib/utils";
-import { generateDate } from "@/lib/calendar";
+import { generateDate } from "@/lib/calendar/calendar";
 
 const MonthCalendar = ({ tasks, today }: any) => {
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  console.log("MonthCalendar render", tasks);
-  const taskList = generateDate(today.month(), today.year(), tasks);
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const taskList = generateDate(today, tasks);
+
   return (
     <div className="shadow-sm ring-0 lg:flex lg:flex-auto lg:flex-col bg-[hsl(var(--border))]">
       <div className="grid grid-cols-7 gap-[1px] border-b bg-background/40 text-center text-sm text-foreground/80 font-semibold leading-6 lg:flex-none">
@@ -16,93 +19,94 @@ const MonthCalendar = ({ tasks, today }: any) => {
         ))}
       </div>
       <div className="flex  text-sm leading-6  lg:flex-auto">
-        <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 gap-[1px] ">
-          {taskList.map(({ date, currentMonth, today, tasks }, index) => (
-            <div
-              key={index}
-              className={cn(
-                "relative bg-background flex flex-col justify-end gap-[1px] p-1",
-                !currentMonth && "bg-background/60 text-muted-foreground "
-              )}
-            >
-              <div className="h-1/2 flex gap-1">
-                {tasks?.Call.length ? (
-                  <div className="rounded-md flex-1 bg-[hsl(var(--chart-2))]">
-                    <div className="w-full h-full flex flex-col text-xs p-1">
-                      <div className="">Call</div>
-                      <div className="text-base text-end font-semibold">
-                        {tasks?.Call.length}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-                {tasks?.Meet.length ? (
-                  <div className="rounded-md flex-1 bg-[hsl(var(--chart-4))]">
-                    <div className="w-full h-full flex flex-col text-xs p-1">
-                      <div className="">Meet</div>
-                      <div className="text-base text-end font-semibold ">
-                        {tasks?.Meet.length}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-                {tasks?.Brief.length ? (
-                  <div className="rounded-md flex-1 bg-[hsl(var(--chart-5))]">
-                    <div className="w-full h-full flex flex-col text-xs p-1">
-                      <div className="">Brief</div>
-                      <div className="text-base text-end font-semibold ">
-                        {tasks?.Brief.length}
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-              <time
-                dateTime="2021-12-27"
+        <div className="isolate w-full grid grid-cols-7 grid-rows-6 gap-[1px] ">
+          {taskList.map(({ date, currentMonth, today, tasks }, index) => {
+            console.log();
+            return (
+              <div
+                key={index}
                 className={cn(
-                  "absolute top-2 left-3 flex w-6 h-6 items-center justify-center rounded-full",
-                  today && "bg-primary text-white font-semibold"
+                  "relative h-14 lg:h-auto bg-background gap-[3px]",
+                  !currentMonth && "bg-background/60 text-muted-foreground "
                 )}
               >
-                {date.date()}
-              </time>
-            </div>
-          ))}
-        </div>
-        {/* <div className="w-full isolate grid grid-cols-7 grid-rows-6 gap-[1px] lg:hidden">
-          {taskList.map(({ date, currentMonth, today, tasks }, index) => (
-            <div
-              key={index}
-              className={cn(
-                "relative flex h-14 flex-col bg-background px-3 py-2",
-                !currentMonth && "bg-background/60 text-muted-foreground"
-              )}
-            >
-              <time
-                dateTime="2021-12-27"
-                className={cn("", today && "text-indigo-500 font-bold")}
-              >
-                {date.date()}
-              </time>
-              <div className="absolute inset-1 sm:inset-2 flex flex-col justify-end ">
-                <div className="flex gap-1 sm:gap-2 justify-end">
-                  {tasks?.Call?.length ? (
-                    <div className="rounded-full w-3 h-3 bg-[hsl(var(--chart-2))]"></div>
-                  ) : null}
-                  {tasks?.Meet?.length ? (
-                    <div className="rounded-full w-3 h-3 bg-[hsl(var(--chart-4))]"></div>
-                  ) : null}
-                  {tasks?.Brief?.length ? (
-                    <div className="rounded-full w-3 h-3 bg-[hsl(var(--chart-5))]"></div>
-                  ) : null}
+                <div className="relative h-full">
+                  <div className="absolute py-2 px-2 flex lg:right-0 bottom-0 lg:flex-col lg:gap-1 lg:items-end lg:px-1 lg:py-1">
+                    {tasks &&
+                      Object.entries(tasks).map(([key, value]: any) => {
+                        return (
+                          <ElementTaskForMonthCalendar
+                            key={key}
+                            taskName={key}
+                            date={date}
+                            count={value.length}
+                          />
+                        );
+                      })}
+                  </div>
+                  <ElementNumberDateForMonthCalendar
+                    date={date.date()}
+                    today={today || false}
+                  />
                 </div>
               </div>
-            </div>
-          ))}
-        </div> */}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
 };
 
 export default MonthCalendar;
+
+const ElementTaskForMonthCalendar = ({
+  taskName,
+  count,
+  date,
+}: {
+  taskName: string;
+  count: number;
+  date: Dayjs;
+}) => (
+  <div className="cursor-pointer ml-auto relative z-10 lg:flex flex-row items-center gap-1 lg:h-3 ">
+    <Link
+      href={`/affairs?type=${taskName}&date=${date.toISOString()}`}
+      className="absolute inset-0 z-10"
+    ></Link>
+    <div className="hidden lg:flex-1"></div>
+    <div
+      className={cn(
+        "relative pr-3 before:absolute before:top-1/2 before:-translate-y-1/2 before:right-0 before:w-2 before:h-2 lg:before:w-[6px] lg:before:h-[6px] before:bg-sky-500 before:rounded-full",
+        taskName === "Call" && "before:bg-[hsl(var(--chart-2))]",
+        taskName === "Meet" && "before:bg-[hsl(var(--chart-4))]",
+        taskName === "Brief" && "before:bg-[hsl(var(--chart-5))]",
+        taskName === "Task" && "before:bg-[hsl(var(--chart-1))]"
+      )}
+    >
+      <span className="hidden lg:inline-block text-xs font-medium leading-3">
+        {taskName}
+      </span>{" "}
+      <span className="hidden lg:inline-block text-xs ">({count})</span>
+    </div>
+  </div>
+);
+
+const ElementNumberDateForMonthCalendar = ({
+  today,
+  date,
+}: {
+  today: boolean;
+  date: number;
+}) => (
+  <time
+    dateTime="2021-12-27"
+    className={cn(
+      " absolute right-3 z-0 lg:ml-0 lg:top-2 lg:left-3 lg:flex lg:w-6 lg:h-6 lg:items-center lg:justify-center lg:rounded-full",
+      today &&
+        "text-primary font-bold lg:bg-primary lg:text-white lg:font-semibold"
+    )}
+  >
+    {date}
+  </time>
+);
