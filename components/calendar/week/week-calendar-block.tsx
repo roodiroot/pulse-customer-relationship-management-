@@ -8,6 +8,9 @@ import WeekCalendar from "@/components/calendar/week/week-calendar";
 import WeekHeaderCalendar from "@/components/calendar/week/week-header-calendar";
 
 import { Case } from "@prisma/client";
+import isoWeek from "dayjs/plugin/isoWeek";
+
+dayjs.extend(isoWeek);
 
 export type Task = {
   id: string;
@@ -53,10 +56,10 @@ const WeekCalendarBlock: React.FC<WeekCalendarProps> = ({
 
   const updateStartAndEndDate = () => {
     const firstDay = dayjs(currentDate.add(offset, "week"))
-      .startOf("week")
+      .startOf("isoWeek")
       .toDate();
     const lastDay = dayjs(currentDate.add(offset, "week"))
-      .endOf("week")
+      .endOf("isoWeek")
       .toDate();
 
     updateUrlParams(

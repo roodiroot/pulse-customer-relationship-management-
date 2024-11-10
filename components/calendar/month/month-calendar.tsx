@@ -78,7 +78,6 @@ const ElementTaskForMonthCalendar = ({
     <div
       className={cn(
         "relative pr-3 before:absolute before:top-1/2 before:-translate-y-1/2 before:right-0 before:w-2 before:h-2 lg:before:w-[6px] lg:before:h-[6px] before:bg-sky-500 before:rounded-full",
-        taskName === "Call" && "before:bg-[hsl(var(--chart-2))]",
         taskName === "Meet" && "before:bg-[hsl(var(--chart-4))]",
         taskName === "Brief" && "before:bg-[hsl(var(--chart-5))]",
         taskName === "Task" && "before:bg-[hsl(var(--chart-1))]"

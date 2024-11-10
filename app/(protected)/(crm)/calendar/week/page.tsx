@@ -4,6 +4,9 @@ import { ActionType, StageDeal } from "@prisma/client";
 import WeekCalendarBlock from "@/components/calendar/week/week-calendar-block";
 import dayjs from "dayjs";
 
+import isoWeek from "dayjs/plugin/isoWeek";
+dayjs.extend(isoWeek);
+
 const isValidDate = (dateString: string): string | undefined => {
   if (!dateString) {
     return undefined;
@@ -39,9 +42,14 @@ const WeekCalendarPage = async ({
   const currentDate = dayjs();
 
   const startDate =
-    isValidDate(dateString) ?? currentDate.startOf("week").toISOString();
+    isValidDate(dateString) ?? currentDate.startOf("isoWeek").toISOString();
   const endDate =
-    isValidDate(dateEndString) ?? currentDate.endOf("week").toISOString();
+    isValidDate(dateEndString) ?? currentDate.endOf("isoWeek").toISOString();
+
+  // console.log({
+  //   s: startDate,
+  //   e: endDate,
+  // });
 
   const { cases, count, success, error } = await showCases({
     user: { userId: user?.id, userRole: user?.role, bloked: user?.bloked },

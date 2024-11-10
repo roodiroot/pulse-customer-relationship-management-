@@ -43,7 +43,7 @@ export const showCases = async ({
   const skip = page * take - take;
   const start = params?.date ? new Date(params.date) : undefined;
   const end = params?.dateEnd
-    ? new Date(new Date(params.dateEnd).getTime() + 86400000)
+    ? new Date(new Date(params.dateEnd).getTime())
     : start
     ? new Date(start.getTime() + 86400000)
     : undefined;

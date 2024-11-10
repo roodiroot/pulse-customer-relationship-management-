@@ -41,6 +41,7 @@ export const getAllCases = async ({
   if (!dayjs(end).isValid()) {
     end = undefined;
   }
+
   const parametrsSearch = {
     where: {
       deals: { company: { userId } },
@@ -68,7 +69,7 @@ export const getAllCases = async ({
     const count = await db.case.count({
       ...parametrsSearch,
     });
-
+    // console.log({ start: start, end: end, count }, cases);
     return { cases, count };
   } catch (err) {
     throw new Error("error");

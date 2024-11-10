@@ -3,11 +3,11 @@
 import dayjs from "dayjs";
 
 import { cn } from "@/lib/utils";
-import TimeLine from "@/components/calendar/week//time-line";
-import TaskCloud from "@/components/calendar/week/task-cloud";
-import { generateWeekDays, taskForWeek } from "@/lib/calendar/calendar";
+import { generateWeekDays, timeToNumber } from "@/lib/calendar/calendar";
 
 import { Case } from "@prisma/client";
+import { useEffect, useRef } from "react";
+import Link from "next/link";
 
 const timeLine = [
   "12AM",
@@ -46,30 +46,14 @@ const WeekCalendar = ({ tasks, offset }: { tasks: Case[]; offset: number }) => {
         <div className="sticky top-0 z-30 flex-none  shadow-sm bg-[hsl(var(--border))] border-b sm:pr-8">
           <div className="-mr-[1px] hidden grid-cols-7 border-r bg-background/40  text-sm leading-6 text-foreground/80 sm:grid">
             <div className="w-14 col-end-1 first:border-x"></div>
-            {generateWeekDays(dayjs(), offset).map(
-              ({ date, today, dayName }, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-center py-3 border-r "
-                >
-                  <div className="flex items-center">
-                    <div
-                      className={cn(today && "text-indigo-700 font-semibold")}
-                    >
-                      {dayName.slice(0, 3)}{" "}
-                    </div>
-                    <div
-                      className={cn(
-                        "font-medium ml-1.5  text-foreground h-8 w-8 flex items-center justify-center rounded-full",
-                        today && " bg-indigo-700 text-white"
-                      )}
-                    >
-                      {date.date()}
-                    </div>
-                  </div>
-                </div>
-              )
-            )}
+            {generateWeekDays(offset).map(({ date, today, dayName }, index) => (
+              <CalendarDayHeader
+                key={index}
+                dayNumber={date.date()}
+                isToday={today}
+                dayName={dayName}
+              />
+            ))}
           </div>
         </div>
 
@@ -109,8 +93,14 @@ const WeekCalendar = ({ tasks, offset }: { tasks: Case[]; offset: number }) => {
               }}
             >
               {!offset && <TimeLine />}
-              {taskForWeek(dayjs(), offset, tasks).map((task, index) => {
-                return <TaskCloud key={index} task={task} />;
+              {tasks?.map((task, index) => {
+                return (
+                  <TaskCloud
+                    key={index}
+                    taskName={task.type}
+                    taskDate={task.date || new Date()}
+                  />
+                );
               })}
             </ol>
           </div>
@@ -121,3 +111,104 @@ const WeekCalendar = ({ tasks, offset }: { tasks: Case[]; offset: number }) => {
 };
 
 export default WeekCalendar;
+
+//генерация дней недели
+const CalendarDayHeader = ({
+  isToday,
+  dayName,
+  dayNumber,
+}: {
+  isToday: boolean;
+  dayName: string;
+  dayNumber: number;
+}) => {
+  return (
+    <div className="flex items-center justify-center py-3 border-r">
+      <div className="flex items-center">
+        <div className={isToday ? "text-primary font-semibold" : undefined}>
+          {dayName.slice(0, 3)}
+        </div>
+        <div
+          className={cn(
+            "font-medium ml-1.5 text-foreground h-8 w-8 flex items-center justify-center rounded-full",
+            isToday ? "bg-primary text-white" : undefined
+          )}
+        >
+          {dayNumber}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ползунок текущего времени
+const TimeLine = () => {
+  const lineRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    if (lineRef.current) {
+      lineRef.current.scrollIntoView({ block: "center" });
+    }
+  }, []);
+
+  const currentTimeSlot = timeToNumber(new Date());
+
+  return (
+    <li
+      ref={lineRef}
+      className="relative z-10 flex mt-[1px]"
+      style={{
+        gridColumnStart: `${dayjs().isoWeekday()}`,
+        gridRow: `${currentTimeSlot} / ${currentTimeSlot}`,
+      }}
+    >
+      <div className="relative h-[2px] w-full bg-red-500 shadow-lg before:w-4 before:h-4 before:absolute before:top-1/2 before:-translate-y-1/2 before:-left-2 before:rounded-full before:bg-red-500 before:shadow-lg"></div>
+    </li>
+  );
+};
+
+const TaskCloud = ({
+  taskName,
+  taskDate,
+}: {
+  taskName: string;
+  taskDate: Date;
+}) => {
+  const time = new Intl.DateTimeFormat("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Moscow",
+  }).format(taskDate);
+
+  return (
+    <li
+      className="relative h-auto flex mt-[1px]"
+      style={{
+        gridColumnStart: `${dayjs(taskDate).isoWeekday()}`,
+        gridRow: `${timeToNumber(taskDate || new Date())} / span ${timeToNumber(
+          taskDate || new Date()
+        )}`,
+      }}
+    >
+      <Link
+        href={`/affairs?type=${taskName}&date=${taskDate.toISOString()}`}
+        className="absolute inset-0 px-1"
+      >
+        <div className="text-sm items-baseline border bg-white shadow-md rounded-md overflow-hidden">
+          <div className="w-full h-full bg-muted/80 px-2.5 pt-2 pb-3 relative">
+            <div
+              className={cn(
+                "absolute bottom-0 inset-x-0 w-full h-1 bg-sky-500 rounded-full",
+                taskName === "Meet" && "bg-[hsl(var(--chart-4))]",
+                taskName === "Brief" && "bg-[hsl(var(--chart-5))]",
+                taskName === "Task" && "bg-[hsl(var(--chart-1))]"
+              )}
+            ></div>
+            <div className="font-medium">{taskName}:</div>
+            <div className="text-xs">Starts at {time}</div>
+          </div>
+        </div>
+      </Link>
+    </li>
+  );
+};
