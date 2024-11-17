@@ -17,7 +17,7 @@ const HeaderWrapperCalendar: React.FC<HeaderWrapperCalendarProps> = ({
       </h1>
       <div className="flex">
         {children}
-        <div className="ml-4">
+        <div className="sm:ml-4">
           <CalendarTypeSwitch />
         </div>
       </div>

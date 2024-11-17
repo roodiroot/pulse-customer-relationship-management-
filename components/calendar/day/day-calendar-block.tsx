@@ -1,14 +1,14 @@
 "use client";
 
 import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import WeekCalendar from "@/components/calendar/week/week-calendar";
-import WeekHeaderCalendar from "@/components/calendar/week/week-header-calendar";
+import DayCalendar from "@/components/calendar/day/day-calendar";
+import DayHeaderCalendar from "@/components/calendar/day/day-header-calendar";
 
 import { Case } from "@prisma/client";
-import isoWeek from "dayjs/plugin/isoWeek";
 
 dayjs.extend(isoWeek);
 
@@ -28,10 +28,7 @@ interface WeekCalendarProps {
   counCase?: number;
 }
 
-const WeekCalendarBlock: React.FC<WeekCalendarProps> = ({
-  tasks,
-  counCase,
-}) => {
+const DayCalendarBlock: React.FC<WeekCalendarProps> = ({ tasks, counCase }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -43,12 +40,13 @@ const WeekCalendarBlock: React.FC<WeekCalendarProps> = ({
     (keys: string[], values: string[]) => {
       const params = new URLSearchParams(searchParams.toString());
       params.delete("page"); // Remove page parameter to reset to first page
+      params.delete("dateEnd"); // Remove page parameter to reset to dateEnd
       keys.forEach((key, index) => {
         params.set(key, values[index]);
       });
       router.push(`${pathname}?${params}`);
     },
-    [searchParams, pathname, router]
+    [searchParams, pathname, router, offset]
   );
 
   useEffect(() => {
@@ -56,30 +54,21 @@ const WeekCalendarBlock: React.FC<WeekCalendarProps> = ({
   }, [offset]);
 
   const updateStartAndEndDate = () => {
-    const firstDay = dayjs(currentDate.add(offset, "week"))
-      .startOf("isoWeek")
-      .toDate();
-    const lastDay = dayjs(currentDate.add(offset, "week"))
-      .endOf("isoWeek")
-      .toDate();
-
-    updateUrlParams(
-      ["date", "dateEnd"],
-      [firstDay.toISOString(), lastDay.toISOString()]
-    );
+    const firstDay = currentDate.add(offset, "day").startOf("day");
+    updateUrlParams(["date"], [firstDay.toISOString()]);
   };
 
   return (
-    <div className="absolute inset-0 w-full h-full px-4 pb-4">
-      <WeekHeaderCalendar
+    <div className="absolute inset-0 w-full h-full pb-4">
+      <DayHeaderCalendar
         offset={offset}
         currentDate={currentDate}
         setOffset={setOffset}
         countAllCase={counCase}
       />
-      <WeekCalendar tasks={tasks} offset={offset} />
+      <DayCalendar currentDate={currentDate} tasks={tasks} offset={offset} />
     </div>
   );
 };
 
-export default WeekCalendarBlock;
+export default DayCalendarBlock;

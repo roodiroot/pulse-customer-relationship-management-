@@ -97,6 +97,32 @@ export const generateWeekDays = (
 
   return weekDays;
 };
+export const generateWeekDaysForDaysCalendar = (
+  offset = 0
+): Array<{
+  dayNumber: number;
+  dayName: string;
+  date: dayjs.Dayjs;
+  today: boolean;
+  select: string;
+}> => {
+  // Текущая дата, смещенная на offset дней
+  const startDate = dayjs().add(offset, "day").startOf("isoWeek");
+
+  // Генерация дней недели
+  const weekDays = Array.from({ length: 7 }, (_, i) => {
+    const day = startDate.add(i, "day");
+    return {
+      dayNumber: day.isoWeekday(),
+      dayName: day.format("dddd"),
+      date: day,
+      today: day.isSame(dayjs(), "day"),
+      select: day.format("DD-MM-YYYY"),
+    };
+  });
+
+  return weekDays;
+};
 
 export function timeToNumber(time: string | Date): number {
   const date = new Date(time);

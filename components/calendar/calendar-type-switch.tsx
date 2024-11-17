@@ -37,7 +37,7 @@ const CalendarTypeSwitch = () => {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="hidden w-[200px] justify-between sm:inline-flex"
+            className="hidden w-[150px] justify-between sm:inline-flex"
           >
             {tables.find((table: any) => table.tab === pathname)?.label}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

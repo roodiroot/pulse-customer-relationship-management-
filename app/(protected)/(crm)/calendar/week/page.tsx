@@ -1,10 +1,12 @@
+import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
+
 import { currentUser } from "@/lib/auth";
 import { showCases } from "@/actions/case/show-cases";
-import { ActionType, StageDeal } from "@prisma/client";
-import WeekCalendarBlock from "@/components/calendar/week/week-calendar-block";
-import dayjs from "dayjs";
+import DayAndWeekCalendarSwich from "@/components/calendar/day-and-week-callendar-swich";
 
-import isoWeek from "dayjs/plugin/isoWeek";
+import { ActionType, StageDeal } from "@prisma/client";
+
 dayjs.extend(isoWeek);
 
 const isValidDate = (dateString: string): string | undefined => {
@@ -43,8 +45,7 @@ const WeekCalendarPage = async ({
 
   const startDate =
     isValidDate(dateString) ?? currentDate.startOf("isoWeek").toISOString();
-  const endDate =
-    isValidDate(dateEndString) ?? currentDate.endOf("isoWeek").toISOString();
+  const endDate = isValidDate(dateEndString);
 
   // console.log({
   //   s: startDate,
@@ -63,7 +64,7 @@ const WeekCalendarPage = async ({
       responsible,
     },
   });
-  return <WeekCalendarBlock tasks={cases} counCase={count} />;
+  return <DayAndWeekCalendarSwich countCase={count} tasks={cases} />;
 };
 
 export default WeekCalendarPage;

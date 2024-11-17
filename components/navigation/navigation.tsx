@@ -15,9 +15,17 @@ const Navigation = () => {
           <Link href="/calendar/month" className="flex items-center gap-2">
             <Icon.logo className="h-5  fill-primary" />
           </Link>
-          <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-            <Bell className="h-4 w-4" />
-            <span className="sr-only">Toggle notifications</span>
+
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            className="ml-auto h-8 w-8"
+          >
+            <Link href={"/notifications"}>
+              <Bell className="h-4 w-4" />
+              <span className="sr-only">Toggle notifications</span>
+            </Link>
           </Button>
         </div>
         <div className="flex-1">
